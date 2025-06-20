@@ -36,7 +36,7 @@ export const headerData = {
         },
         {
           text: 'Contact',
-          href: getPermalink('/homes/startup'),
+          href: getPermalink('/contact'),
         },
         {
           text: 'Locations',
@@ -86,7 +86,7 @@ export const headerData = {
           href: getBlogPermalink(),
         },
         {
-          text: 'Article',
+          text: 'Training Insights by Omer',
           href: getPermalink('get-started-website-with-astro-tailwind-css', 'post'),
         },
         // {
@@ -102,10 +102,6 @@ export const headerData = {
         //   href: getPermalink('astro', 'tag'),
         // },
       ],
-    },
-    {
-      text: 'Contact',
-      href: getPermalink('/contact'),
     },
   ],
   actions: [{ text: 'Become a Member', href: '#registration', target: '_blank' }],
@@ -140,7 +136,7 @@ export const footerData = {
       title: 'Blog',
       links: [
         { text: 'Blog', href: '#' },
-        { text: 'Article', href: '#' },
+        { text: 'Training Insights by Omer', href: '#' },
       ],
     },
   ],
