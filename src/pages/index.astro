@@ -11,10 +11,100 @@ import BlogLatestPosts from '~/components/widgets/BlogLatestPosts.astro';
 import FAQs from '~/components/widgets/FAQs.astro';
 import Stats from '~/components/widgets/Stats.astro';
 import CallToAction from '~/components/widgets/CallToAction.astro';
+import Testimonials from '~/components/widgets/Testimonials.astro';
 
 const metadata = {
   title: 'Hyperion Training — A lifelong training system for strength, mobility, and real-world capability.',
   ignoreTitleTemplate: true,
+};
+
+const tabs = [
+  {
+    name: 'Athletes',
+    img: '/img/pt-athlete.webp',
+    alt: 'Athlete performing explosive barbell clean',
+    bullets: [
+      'Off-season strength & sport-specific power cycles.',
+      'Explosive movement diagnostics and mobility screens.',
+      'Data-driven load management via Superhuman engine.',
+      'Speed & conditioning blocks tailored to competition calendar.',
+    ],
+  },
+  {
+    name: '50+ Longevity',
+    img: '/img/pt-longevity.webp',
+    alt: 'Active adult performing kettlebell deadlift under supervision',
+    bullets: [
+      'Joint-friendly, low-impact strength for daily independence.',
+      'Bone-density & posture circuits with mobility primers.',
+      'Heart-rate-guided metabolic conditioning in ≤ 60 min.',
+      'Balance & fall-prevention drills built into every microcycle.',
+    ],
+  },
+  {
+    name: 'Beginners',
+    img: '/img/pt-beginner.webp',
+    alt: 'First-time lifter learning squat technique with coach',
+    bullets: [
+      'Technique-first coaching on fundamental movement patterns.',
+      'Progressive loading that builds confidence, not soreness.',
+      'Habit-forming micro-goals and weekly check-ins.',
+      'Access to video library & form-check feedback between sessions.',
+    ],
+  },
+];
+
+const steps = [
+  {
+    id: 1,
+    title: 'Assess',
+    img: '/img/icons/assess.svg',
+    desc: 'You answer a quick intake: goals, schedule, equipment, readiness metrics (RPE, sleep, HRV).',
+  },
+  {
+    id: 2,
+    title: 'Generate',
+    img: '/img/icons/generate.svg',
+    desc: 'Our Python-based Expert System builds a unique microcycle—mobility, strongman, barbell, accessories—in seconds.',
+  },
+  {
+    id: 3,
+    title: 'Adapt',
+    img: '/img/icons/adapt.svg',
+    desc: 'Each session you log feedback; the engine auto-adjusts loads, variants, and rest to keep progress climbing.',
+  },
+];
+
+const copy = {
+  heading: 'R&D Lab',
+  tagline: 'Innovation Drives Everything We Build.',
+  intro:
+    'Our multidisciplinary team prototypes, simulates, and validates cutting-edge tech that pushes human performance beyond today’s limits.',
+  projects: [
+    {
+      title: 'Force-Plate Fatigue Modeling',
+      desc: 'Real-time ground-reaction analytics predict neuromuscular fatigue and auto-adjust training loads.',
+      icon: '/img/icons/forceplate.svg',
+    },
+    {
+      title: 'Augmented-Reality Coaching',
+      desc: 'AR overlays give instant cueing on joint angles and bar path during big lifts—no phone fumbling.',
+      icon: '/img/icons/ar.svg',
+    },
+    {
+      title: 'AI Auto-Regulation Engine',
+      desc: 'Large-scale reinforcement learning tunes set/reps to maximize adaptation while capping injury risk.',
+      icon: '/img/icons/ai.svg',
+    },
+  ],
+  cta: {
+    label: 'Read Latest White Paper →',
+    href: '/downloads/hts-rnd-whitepaper.pdf',
+  },
+  heroImg: {
+    src: '/img/rnd-lab.webp',
+    alt: 'Researchers testing wearable sensors and force plates',
+  },
 };
 ---
 
@@ -127,10 +217,10 @@ const metadata = {
       alt: 'Why Most Training Plans Fail',
     }}
   >
-    <Fragment slot="content">
+    <!-- <Fragment slot="content">
       <h3 class="text-2xl font-bold tracking-tight dark:text-white sm:text-3xl mb-2">We Know Where They Go Wrong</h3>
       Training doesn’t have to be complicated to be effective.
-    </Fragment>
+    </Fragment> -->
 
     <Fragment slot="bg">
       <div class="absolute inset-0 bg-blue-50 dark:bg-transparent"></div>
@@ -139,27 +229,22 @@ const metadata = {
 
   <!-- Content Widget **************** -->
 
-  <!-- <Content
+  <Content
     isAfterContent
     items={[
       {
-        title: 'High level of customization',
-        description: `Tailor the template effortlessly to match your brand's identity and requirements, making your website distinct and saving you time.`,
+        title: 'Assess',
+        description: `You answer a quick intake: goals, schedule, equipment, readiness metrics (RPE, sleep, HRV).`,
       },
       {
-        title: 'Multiple layout possibilities',
+        title: 'Generate',
         description:
-          'Explore various layout options to find the structure that best presents your content, enhancing user engagement and navigation.',
+          'Our AI based Expert System builds a unique microcycle—mobility, strongman, barbell, accessories—in seconds.',
       },
       {
-        title: 'Fully responsive design',
+        title: 'Adapt',
         description:
-          "Ensure your website's optimal performance on various devices and screen sizes, providing a consistent and enjoyable user experience.",
-      },
-      {
-        title: 'Integration of media',
-        description:
-          'Seamlessly incorporate images, videos, and multimedia elements that enhance your content and engage visitors effectively.',
+          'Each session you log feedback; the engine auto-adjusts loads, variants, and rest to keep progress climbing.',
       },
     ]}
     image={{
@@ -167,12 +252,15 @@ const metadata = {
       alt: 'Blueprint Image',
     }}
   >
-    <Fragment slot="content">Ensure your online presence truly represents you.</Fragment>
+    <Fragment slot="content">
+      <h3 class="text-2xl font-bold tracking-tight dark:text-white sm:text-3xl mb-2">How It Works</h3>
+      Training doesn’t have to be complicated to be effective.</Fragment
+    >
 
     <Fragment slot="bg">
       <div class="absolute inset-0 bg-blue-50 dark:bg-transparent"></div>
     </Fragment>
-  </Content> -->
+  </Content>
 
   <!-- Content Widget **************** -->
 
@@ -211,38 +299,6 @@ const metadata = {
       <div class="absolute inset-0 bg-blue-50 dark:bg-transparent"></div>
     </Fragment>
   </Content> -->
-
-  <!-- Steps Widget ****************** -->
-
-  <Steps
-    title="How It Works"
-    items={[
-      {
-        title: 'Step 1: <span class="font-medium">Assess</span>',
-        description: 'Begin with an onboarding protocol to determine your unique starting point.',
-        icon: 'tabler:activity',
-      },
-      {
-        title: 'Step 2: <span class="font-medium">Train</span>',
-        description: 'Follow a structured, adaptive training plan that evolves daily.',
-        icon: 'tabler:barbell',
-      },
-      {
-        title: 'Step 3: <span class="font-medium">Adapt</span>',
-        description: 'Your feedback informs future sessions to optimize performance and recovery.',
-        icon: 'tabler:refresh',
-      },
-      {
-        title: 'Step 4: <span class="font-medium">Thrive</span>',
-        description: 'Grow stronger, more mobile, and more capable—at every stage of life.',
-        icon: 'tabler:flame',
-      },
-    ]}
-    image={{
-      src: '~/assets/images/howto.png',
-      alt: 'How it works',
-    }}
-  />
 
   <!-- Features2 Widget ************** -->
 
@@ -307,6 +363,47 @@ const metadata = {
       <div class="absolute inset-0 bg-blue-50 dark:bg-transparent"></div>
     </Fragment>
   </Features2> -->
+
+  <!-- Testimonials Widget *********** -->
+
+  <Testimonials
+    title="Words from real customers"
+    testimonials={[
+      {
+        testimonial: `After twelve weeks I can lift my grand-kids, carry groceries, and climb stairs pain-free. The Superhuman Protocol gave me my independence back.`,
+        name: 'Emily Kennedy',
+        job: 'Retiree',
+        image: {
+          src: 'https://images.unsplash.com/photo-1545167622-3a6ac756afa4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=824&q=80',
+          alt: 'Emily Kennedy Image',
+        },
+      },
+      {
+        testimonial: `In six months I added 40 lb to my deadlift while working 60-hour weeks. Minimalist sessions, maximal results—exactly as promised.`,
+        name: 'Sarah Hansen',
+        job: 'Finance Professional',
+        image: {
+          src: 'https://images.unsplash.com/photo-1561406636-b80293969660?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=774&q=80',
+          alt: 'Sarah Hansen Image',
+        },
+      },
+      {
+        testimonial: `As a developer with a demanding schedule, I needed a training system that adapts to my lifestyle. The Superhuman Protocol delivers exactly that—smart, efficient programming that evolves with me. It’s helped me stay strong, focused, and consistent—even on my busiest days.`,
+        name: 'Juhee Kim',
+        job: 'Software Developer',
+        image: {
+          src: '~/assets/images/testimonial3.jpg',
+          alt: 'Image',
+        },
+      },
+    ]}
+    callToAction={{
+      target: '_blank',
+      text: 'More testimonials...',
+      href: 'https://github.com/onwidget/astrowind',
+      icon: 'tabler:chevron-right',
+    }}
+  />
 
   <!-- HighlightedPosts Widget ******* -->
 
