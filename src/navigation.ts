@@ -35,16 +35,12 @@ export const headerData = {
           href: getPermalink('/homes/startup'),
         },
         {
-          text: 'Locations',
+          text: 'Contact',
           href: getPermalink('/homes/startup'),
         },
         {
-          text: 'Terms',
-          href: getPermalink('/terms'),
-        },
-        {
-          text: 'Privacy Policy',
-          href: getPermalink('/privacy'),
+          text: 'Locations',
+          href: getPermalink('/homes/startup'),
         },
       ],
     },
@@ -122,9 +118,8 @@ export const footerData = {
       links: [
         { text: 'About Us', href: '#' },
         { text: 'Team', href: '#' },
+        { text: 'Contact', href: '#' },
         { text: 'Locations', href: '#' },
-        { text: 'Terms', href: '#' },
-        { text: 'Private Policy', href: '#' },
       ],
     }, {
       title: 'Personal Training',
@@ -146,12 +141,6 @@ export const footerData = {
       links: [
         { text: 'Blog', href: '#' },
         { text: 'Article', href: '#' },
-      ],
-    },
-    {
-      title: 'Contact',
-      links: [
-        { text: 'Contact', href: '#' },
       ],
     },
   ],
