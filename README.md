@@ -4,7 +4,7 @@
 
 **Strength for Life. Power with Purpose.**
 
-![Superhuman Protocol](https://raw.githubusercontent.com/juheekim1217/hts/main/src/assets/images/running_transparent.png)
+![Superhuman Protocol](https://github.com/juheekim1217/hts/blob/main/src/assets/images/htscreenshot.png)
 
 The **Superhuman Protocol** is the flagship offering from **Hyperion Training Systems** (HTS), a healthtech startup focused on unlocking human potential through precision training, expert systems, and tactical readiness. Built on a Python-based logic engine, it provides lifelong training that adapts to every stage of life and performance level.
 
