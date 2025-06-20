@@ -13,7 +13,7 @@ import Stats from '~/components/widgets/Stats.astro';
 import CallToAction from '~/components/widgets/CallToAction.astro';
 
 const metadata = {
-  title: 'AstroWind — Free template for creating websites with Astro + Tailwind CSS',
+  title: 'Hyperion Training Systems — A lifelong training system for strength, mobility, and real-world capability.',
   ignoreTitleTemplate: true,
 };
 ---
@@ -25,78 +25,70 @@ const metadata = {
     actions={[
       {
         variant: 'primary',
-        text: 'Get template',
-        href: 'https://github.com/onwidget/astrowind',
+        text: 'Get Started',
+        href: '#registration',
         target: '_blank',
-        icon: 'tabler:download',
+        icon: 'tabler:arrow-narrow-right',
       },
       { text: 'Learn more', href: '#features' },
     ]}
-    image={{ src: '~/assets/images/hero-image.png', alt: 'AstroWind Hero Image' }}
+    image={{
+      src: '~/assets/images/running_transparent.png',
+      alt: 'Superhuman Protocol Training App',
+      style: 'object-fit: contain',
+    }}
   >
     <Fragment slot="title">
-      Free template for <span class="hidden xl:inline">creating websites with</span>
-      <span class="text-accent dark:text-white"> Astro 5.0</span> + Tailwind CSS
+      Unlock the Full Potential of the Human Body with the
+      <span class="text-accent dark:text-white">Superhuman</span> Protocol
     </Fragment>
 
     <Fragment slot="subtitle">
       <span class="hidden sm:inline">
-        <span class="font-semibold">AstroWind</span> is a free, customizable and production-ready template for Astro 5.0
-        + Tailwind CSS.</span
-      >
-      <span class="block mb-1 sm:hidden font-bold text-blue-600">AstroWind: Production-ready.</span>
-      Suitable for Startups, Small Business, SaaS websites, Professional Portfolios, Marketing websites, Landing Pages &
-      Blogs.
+        <span class="font-semibold">The Superhuman Protocol</span> is a lifelong training system that helps you move better,
+        grow stronger, and stay capable—at any age. Backed by expert-informed logic and real-time adaptation.
+      </span>
     </Fragment>
   </Hero>
 
   <!-- Note Widget ******************* -->
 
-  <Note title="Philosophy:" description="Simplicity, Best Practices and High Performance" />
+  <Note title="Philosophy:" description="Intelligent, inclusive, and performance-driven training for real life." />
 
   <!-- Features Widget *************** -->
 
   <Features
     id="features"
-    tagline="Features"
-    title="What you get with AstroWind"
-    subtitle="One of the most professional and comprehensive templates currently on the market. Most starred & forked Astro theme in 2022, 2023 and 2024."
+    tagline="Offerings"
+    title="What Hyperion Training Systems Delivers"
+    subtitle="From cutting-edge training engines to personalized coaching, we provide everything you need to train for life."
     items={[
       {
-        title: 'Astro + Tailwind CSS Integration',
+        title: 'The Superhuman Protocol',
         description:
-          'A seamless integration between two great frameworks that offer high productivity, performance and versatility.',
-        icon: 'tabler:brand-tailwind',
+          'A lifelong, expert-informed training engine that adapts daily to your performance, feedback, and goals.',
+        icon: 'tabler:cpu',
       },
       {
-        title: 'Ready-to-use Components',
+        title: 'Personal Training',
         description:
-          'Widgets made with Tailwind CSS ready to be used in Marketing Websites, SaaS, Blogs, Personal Profiles, Small Business...',
-        icon: 'tabler:components',
+          'One-on-one coaching for general populations, athletes, and aging adults, grounded in our core principles.',
+        icon: 'tabler:user-heart',
       },
       {
-        title: 'Best Practices',
-        description:
-          'Creating secure, efficient, and user-friendly websites that deliver exceptional experiences and lasting value.',
-        icon: 'tabler:list-check',
+        title: 'Tactical Training',
+        description: 'Purpose-built physical preparation for military, law enforcement, and first responders.',
+        icon: 'tabler:shield',
       },
       {
-        title: 'Excellent Page Speed',
-        description:
-          'Having a good page speed impacts organic search ranking, improves user experience (UI/UX) and increase conversion rates.',
-        icon: 'tabler:rocket',
+        title: 'Sports Nutrition Guidance',
+        description: 'Evidence-based programs and advice to support training, recovery, and longevity.',
+        icon: 'tabler:apple',
       },
       {
-        title: 'Search Engine Optimization (SEO)',
-        description:
-          "SEO lies in its ability to enhance a website's visibility, driving organic traffic and enabling it to reach a wider audience.",
-        icon: 'tabler:arrows-right-left',
-      },
-      {
-        title: 'Open to new ideas and contributions',
-        description:
-          'Embracing a culture that is open to new ideas and contributions is integral fostering innovation, collaboration, and a dynamic user experience.',
-        icon: 'tabler:bulb',
+        title: 'Research & Development',
+        description: 'Ongoing innovation in human performance through simulation, testing, and AI-driven systems.',
+        icon: 'tabler:flask',
       },
     ]}
   />
@@ -105,28 +97,27 @@ const metadata = {
 
   <Content
     isReversed
-    tagline="Inside template"
-    title="AstroWind's Blueprint: Fun Meets Functionality!"
+    tagline="Expert System"
+    title="Train Like You Have a World-Class Coach—Every Day."
     items={[
       {
-        title: 'Built on top of Astro 5.0',
+        title: 'Expert Logic Engine',
         description:
-          'Benefiting from the performance and developer-friendly features of this modern static site generator.',
+          'Built with Python, NumPy, and Pandas, our rule-based system replicates the decision-making of elite coaches.',
       },
       {
-        title: 'Styled using Tailwind CSS',
-        description:
-          'Facilitating rapid design and consistent styling with this highly popular utility-first CSS framework.',
+        title: 'Adaptive Programming',
+        description: 'Training sessions evolve in real-time based on your feedback, readiness, and progression.',
       },
       {
-        title: 'Cross-browser compatibility',
+        title: 'Precision Training Blocks',
         description:
-          'Ensure your website looks and functions consistently across various web browsers, delivering a seamless experience to all users.',
+          'Mobility, Strongman, Barbell, and Accessory work structured for performance, resilience, and longevity.',
       },
     ]}
     image={{
       src: 'https://images.unsplash.com/photo-1519389950473-47ba0277781c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80',
-      alt: 'Colorful Image',
+      alt: 'Superhuman Protocol Training Flow',
     }}
   >
     <Fragment slot="content">
@@ -217,34 +208,32 @@ const metadata = {
   <!-- Steps Widget ****************** -->
 
   <Steps
-    title="Get your dream website up and running in no time with AstroWind."
+    title="How It Works"
     items={[
       {
-        title: 'Step 1: <span class="font-medium">Download</span>',
-        description:
-          "Kickstart with GitHub! Either fork the AstroWind template or simply click 'Use this template'. Your canvas awaits, ready for your digital masterpiece. In just a few clicks, you've already set the foundation.",
-        icon: 'tabler:package',
+        title: 'Step 1: <span class="font-medium">Assess</span>',
+        description: 'Begin with an onboarding protocol to determine your unique starting point.',
+        icon: 'tabler:activity',
       },
       {
-        title: 'Step 2: <span class="font-medium">Add content</span>',
-        description:
-          "Pour your vision into it. Add images, text, and all that jazz to breathe life into your digital space. Remember, it's the content that tells your story, so make it captivating.",
-        icon: 'tabler:letter-case',
+        title: 'Step 2: <span class="font-medium">Train</span>',
+        description: 'Follow a structured, adaptive training plan that evolves daily.',
+        icon: 'tabler:barbell',
       },
       {
-        title: 'Step 3: <span class="font-medium">Customize styles</span>',
-        description:
-          'Give it your personal touch. Tailor colors, fonts, and layouts until it feels just right. Your unique flair, amplified by AstroWind! Precision in design ensures a seamless user experience.',
-        icon: 'tabler:paint',
+        title: 'Step 3: <span class="font-medium">Adapt</span>',
+        description: 'Your feedback informs future sessions to optimize performance and recovery.',
+        icon: 'tabler:refresh',
       },
       {
-        title: 'Ready!',
-        icon: 'tabler:check',
+        title: 'Step 4: <span class="font-medium">Thrive</span>',
+        description: 'Grow stronger, more mobile, and more capable—at every stage of life.',
+        icon: 'tabler:flame',
       },
     ]}
     image={{
-      src: 'https://images.unsplash.com/photo-1616198814651-e71f960c3180?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=987&q=80',
-      alt: 'Steps image',
+      src: 'https://images.unsplash.com/photo-1612548402253-22b37e1c2036?auto=format&fit=crop&w=2070&q=80',
+      alt: 'How it works image',
     }}
   />
 
@@ -380,20 +369,19 @@ const metadata = {
     actions={[
       {
         variant: 'primary',
-        text: 'Get template',
-        href: 'https://github.com/onwidget/astrowind',
+        text: 'Get Started',
+        href: '#registration',
         target: '_blank',
-        icon: 'tabler:download',
+        icon: 'tabler:arrow-narrow-right',
       },
     ]}
   >
     <Fragment slot="title">
-      Astro&nbsp;+&nbsp;<br class="block sm:hidden" /><span class="sm:whitespace-nowrap">Tailwind CSS</span>
+      The Superhuman&nbsp;<br class="block sm:hidden" /><span class="sm:whitespace-nowrap">Protocol</span>
     </Fragment>
 
     <Fragment slot="subtitle">
-      Be very surprised by these huge fake numbers you are seeing on this page. <br class="hidden md:inline" />Don't
-      waste more time! :P
+      Experience the future of strength training—backed by expert systems and built for life.
     </Fragment>
   </CallToAction>
 </Layout>
