@@ -1,303 +1,138 @@
-# 🚀 Hyperion Traning
+# 🛡️ Superhuman Protocol by Hyperion Training Systems
 
-<img src="https://raw.githubusercontent.com/onwidget/.github/main/resources/astrowind/lighthouse-score.png" align="right"
-     alt="AstroWind Lighthouse Score" width="100" height="358">
+## 🚀 Overview
 
-🌟 _Most *starred* & *forked* Astro theme in 2022, 2023 & 2024_. 🌟
+**Strength for Life. Power with Purpose.**
 
-**AstroWind** is a free and open-source template to make your website using **[Astro 5.0](https://astro.build/) + [Tailwind CSS](https://tailwindcss.com/)**. Ready to start a new project and designed taking into account web best practices.
+![Superhuman Protocol](https://raw.githubusercontent.com/juheekim1217/hts/main/src/assets/images/running_transparent.png)
 
-- ✅ **Production-ready** scores in **PageSpeed Insights** reports.
-- ✅ Integration with **Tailwind CSS** supporting **Dark mode** and **_RTL_**.
-- ✅ **Fast and SEO friendly blog** with automatic **RSS feed**, **MDX** support, **Categories & Tags**, **Social Share**, ...
-- ✅ **Image Optimization** (using new **Astro Assets** and **Unpic** for Universal image CDN).
-- ✅ Generation of **project sitemap** based on your routes.
-- ✅ **Open Graph tags** for social media sharing.
-- ✅ **Analytics** built-in Google Analytics, and Splitbee integration.
+The **Superhuman Protocol** is the flagship offering from **Hyperion Training Systems** (HTS), a healthtech startup focused on unlocking human potential through precision training, expert systems, and tactical readiness. Built on a Python-based logic engine, it provides lifelong training that adapts to every stage of life and performance level.
 
-<br>
-
-![AstroWind Theme Screenshot](src\assets\images\htscreenshot.png)
-
-[![onWidget](https://custom-icon-badges.demolab.com/badge/made%20by%20-onWidget-556bf2?style=flat-square&logo=onwidget&logoColor=white&labelColor=101827)](https://onwidget.com)
-[![License](https://img.shields.io/github/license/onwidget/astrowind?style=flat-square&color=dddddd&labelColor=000000)](https://github.com/onwidget/astrowind/blob/main/LICENSE.md)
-[![Maintained](https://img.shields.io/badge/maintained%3F-yes-brightgreen.svg?style=flat-square)](https://github.com/onwidget)
-[![Contributions Welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat-square)](https://github.com/onwidget/astrowind#contributing)
-[![Known Vulnerabilities](https://snyk.io/test/github/onwidget/astrowind/badge.svg?style=flat-square)](https://snyk.io/test/github/onwidget/astrowind)
-[![Stars](https://img.shields.io/github/stars/onwidget/astrowind.svg?style=social&label=stars&maxAge=86400&color=ff69b4)](https://github.com/onwidget/astrowind)
-[![Forks](https://img.shields.io/github/forks/onwidget/astrowind.svg?style=social&label=forks&maxAge=86400&color=ff69b4)](https://github.com/onwidget/astrowind)
-
-<br>
-
-<details open>
-<summary>Table of Contents</summary>
-
-- [Demo](#demo)
-- [Upcoming: AstroWind 2.0 – We Need Your Vision!](#-upcoming-astrowind-20--we-need-your-vision)
-- [TL;DR](#tldr)
-- [Getting started](#getting-started)
-  - [Project structure](#project-structure)
-  - [Commands](#commands)
-  - [Configuration](#configuration)
-  - [Deploy](#deploy)
-- [Frequently Asked Questions](#frequently-asked-questions)
-- [Related Projects](#related-projects)
-- [Contributing](#contributing)
-- [Acknowledgements](#acknowledgements)
-- [License](#license)
-
-</details>
-
-<br>
+Whether you're a parent lifting toddlers, a first responder on the job, or a retiree seeking longevity and resilience, the protocol intelligently evolves with your goals.
 
-## Demo
-
-📌 [https://astrowind.vercel.app/](https://astrowind.vercel.app/)
-
-<br>
-
-## 🔔 Upcoming: AstroWind 2.0 – We Need Your Vision!
-
-We're embarking on an exciting journey with **AstroWind 2.0**, and we want you to be a part of it! We're currently taking the first steps in developing this new version and your insights are invaluable. Join the discussion and share your feedback, ideas, and suggestions to help shape the future of **AstroWind**. Let's make **AstroWind 2.0** even better, together!
-
-[Share Your Feedback in Our Discussion!](https://github.com/onwidget/astrowind/discussions/392)
-
-<br>
-
+> "This is not a gimmick. This is strength reimagined for everyone."
 
-## TL;DR
+---
 
-```shell
-npm create astro@latest -- --template onwidget/astrowind
-```
-
-## Getting started
-
-**AstroWind** tries to give you quick access to creating a website using [Astro 5.0](https://astro.build/) + [Tailwind CSS](https://tailwindcss.com/). It's a free theme which focuses on simplicity, good practices and high performance.
+## 🧠 Core Technology
 
-Very little vanilla javascript is used only to provide basic functionality so that each developer decides which framework (React, Vue, Svelte, Solid JS...) to use and how to approach their goals.
-
-In this version the template supports all the options in the `output` configuration, `static`, `hybrid` and `server`, but the blog only works with `prerender = true`. We are working on the next version and aim to make it fully compatible with SSR.
-
-### Project structure
-
-Inside **AstroWind** template, you'll see the following folders and files:
-
-```
-/
-├── public/
-│   ├── _headers
-│   └── robots.txt
-├── src/
-│   ├── assets/
-│   │   ├── favicons/
-│   │   ├── images/
-│   │   └── styles/
-│   │       └── tailwind.css
-│   ├── components/
-│   │   ├── blog/
-│   │   ├── common/
-│   │   ├── ui/
-│   │   ├── widgets/
-│   │   │   ├── Header.astro
-│   │   │   └── ...
-│   │   ├── CustomStyles.astro
-│   │   ├── Favicons.astro
-│   │   └── Logo.astro
-│   ├── content/
-│   │   ├── post/
-│   │   │   ├── post-slug-1.md
-│   │   │   ├── post-slug-2.mdx
-│   │   │   └── ...
-│   │   └-- config.ts
-│   ├── layouts/
-│   │   ├── Layout.astro
-│   │   ├── MarkdownLayout.astro
-│   │   └── PageLayout.astro
-│   ├── pages/
-│   │   ├── [...blog]/
-│   │   │   ├── [category]/
-│   │   │   ├── [tag]/
-│   │   │   ├── [...page].astro
-│   │   │   └── index.astro
-│   │   ├── index.astro
-│   │   ├── 404.astro
-│   │   ├-- rss.xml.ts
-│   │   └── ...
-│   ├── utils/
-│   ├── config.yaml
-│   └── navigation.js
-├── package.json
-├── astro.config.ts
-└── ...
-```
-
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
-
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
-
-Any static assets, like images, can be placed in the `public/` directory if they do not require any transformation or in the `assets/` directory if they are imported directly.
-
-[![Edit AstroWind on CodeSandbox](https://codesandbox.io/static/img/play-codesandbox.svg)](https://githubbox.com/onwidget/astrowind/tree/main) [![Open in Gitpod](https://svgshare.com/i/xdi.svg)](https://gitpod.io/?on=gitpod#https://github.com/onwidget/astrowind) [![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/onwidget/astrowind)
-
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file `README.md`. Update `src/config.yaml` and contents. Have fun!
-
-<br>
-
-### Commands
-
-All commands are run from the root of the project, from a terminal:
-
-| Command             | Action                                             |
-| :------------------ | :------------------------------------------------- |
-| `npm install`       | Installs dependencies                              |
-| `npm run dev`       | Starts local dev server at `localhost:4321`        |
-| `npm run build`     | Build your production site to `./dist/`            |
-| `npm run preview`   | Preview your build locally, before deploying       |
-| `npm run check`     | Check your project for errors                      |
-| `npm run fix`       | Run Eslint and format codes with Prettier          |
-| `npm run astro ...` | Run CLI commands like `astro add`, `astro preview` |
-
-<br>
-
-### Configuration
-
-Basic configuration file: `./src/config.yaml`
-
-```yaml
-site:
-  name: 'Example'
-  site: 'https://example.com'
-  base: '/' # Change this if you need to deploy to Github Pages, for example
-  trailingSlash: false # Generate permalinks with or without "/" at the end
-
-  googleSiteVerificationId: false # Or some value,
-
-# Default SEO metadata
-metadata:
-  title:
-    default: 'Example'
-    template: '%s — Example'
-  description: 'This is the default meta description of Example website'
-  robots:
-    index: true
-    follow: true
-  openGraph:
-    site_name: 'Example'
-    images:
-      - url: '~/assets/images/default.png'
-        width: 1200
-        height: 628
-    type: website
-  twitter:
-    handle: '@twitter_user'
-    site: '@twitter_user'
-    cardType: summary_large_image
-
-i18n:
-  language: en
-  textDirection: ltr
-
-apps:
-  blog:
-    isEnabled: true # If the blog will be enabled
-    postsPerPage: 6 # Number of posts per page
+The heart of the Superhuman Protocol is a Python Expert System that mimics the decision-making of elite strength coaches:
 
-    post:
-      isEnabled: true
-      permalink: '/blog/%slug%' # Variables: %slug%, %year%, %month%, %day%, %hour%, %minute%, %second%, %category%
-      robots:
-        index: true
+* Rule-based inference engine (Python + NumPy + Pandas)
+* Adaptive session generation based on RPE, readiness, and feedback
+* Modular training blocks (Mobility, Strongman, Barbell, Accessories)
+* Daily undulating concurrent periodization
+* Long-term structural balance and performance tracking
 
-    list:
-      isEnabled: true
-      pathname: 'blog' # Blog main path, you can change this to "articles" (/articles)
-      robots:
-        index: true
+### 🔧 Tech Stack
 
-    category:
-      isEnabled: true
-      pathname: 'category' # Category main path /category/some-category, you can change this to "group" (/group/some-category)
-      robots:
-        index: true
+* **Backend**: FastAPI (Python)
+* **Expert Engine**: Python rule-based logic
+* **Frontend**: React Native (mobile)
+* **Database**: PostgreSQL
+* **DevOps**: Docker + GitHub Actions
 
-    tag:
-      isEnabled: true
-      pathname: 'tag' # Tag main path /tag/some-tag, you can change this to "topics" (/topics/some-category)
-      robots:
-        index: false
+---
 
-    isRelatedPostsEnabled: true # If a widget with related posts is to be displayed below each post
-    relatedPostsCount: 4 # Number of related posts to display
+## 🧱 Training Framework
 
-analytics:
-  vendors:
-    googleAnalytics:
-      id: null # or "G-XXXXXXXXXX"
+| Block | Focus                            | Purpose                                   |
+| ----- | -------------------------------- | ----------------------------------------- |
+| A     | Mobility & Activation            | Joint health & readiness                  |
+| B     | Strongman Carries/Loads          | Real-world strength                       |
+| C     | Barbell Max Strength & Endurance | Peak strength and power output            |
+| D     | Accessories & Calisthenics       | Weak-point targeting & structural balance |
 
-ui:
-  theme: 'system' # Values: "system" | "light" | "dark" | "light:only" | "dark:only"
-```
+* **Undulating Load:** Daily intensity variation (Heavy / Moderate / Light)
+* **Periodization:** 4-week mesocycles with load waves and deloads
+* **Variant Engine:** 8-week freshness guarantee, no repeated combinations
 
-<br>
+---
 
-#### Customize Design
+## 📆 Weekly Microcycle Example
 
-To customize Font families, Colors or more Elements refer to the following files:
+| Day | Block B (Strongman) | Block C (Barbell) | Notes                       |
+| --- | ------------------- | ----------------- | --------------------------- |
+| Mon | Heavy Carry         | Moderate SE Lower | OK pairing                  |
+| Tue | Moderate            | Heavy ME Upper    | OK pairing                  |
+| Wed | Light Medley        | Light Technique   | Recovery day                |
+| Thu | Moderate            | Heavy ME Lower    | OK pairing                  |
+| Fri | Heavy Load          | Moderate SE Upper | OK pairing                  |
+| Sat | Light/Conditioning  | Optional Barbell  | GPP day                     |
+| Sun | —                   | —                 | Passive recovery / mobility |
 
-- `src/components/CustomStyles.astro`
-- `src/assets/styles/tailwind.css`
+> **Rule:** No Heavy–Heavy pairing on same day (mutex logic)
 
-### Deploy
+---
 
-#### Deploy to production (manual)
+## 🔄 Personalization Flow
 
-You can create an optimized production build with:
+1. **Onboarding**: Joint health and readiness assessment
+2. **Session Generator**: Selects unique variants from a library of 250+ movements
+3. **User Feedback Loop**: RPE and readiness drive next session
+4. **Logging & Progression**: Tracks trends, weaknesses, and performance gains
 
-```shell
-npm run build
-```
+---
 
-Now, your website is ready to be deployed. All generated files are located at
-`dist` folder, which you can deploy the folder to any hosting service you
-prefer.
+## 🌍 Who It’s For
 
-#### Deploy to Netlify
+* **General Population**: Everyday strength for parenting, aging, and injury prevention
+* **Tactical Operators**: Military, law enforcement, and first responders
+* **Athletes**: Seeking smart, sustainable strength training
 
-Clone this repository on your own GitHub account and deploy it to Netlify:
+> Inclusive by design. Personalized by logic. Effective for life.
 
-[![Netlify Deploy button](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/onwidget/astrowind)
+---
 
-#### Deploy to Vercel
+## 🔬 R\&D and Future Roadmap
 
-Clone this repository on your own GitHub account and deploy to Vercel:
+Hyperion Training Systems is more than a protocol — it's a full healthtech startup.
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fonwidget%2Fastrowind)
+### 🔧 Roadmap
 
-<br>
+1. ✅ **Phase 1**: Core system logic & engine development
+2. ✅ **Phase 2**: Mobile app + Beta launch
+3. 🔄 **Phase 3**: Full product launch + community coaching hub
+4. 🔜 **Phase 4**: Wearable integration, nutrition modules, performance dashboards
 
-## Frequently Asked Questions
+### 🎯 HTS Future Offerings
 
-- Why?
--
--
+* Superhuman Protocol (app + engine)
+* Personal training (aligned with HTS philosophy)
+* Tactical training contracts
+* Sports nutrition programs
+* R\&D on performance tech (wearables, analytics, simulation)
 
-<br>
+---
 
-## Related projects
+## 📣 Get Involved
 
-- [TailNext](https://tailnext.vercel.app/) - Free template using Next.js 14 and Tailwind CSS with the new App Router.
-- [Qwind](https://qwind.pages.dev/) - Free template to make your website using Qwik + Tailwind CSS.
+HTS is open-source and community-driven. We’re building in public and welcome collaboration, feedback, and contributions.
 
-## Contributing
+> Become part of a future where world-class training is accessible to everyone.
 
-If you have any ideas, suggestions or find any bugs, feel free to open a discussion, an issue or create a pull request.
-That would be very useful for all of us and we would be happy to listen and take action.
+---
 
-## Acknowledgements
+## 📚 Reference Docs
 
-Initially created by [onWidget](https://onwidget.com) and maintained by a community of [contributors](https://github.com/onwidget/astrowind/graphs/contributors).
+All logic, ontologies, training rules, and system flows are defined in:
 
-## License
+* `README_SUPERHUMAN.md`
+* `training_engine.py`
+* `variant_ontology.yaml`
+* `daily_scheduler.py`
+* `mobile_interface/`
 
-**AstroWind** is licensed under the MIT license — see the [LICENSE](./LICENSE.md) file for details.
+---
+
+## 🔗 Links
+
+* Website: [Coming soon](https://hyperiontraining.systems)
+* Protocol Overview: `docs/README_SUPERHUMAN.md`
+* License: MIT
+
+---
+
+> "Train like you have a world-class coach—every day."
+
+Hyperion Training Systems — *Train for life.*
