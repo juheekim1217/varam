@@ -1,7 +1,7 @@
 {
   "name": "hts",
   "version": "1.0.0-beta.52",
-  "description": "Hyperion Training Systems — A lifelong training system for strength, mobility, and real-world capability.",
+  "description": "Hyperion Training — A lifelong training system for strength, mobility, and real-world capability.",
   "type": "module",
   "engines": {
     "node": "^18.17.1 || ^20.3.0 || >= 21.0.0"

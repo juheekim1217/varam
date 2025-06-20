@@ -1,5 +1,5 @@
 site:
-  name: Hyperion Training Systems
+  name: Hyperion Training
   site: 'https://astrowind.vercel.app'
   base: '/'
   trailingSlash: false
@@ -9,14 +9,14 @@ site:
 # Default SEO metadata
 metadata:
   title:
-    default: Hyperion Training Systems
+    default: Hyperion Training
     template: '%s — AstroWind'
   description: "\U0001F680 \"The Superhuman Protocol\" is a lifelong training system designed to make people stronger, more mobile, and more capable in every domain of life."
   robots:
     index: true
     follow: true
   openGraph:
-    site_name: Hyperion Training Systems
+    site_name: Hyperion Training
     images:
       - url: '~/assets/images/default.png'
         width: 1200
