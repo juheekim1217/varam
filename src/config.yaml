@@ -1,6 +1,6 @@
 site:
   name: Hyperion Training
-  site: 'https://htraining.vercel.app'
+  site: 'https://hytraining.vercel.app'
   base: '/'
   trailingSlash: false
 
