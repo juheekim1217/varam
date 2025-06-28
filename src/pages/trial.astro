@@ -1,0 +1,29 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+import HeroText from '~/components/widgets/HeroText.astro';
+import StartTrial from '~/components/widgets/Trial.astro';
+
+const metadata = {
+  title: 'Trial Session',
+};
+---
+
+<Layout metadata={metadata}>
+  <HeroText tagline="Start Now" title="Your First Training Session Is Free" />
+
+  <StartTrial
+    id="trial-form"
+    title="Fill out the form below to get started!"
+    subtitle="Our team will follow up with you shortly to get started."
+    inputs={[
+      { type: 'text', name: 'firstName', label: 'First Name' },
+      { type: 'text', name: 'lastName', label: 'Last Name' },
+      { type: 'email', name: 'email', label: 'Email Address' },
+      { type: 'tel', name: 'phone', label: 'Phone Number' },
+    ]}
+    textarea={{
+      label: 'General Location and Timing Preferences',
+    }}
+    description="Our team typically responds within 24 business hours."
+  />
+</Layout>

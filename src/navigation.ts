@@ -27,38 +27,26 @@ export const headerData = {
       text: 'About',
       links: [
         {
-          text: 'About us',
+          text: 'About Us',
           href: getPermalink('/about'),
-        },
-        {
-          text: 'Team',
-          href: getPermalink('/homes/startup'),
         },
         {
           text: 'Contact',
           href: getPermalink('/contact'),
         },
-        {
-          text: 'Locations',
-          href: getPermalink('/homes/startup'),
-        },
       ],
     },
     {
-      text: 'Personal Training',
+      text: 'Training',
       links: [
         {
-          text: 'Training Programs',
-          href: getPermalink('/#features'),
-        },
-        {
-          text: 'Trainers',
+          text: 'Personal Training',
           href: getPermalink('/services'),
         },
-        {
-          text: 'Coming Soon',
-          href: getPermalink('/landing/pre-launch'),
-        },
+        // {
+        //   text: 'Coming Soon',
+        //   href: getPermalink('/landing/pre-launch'),
+        // },
         {
           text: 'Rates',
           href: getPermalink('/pricing'),
@@ -66,80 +54,68 @@ export const headerData = {
       ],
     },
     {
-      text: 'Booking',
+      text: 'Members',
       links: [
         {
-          text: 'Booking',
+          text: 'Book A Session',
           href: getPermalink('/landing/product'),
         },
         {
-          text: 'Subscription',
-          href: getPermalink('/landing/subscription'),
+          text: 'My Classes',
+          href: getPermalink('/landing/product'),
         },
       ],
     },
-    {
-      text: 'Blog',
-      links: [
-        {
-          text: 'Blog',
-          href: getBlogPermalink(),
-        },
-        {
-          text: 'Training Insights by Omer',
-          href: getPermalink('get-started-website-with-astro-tailwind-css', 'post'),
-        },
-        // {
-        //   text: 'Article',
-        //   href: getPermalink('markdown-elements-demo-post', 'post'),
-        // },
-        // {
-        //   text: 'Category Page',
-        //   href: getPermalink('tutorials', 'category'),
-        // },
-        // {
-        //   text: 'Tag Page',
-        //   href: getPermalink('astro', 'tag'),
-        // },
-      ],
-    },
+    // {
+    //   text: 'Blog',
+    //   links: [
+    //     {
+    //       text: 'Blog',
+    //       href: getBlogPermalink(),
+    //     },
+    //     {
+    //       text: 'Training Insights by Omer',
+    //       href: getPermalink('get-started-website-with-astro-tailwind-css', 'post'),
+    //     },
+    //   ],
+    // },
   ],
-  actions: [{ text: 'Become a Member', href: '#registration', target: '_blank' }],
+  actions: [{ text: 'Sign In', href: '/contact', target: '_blank', variant: 'link' }, { text: 'Start Trial', href: '/trial', target: '_blank' }],
 };
 
 export const footerData = {
-  links: [
-    {
-      title: 'About',
-      links: [
-        { text: 'About Us', href: '#' },
-        { text: 'Team', href: '#' },
-        { text: 'Contact', href: '#' },
-        { text: 'Locations', href: '#' },
-      ],
-    }, {
-      title: 'Personal Training',
-      links: [
-        { text: 'Training Programs', href: '#' },
-        { text: 'Trainers', href: '#' },
-        { text: 'Rates', href: '#' },
-        { text: 'Comming Soon', href: '#' },
-      ],
-    }, {
-      title: 'Booking',
-      links: [
-        { text: 'Booking', href: '#' },
-        { text: 'Subscription', href: '#' },
-      ],
-    },
-    {
-      title: 'Blog',
-      links: [
-        { text: 'Blog', href: '#' },
-        { text: 'Training Insights by Omer', href: '#' },
-      ],
-    },
-  ],
+  // links: [
+  //   {
+  //     title: 'About',
+  //     links: [
+  //       { text: 'About Us', href: '#' },
+  //       { text: 'Team', href: '#' },
+  //       { text: 'Contact', href: '#' },
+  //       { text: 'Locations', href: '#' },
+  //     ],
+  //   }, {
+  //     title: 'Personal Training',
+  //     links: [
+  //       { text: 'Training Programs', href: '#' },
+  //       { text: 'Trainers', href: '#' },
+  //       { text: 'Rates', href: '#' },
+  //       { text: 'Comming Soon', href: '#' },
+  //     ],
+  //   }, {
+  //     title: 'Booking',
+  //     links: [
+  //       { text: 'Booking', href: '#' },
+  //       { text: 'Subscription', href: '#' },
+  //     ],
+  //   },
+  //   {
+  //     title: 'Blog',
+  //     links: [
+  //       { text: 'Blog', href: '#' },
+  //       { text: 'Training Insights by Omer', href: '#' },
+  //     ],
+  //   },
+  // ],
   secondaryLinks: [
     { text: 'Terms', href: getPermalink('/terms') },
     { text: 'Privacy Policy', href: getPermalink('/privacy') },
