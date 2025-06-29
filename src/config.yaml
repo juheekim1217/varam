@@ -1,5 +1,5 @@
 site:
-  name: Hyperion Training
+  name: Varam Strength
   site: 'https://hytraining.vercel.app'
   base: '/'
   trailingSlash: false
@@ -9,14 +9,14 @@ site:
 # Default SEO metadata
 metadata:
   title:
-    default: Hyperion Training
-    template: '%s — Hyperion Training'
+    default: Varam Strength
+    template: '%s — Varam Strength'
   description: "\U0001F680 \"The Superhuman Protocol\" is a lifelong training system designed to make people stronger, more mobile, and more capable in every domain of life."
   robots:
     index: true
     follow: true
   openGraph:
-    site_name: Hyperion Training
+    site_name: Varam Strength
     images:
       - url: '~/assets/images/htscreenshot.png'
         width: 1200

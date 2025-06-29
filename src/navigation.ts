@@ -128,6 +128,6 @@ export const footerData = {
   //   { ariaLabel: 'Github', icon: 'tabler:brand-github', href: 'https://github.com/onwidget/astrowind' },
   // ],
   footNote: `
-    © 2025 HYPERION TRAINING · All rights reserved.
+    © 2025 VARAM STRENGTH · All rights reserved.
   `,
 };

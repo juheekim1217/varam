@@ -1,4 +1,4 @@
-# 🛡️ Superhuman Protocol by Hyperion Training Systems
+# 🛡️ Superhuman Protocol by Varam Strength
 
 ## 🚀 Overview
 
@@ -6,7 +6,7 @@
 
 ![Superhuman Protocol](https://github.com/juheekim1217/hts/blob/main/src/assets/images/htscreenshot.png)
 
-The **Superhuman Protocol** is the flagship offering from **Hyperion Training Systems** (HTS), a healthtech startup focused on unlocking human potential through precision training, expert systems, and tactical readiness. Built on a Python-based logic engine, it provides lifelong training that adapts to every stage of life and performance level.
+The **Superhuman Protocol** is the flagship offering from **Varam Strength**, a healthtech startup focused on unlocking human potential through precision training, expert systems, and tactical readiness. Built on a Python-based logic engine, it provides lifelong training that adapts to every stage of life and performance level.
 
 Whether you're a parent lifting toddlers, a first responder on the job, or a retiree seeking longevity and resilience, the protocol intelligently evolves with your goals.
 
@@ -86,7 +86,7 @@ The heart of the Superhuman Protocol is a Python Expert System that mimics the d
 
 ## 🔬 R\&D and Future Roadmap
 
-Hyperion Training Systems is more than a protocol — it's a full healthtech startup.
+Varam Strength is more than a protocol — it's a full healthtech startup.
 
 ### 🔧 Roadmap
 
@@ -95,10 +95,10 @@ Hyperion Training Systems is more than a protocol — it's a full healthtech sta
 3. 🔄 **Phase 3**: Full product launch + community coaching hub
 4. 🔜 **Phase 4**: Wearable integration, nutrition modules, performance dashboards
 
-### 🎯 HTS Future Offerings
+### 🎯 Varam Strength Future Offerings
 
 * Superhuman Protocol (app + engine)
-* Personal training (aligned with HTS philosophy)
+* Personal training (aligned with Varam Strength philosophy)
 * Tactical training contracts
 * Sports nutrition programs
 * R\&D on performance tech (wearables, analytics, simulation)
@@ -107,7 +107,7 @@ Hyperion Training Systems is more than a protocol — it's a full healthtech sta
 
 ## 📣 Get Involved
 
-HTS is open-source and community-driven. We’re building in public and welcome collaboration, feedback, and contributions.
+Varam Strength is open-source and community-driven. We’re building in public and welcome collaboration, feedback, and contributions.
 
 > Become part of a future where world-class training is accessible to everyone.
 
@@ -135,4 +135,4 @@ All logic, ontologies, training rules, and system flows are defined in:
 
 > "Train like you have a world-class coach—every day."
 
-Hyperion Training Systems — *Train for life.*
+Varam Strength — *Train for life.*
