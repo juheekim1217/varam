@@ -5,6 +5,7 @@ import Hero from '~/components/widgets/Hero.astro';
 import Stats from '~/components/widgets/Stats.astro';
 import Steps2 from '~/components/widgets/Steps2.astro';
 import Layout from '~/layouts/PageLayout.astro';
+import { Icon } from 'astro-icon/components';
 
 const metadata = {
   title: 'About us',
@@ -22,53 +23,54 @@ const metadata = {
     }}
   >
     <Fragment slot="title">
-      Elevate your online presence with our <br />
-      <span class="text-accent dark:text-white"> Beautiful Website Templates</span>
+      Varam Strength <br />
+      <span class="text-accent dark:text-white"> Building Power With Purpose</span>
     </Fragment>
 
     <Fragment slot="subtitle">
-      Donec efficitur, ipsum quis congue luctus, mauris magna convallis mauris, eu auctor nisi lectus non augue. Donec
-      quis lorem non massa vulputate efficitur ac at turpis. Sed tincidunt ex a nunc convallis, et lobortis nisi tempus.
-      Suspendisse vitae nisi eget tortor luctus maximus sed non lectus.
+      Varam exists to help people move better, lift stronger, and live fully at every age. Our Expert Engine turns
+      personal data into adaptive workouts that remain short, effective, and constantly progressive. Your best years are
+      <div class="mt-4 flex items-center justify-center text-md text-gray-500">
+        <Icon name="tabler:map-pin" class="w-4 h-4 mr-1 text-gray-400" />
+        <span>Based in Toronto, Canada</span>
+      </div>
     </Fragment>
   </Hero>
 
   <!-- Stats Widget ****************** -->
 
   <Stats
-    title="Statistics about us"
+    title="Key Metrics at a Glance"
     stats={[
-      { title: 'Offices', amount: '4' },
-      { title: 'Employees', amount: '248' },
-      { title: 'Templates', amount: '12' },
-      { title: 'Awards', amount: '24' },
+      { title: 'Average Session', amount: '60 MIN' },
+      { title: 'Unique Microcycles', amount: '365' },
+      { title: 'Personalized', amount: '100%' },
+      { title: 'Cookie-Cutter', amount: '0' },
     ]}
   />
 
   <!-- Features3 Widget ************** -->
 
   <Features3
-    title="Our templates"
-    subtitle="Etiam scelerisque, enim eget vestibulum luctus, nibh mauris blandit nulla, nec vestibulum risus justo ut enim. Praesent lacinia diam et ante imperdiet euismod."
+    title="Who We Servce"
+    subtitle="Whether you are chasing lifelong strength, preparing for duty, or rebuilding after injury, Varam adapts its training to fit your goals, schedule, and daily readiness."
     columns={3}
     isBeforeContent={true}
     items={[
       {
-        title: 'Educational',
-        description:
-          'Morbi faucibus luctus quam, sit amet aliquet felis tempor id. Cras augue massa, ornare quis dignissim a, molestie vel nulla.',
+        title: 'Lifelong Movers',
+        description: 'Stay strong, mobile, and independent with concise sessions that adapt to any schedule.',
         icon: 'tabler:template',
       },
       {
-        title: 'Interior Design',
-        description:
-          'Vivamus porttitor, tortor convallis aliquam pretium, turpis enim consectetur elit, vitae egestas purus erat ac nunc nulla.',
+        title: 'Tactical Professionals',
+        description: 'Build load-bearing power, endurance, and durability that transfers directly to mission demands.',
         icon: 'tabler:template',
       },
       {
-        title: 'Photography',
+        title: 'Busy Professionals Rebuilding Strength From Injury',
         description:
-          'Duis sed lectus in nisl vehicula porttitor eget quis odio. Aliquam erat volutpat. Nulla eleifend nulla id sem fermentum.',
+          'Intelligent progressions restore movement, relieve pain, and safeguard consistency during highstress work weeks.',
         icon: 'tabler:template',
       },
     ]}
@@ -76,7 +78,7 @@ const metadata = {
 
   <!-- Features3 Widget ************** -->
 
-  <Features3
+  <!-- <Features3
     columns={3}
     isAfterContent={true}
     items={[
@@ -121,28 +123,26 @@ const metadata = {
       src: 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1740&q=80',
       alt: 'Colorful Image',
     }}
-  />
+  /> -->
 
   <!-- Steps2 Widget ****************** -->
 
   <Steps2
     title="Our values"
-    subtitle="Maecenas eu tellus eget est scelerisque lacinia et a diam. Aliquam velit lorem, vehicula id fermentum et, rhoncus et purus. Nulla facilisi. Vestibulum malesuada lacus."
+    subtitle="Everything Varam does centres on clear principles that keep training effective, ethical, and sustainable for life."
     items={[
       {
-        title: 'Customer-centric approach',
-        description:
-          'Donec id nibh neque. Quisque et fermentum tortor. Fusce vitae dolor a mauris dignissim commodo. Ut eleifend luctus condimentum.',
+        title: 'Adaptive Progress',
+        description: 'Workouts evolve with your feedback so improvement never stalls and plateaus never settle in.',
       },
       {
-        title: 'Constant Improvement',
-        description:
-          'Phasellus laoreet fermentum venenatis. Vivamus dapibus pulvinar arcu eget mattis. Fusce eget mauris leo.',
+        title: 'Minimalist Efficiency',
+        description: 'We strip away fluff and focus on movements that deliver the highest return in the shortest time.',
       },
       {
-        title: 'Ethical Practices',
+        title: 'Integrity & Safety',
         description:
-          'Vestibulum imperdiet libero et lectus molestie, et maximus augue porta. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.',
+          'Certified coaching, transparent methods, and respect for individual readiness guide every prescription.',
       },
     ]}
   />
@@ -150,29 +150,30 @@ const metadata = {
   <!-- Steps2 Widget ****************** -->
 
   <Steps2
-    title="Achievements"
-    subtitle="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi sagittis, quam nec venenatis lobortis, mi risus tempus nulla, sed porttitor est nibh at nulla."
+    title="Innovation Cycle"
+    subtitle="Varam Strength never stands still. Data from simulations, real-world training, and coach insight combine to refine the Expert Engine on a rolling schedule, keeping your program fresh and evidence-aligned."
     isReversed={true}
     callToAction={{
-      text: 'See more',
+      text: 'Learn the Process',
       href: '/',
     }}
     items={[
       {
-        title: 'Global reach',
-        description: 'Nam malesuada urna in enim imperdiet tincidunt. Phasellus non tincidunt nisi, at elementum mi.',
+        title: 'Continuous Simulation',
+        description:
+          'Our lab stress-tests thousands of program variations each day to identify the most effective loading patterns.',
         icon: 'tabler:globe',
       },
       {
-        title: 'Positive customer feedback and reviews',
+        title: 'Live Feedback Loop',
         description:
-          'Cras semper nulla leo, eget laoreet erat cursus sed. Praesent faucibus massa in purus iaculis dictum.',
+          'Session data and user notes feed straight into the engine every night, sharpening exercise choices and load targets.',
         icon: 'tabler:message-star',
       },
       {
-        title: 'Awards and recognition as industry experts',
+        title: 'Weekly Engine Updates',
         description:
-          'Phasellus lacinia cursus velit, eu malesuada magna pretium eu. Etiam aliquet tellus purus, blandit lobortis ex rhoncus vitae.',
+          'Verified improvements roll out automatically so every member benefits without extra setup or downtime.',
         icon: 'tabler:award',
       },
     ]}
@@ -181,25 +182,30 @@ const metadata = {
   <!-- Features2 Widget ************** -->
 
   <Features2
-    title="Our locations"
-    tagline="Find us"
+    title="Training Locations"
+    tagline="Where We Train"
+    subtitle="📍Toronto, ON, Canada"
     columns={4}
     items={[
       {
-        title: 'EE.UU',
-        description: '1234 Lorem Ipsum St, 12345, Miami',
+        title: 'Online',
+        description:
+          'Train anywhere with the Varam app and a stable internet connection. Your program updates as soon as you log feedback.',
       },
       {
-        title: 'Spain',
-        description: '5678 Lorem Ipsum St, 56789, Madrid',
+        title: 'Commercial Facilities',
+        description:
+          'Work with a Varam coach right on the gym floor. One-on-one or small-group personal training integrates live cueing and real-time adjustments that push you toward truly superhuman performance.',
       },
       {
-        title: 'Australia',
-        description: '9012 Lorem Ipsum St, 90123, Sydney',
+        title: 'Home Gyms',
+        description:
+          'Garage racks, adjustable dumbbells, or resistance bands—Varam builds workouts around whatever you have on hand.',
       },
       {
-        title: 'Brazil',
-        description: '3456 Lorem Ipsum St, 34567, São Paulo',
+        title: 'Field Environments',
+        description:
+          'Deployed soldiers can train with ammo cans, rucks, pull-up bars, kettlebells, and sandbags. The engine adapts sessions to mission constraints and austere gear so progress never stalls.',
       },
     ]}
   />
@@ -207,21 +213,24 @@ const metadata = {
   <!-- Features2 Widget ************** -->
 
   <Features2
-    title="Technical Support"
+    title="You can reach us at"
     tagline="Contact us"
-    columns={2}
+    columns={3}
     items={[
       {
-        title: 'Chat with us',
-        description:
-          'Integer luctus laoreet libero, auctor varius purus rutrum sit amet. Ut nec molestie nisi, quis eleifend mi.',
+        title: 'Email us',
+        description: 'varamfit@gmail.com',
         icon: 'tabler:messages',
       },
       {
         title: 'Call us',
-        description:
-          'Mauris faucibus finibus orci, in posuere elit viverra non. In hac habitasse platea dictumst. Cras lobortis metus a hendrerit congue.',
+        description: '(431) 777-8116',
         icon: 'tabler:headset',
+      },
+      {
+        title: 'Location',
+        description: 'Toronto, ON, Canada',
+        icon: 'tabler:map-pin',
       },
     ]}
   />
