@@ -127,7 +127,7 @@ All logic, ontologies, training rules, and system flows are defined in:
 
 ## 🔗 Links
 
-* Website: [Coming soon](https://hyperiontraining.systems)
+* Website: [Coming soon](https://varamfit.vercel.app/)
 * Protocol Overview: `docs/README_SUPERHUMAN.md`
 * License: MIT
 
