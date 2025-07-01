@@ -1,13 +1,28 @@
 ---
+// src/pages/my-classes.astro
 import Layout from '~/layouts/PageLayout.astro';
 
 const metadata = { title: 'All Booked Sessions' };
 
-// Fetch data from your API route at SSR time
-const endpoint = import.meta.env.DEV ? 'http://localhost:4321/api/list-bookings' : '/api/list-bookings';
+const baseUrl = import.meta.env.PUBLIC_SITE_URL || 'http://localhost:4321';
+const endpoint = `${baseUrl}/api/list-bookings`;
 
-const response = await fetch(endpoint);
-const { classes = [], error } = await response.json();
+let classes = [];
+let error = '';
+
+try {
+  const response = await fetch(endpoint);
+
+  if (!response.ok) {
+    const text = await response.text(); // helpful for debugging
+    error = `Fetch failed: ${response.status} ${response.statusText}. ${text}`;
+  } else {
+    const data = await response.json();
+    classes = data.classes || [];
+  }
+} catch (e) {
+  error = `Exception: ${e.message}`;
+}
 ---
 
 <Layout metadata={metadata}>
