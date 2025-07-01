@@ -28,7 +28,7 @@ export const POST: APIRoute = async ({ request }) => {
     await transporter.sendMail({
       from: `"Varam Website" <varamstrength@gmail.com>`,
       to: 'varamstrength@gmail.com',
-      subject: 'New Trial Message from Website',
+      subject: 'New Trial Request from Website',
       text: `Name: ${firstName} ${lastName}\nEmail: ${email}\nPhone: ${phone}\n\nMessage:\n${message}`,
     });
     console.log('Email sent await');
