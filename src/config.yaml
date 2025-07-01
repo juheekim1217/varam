@@ -18,7 +18,7 @@ metadata:
   openGraph:
     site_name: Varam Strength
     images:
-      - url: '~/assets/images/htscreenshot.png'
+      - url: '~/assets/images/screenshot.png'
         width: 1200
         height: 628
     type: website

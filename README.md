@@ -4,7 +4,7 @@
 
 **Strength for Life. Power with Purpose.**
 
-![Superhuman Protocol](https://github.com/juheekim1217/hts/blob/main/src/assets/images/htscreenshot.png)
+![Superhuman Protocol](https://github.com/juheekim1217/hts/blob/main/src/assets/images/screenshot.png)
 
 The **Superhuman Protocol** is the flagship offering from **Varam Strength**, a healthtech startup focused on unlocking human potential through precision training, expert systems, and tactical readiness. Built on a Python-based logic engine, it provides lifelong training that adapts to every stage of life and performance level.
 
@@ -18,19 +18,19 @@ Whether you're a parent lifting toddlers, a first responder on the job, or a ret
 
 The heart of the Superhuman Protocol is a Python Expert System that mimics the decision-making of elite strength coaches:
 
-* Rule-based inference engine (Python + NumPy + Pandas)
-* Adaptive session generation based on RPE, readiness, and feedback
-* Modular training blocks (Mobility, Strongman, Barbell, Accessories)
-* Daily undulating concurrent periodization
-* Long-term structural balance and performance tracking
+- Rule-based inference engine (Python + NumPy + Pandas)
+- Adaptive session generation based on RPE, readiness, and feedback
+- Modular training blocks (Mobility, Strongman, Barbell, Accessories)
+- Daily undulating concurrent periodization
+- Long-term structural balance and performance tracking
 
 ### 🔧 Tech Stack
 
-* **Backend**: FastAPI (Python)
-* **Expert Engine**: Python rule-based logic
-* **Frontend**: React Native (mobile)
-* **Database**: PostgreSQL
-* **DevOps**: Docker + GitHub Actions
+- **Backend**: FastAPI (Python)
+- **Expert Engine**: Python rule-based logic
+- **Frontend**: React Native (mobile)
+- **Database**: PostgreSQL
+- **DevOps**: Docker + GitHub Actions
 
 ---
 
@@ -43,9 +43,9 @@ The heart of the Superhuman Protocol is a Python Expert System that mimics the d
 | C     | Barbell Max Strength & Endurance | Peak strength and power output            |
 | D     | Accessories & Calisthenics       | Weak-point targeting & structural balance |
 
-* **Undulating Load:** Daily intensity variation (Heavy / Moderate / Light)
-* **Periodization:** 4-week mesocycles with load waves and deloads
-* **Variant Engine:** 8-week freshness guarantee, no repeated combinations
+- **Undulating Load:** Daily intensity variation (Heavy / Moderate / Light)
+- **Periodization:** 4-week mesocycles with load waves and deloads
+- **Variant Engine:** 8-week freshness guarantee, no repeated combinations
 
 ---
 
@@ -76,9 +76,9 @@ The heart of the Superhuman Protocol is a Python Expert System that mimics the d
 
 ## 🌍 Who It’s For
 
-* **General Population**: Everyday strength for parenting, aging, and injury prevention
-* **Tactical Operators**: Military, law enforcement, and first responders
-* **Athletes**: Seeking smart, sustainable strength training
+- **General Population**: Everyday strength for parenting, aging, and injury prevention
+- **Tactical Operators**: Military, law enforcement, and first responders
+- **Athletes**: Seeking smart, sustainable strength training
 
 > Inclusive by design. Personalized by logic. Effective for life.
 
@@ -97,11 +97,11 @@ Varam Strength is more than a protocol — it's a full healthtech startup.
 
 ### 🎯 Varam Strength Future Offerings
 
-* Superhuman Protocol (app + engine)
-* Personal training (aligned with Varam Strength philosophy)
-* Tactical training contracts
-* Sports nutrition programs
-* R\&D on performance tech (wearables, analytics, simulation)
+- Superhuman Protocol (app + engine)
+- Personal training (aligned with Varam Strength philosophy)
+- Tactical training contracts
+- Sports nutrition programs
+- R\&D on performance tech (wearables, analytics, simulation)
 
 ---
 
@@ -117,22 +117,22 @@ Varam Strength is open-source and community-driven. We’re building in public a
 
 All logic, ontologies, training rules, and system flows are defined in:
 
-* `README_SUPERHUMAN.md`
-* `training_engine.py`
-* `variant_ontology.yaml`
-* `daily_scheduler.py`
-* `mobile_interface/`
+- `README_SUPERHUMAN.md`
+- `training_engine.py`
+- `variant_ontology.yaml`
+- `daily_scheduler.py`
+- `mobile_interface/`
 
 ---
 
 ## 🔗 Links
 
-* Website: [Coming soon](https://varamfit.vercel.app/)
-* Protocol Overview: `docs/README_SUPERHUMAN.md`
-* License: MIT
+- Website: [Coming soon](https://varamfit.vercel.app/)
+- Protocol Overview: `docs/README_SUPERHUMAN.md`
+- License: MIT
 
 ---
 
 > "Train like you have a world-class coach—every day."
 
-Varam Strength — *Train for life.*
+Varam Strength — _Train for life._
