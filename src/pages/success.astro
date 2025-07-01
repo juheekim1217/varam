@@ -1,0 +1,20 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+
+const metadata = {
+  title: 'Message Sent',
+  description: 'Your message has been successfully submitted.',
+};
+---
+
+<Layout metadata={metadata}>
+  <section class="max-w-xl mx-auto my-20 text-center px-6">
+    <h1 class="text-3xl font-bold mb-4 text-green-600">✅ Message Sent</h1>
+    <p class="text-lg text-gray-700 dark:text-gray-300 mb-6">
+      Thank you for reaching out! We'll get back to you shortly.
+    </p>
+    <a href="/" class="inline-block bg-primary text-white px-6 py-2 rounded hover:bg-opacity-90 transition">
+      Return to Home
+    </a>
+  </section>
+</Layout>
