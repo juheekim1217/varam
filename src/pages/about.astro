@@ -6,7 +6,6 @@ import Stats from '~/components/widgets/Stats.astro';
 import Steps2 from '~/components/widgets/Steps2.astro';
 import Layout from '~/layouts/PageLayout.astro';
 import { Icon } from 'astro-icon/components';
-import omerImage from '~/assets/images/omerprofile.png';
 
 const metadata = {
   title: 'About us',
@@ -29,7 +28,7 @@ const metadata = {
     </Fragment>
 
     <Fragment slot="subtitle">
-      Varam exists to help people move better, lift stronger, and live fully at every age. Our Expert Engine turns
+      Varam exists to help people move better, be stronger, and live fully at every age. Our Expert Engine turns
       personal data into adaptive workouts that remain short, effective, and constantly progressive. Your best years are
       always the ones ahead.
       <div class="mt-4 flex items-center justify-center text-md text-gray-500">
@@ -38,42 +37,6 @@ const metadata = {
       </div>
     </Fragment>
   </Hero>
-
-  <!-- Features2 Widget ************** -->
-  <Features2
-    title="About us"
-    subtitle="Varam Strength is a lifelong training system designed to build strength, mobility, and real-world capability. We believe that true fitness isn’t about aesthetics or quick fixes — it’s about preparing your body to move well, stay resilient, and perform confidently through every stage of life. Whether you're just starting out or refining your movement after years of training, Varam offers a structured, sustainable approach rooted in functional strength and intentional progress. Our mission is simple: To help you move better, live stronger, and train with purpose — for life."
-  >
-    <Fragment slot="bg">
-      <div class="absolute inset-0 bg-blue-50 dark:bg-transparent"></div>
-    </Fragment>
-  </Features2>
-
-  <section id="Founder" class="bg-white dark:bg-slate-900 py-16 px-6">
-    <div class="max-w-4xl mx-auto text-left">
-      <h2 class="text-sm uppercase font-medium tracking-widest text-primary mb-1">Founder's Word</h2>
-      <p class="text-2xl font-semibold text-gray-900 dark:text-white mb-6">From the heart of Varam</p>
-
-      <p class="text-base text-gray-700 dark:text-slate-300 leading-relaxed mb-6">
-        <em>
-          "Strength should serve your life — not take it over. Varam exists to help you move better, live stronger, and
-          stay ready for what matters most."
-        </em>
-      </p>
-
-      <div class="flex items-center space-x-4">
-        <!-- <img
-          src={omerImage.src}
-          alt="Omer B"
-          class="w-12 h-12 rounded-full object-cover border border-gray-300 dark:border-slate-700 shadow-sm"
-        /> -->
-        <p class="text-sm font-medium text-gray-900 dark:text-white">Omer B · Founder, Varam Strength</p>
-      </div>
-    </div>
-
-    <!-- Bottom Divider -->
-    <div class="mt-12 border-t border-gray-200 dark:border-slate-700 w-full"></div>
-  </section>
 
   <!-- Stats Widget ****************** -->
 
