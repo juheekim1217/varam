@@ -84,10 +84,12 @@ export const headerData = {
     //   ],
     // },
   ],
-  actions: [{ text: 'Sign In', href: '/login', target: '_blank', variant: 'link' }, { text: 'Start Trial', href: '/trial', target: '_blank' }],
+  actions: [{ text: 'Sign In', href: '/login', target: '_blank'}, { text: 'Start Trial', href: '/trial', target: '_blank' }],
 };
 
 export const footerData = {
+    links: [/* ... */], // add your main links here
+  socialLinks: [/* ... */], // add your social links here
   // links: [
   //   {
   //     title: 'About',

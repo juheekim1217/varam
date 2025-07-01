@@ -7,7 +7,6 @@ await resend.emails.send({
   to: 'youremail@gmail.com',
   subject: 'New Training Session Booked',
   html: `
-    <p><strong>${name}</strong> booked a session on <strong>${date}</strong> at <strong>${time}</strong>.</p>
-    <p>Email: ${email}</p>
+
   `,
 });

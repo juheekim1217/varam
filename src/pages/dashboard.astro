@@ -1,23 +1,12 @@
 ---
 import Layout from '~/layouts/PageLayout.astro';
-import { createBrowserClient } from '@supabase/auth-helpers-js';
 
 const metadata = { title: 'Dashboard' };
-
-const supabase = createBrowserClient(import.meta.env.PUBLIC_SUPABASE_URL, import.meta.env.PUBLIC_SUPABASE_ANON_KEY);
-
-const {
-  data: { session },
-} = await supabase.auth.getSession();
-
-if (!session) {
-  throw redirect(302, '/login');
-}
 ---
 
 <Layout metadata={metadata}>
   <section class="max-w-xl mx-auto my-20 p-4">
     <h2 class="text-2xl font-bold">Welcome back 👋</h2>
-    <p>You're logged in as {session.user.email}</p>
+    <p>You're logged in as</p>
   </section>
 </Layout>
