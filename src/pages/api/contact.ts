@@ -18,7 +18,7 @@ export const POST: APIRoute = async ({ request }) => {
     service: 'Gmail',
     auth: {
       user: 'varamstrength@gmail.com',
-      pass: import.meta.env.EMAIL_PASS, // set in your `.env`
+      pass: import.meta.env.EMAIL_APP_PASS, // set in your `.env`
     },
   });
 
