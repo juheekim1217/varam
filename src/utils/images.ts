@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { isUnpicCompatible, unpicOptimizer, astroAssetsOptimizer } from './images-optimization';
 import type { ImageMetadata } from 'astro';
 import type { OpenGraph } from '@astrolib/seo';
@@ -71,7 +72,7 @@ export const adaptOpenGraphImages = async (
           };
         }
 
-        let _image;
+        let _image: any;
 
         if (
           typeof resolvedImage === 'string' &&
