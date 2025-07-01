@@ -1,0 +1,18 @@
+---
+// src/pages/book/success.astro
+import Layout from '~/layouts/PageLayout.astro';
+
+const metadata = {
+  title: 'Booking Confirmed',
+  description: 'Your training session has been successfully booked.',
+};
+---
+
+<Layout metadata={metadata}>
+  <section class="max-w-xl mx-auto my-20 p-6 text-center border rounded-2xl shadow space-y-4">
+    <h1 class="text-3xl font-bold text-green-600">✅ Booking Confirmed</h1>
+    <p class="text-lg">Thanks for booking your personal training session with Varam Strength.</p>
+    <p class="text-gray-600">You’ll receive an email shortly with details. We’re excited to train with you!</p>
+    <a href="/" class="inline-block mt-4 px-6 py-2 bg-black text-white rounded hover:bg-gray-800"> Back to Home </a>
+  </section>
+</Layout>

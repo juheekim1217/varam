@@ -1,4 +1,4 @@
-import { getPermalink, getBlogPermalink, getAsset } from './utils/permalinks';
+import { getPermalink } from './utils/permalinks';
 
 export const headerData = {
   links: [
@@ -30,6 +30,10 @@ export const headerData = {
           text: 'About Us',
           href: getPermalink('/about'),
         },
+                {
+          text: 'Impact',
+          href: getPermalink('/impact'),
+        },
         {
           text: 'Contact',
           href: getPermalink('/contact'),
@@ -58,11 +62,11 @@ export const headerData = {
       links: [
         {
           text: 'Book A Session',
-          href: getPermalink('/landing/product'),
+          href: getPermalink('/book'),
         },
         {
           text: 'My Classes',
-          href: getPermalink('/landing/product'),
+          href: getPermalink('/my-classes'),
         },
       ],
     },
@@ -80,7 +84,7 @@ export const headerData = {
     //   ],
     // },
   ],
-  actions: [{ text: 'Sign In', href: '/contact', target: '_blank', variant: 'link' }, { text: 'Start Trial', href: '/trial', target: '_blank' }],
+  actions: [{ text: 'Sign In', href: '/login', target: '_blank', variant: 'link' }, { text: 'Start Trial', href: '/trial', target: '_blank' }],
 };
 
 export const footerData = {

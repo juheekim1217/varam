@@ -8,7 +8,7 @@ import Features3 from '~/components/widgets/Features3.astro';
 import CallToAction from '~/components/widgets/CallToAction.astro';
 
 const metadata = {
-  title: 'Pricing',
+  title: 'Rates',
 };
 ---
 
@@ -17,94 +17,173 @@ const metadata = {
 
   <HeroText
     tagline="Pricing"
-    title="Stellar Pricing for Every Journey"
-    subtitle="Choose the perfect plan that aligns with your cosmic goals."
+    title="Flexible Coaching For Every Goal"
+    subtitle="Pick a plan built for your training style, schedule, and budget—transparent rates, no hidden fees, cancel anytime."
   />
 
   <!-- Pricing Widget ******************* -->
-
+  <section id="Prices"></section>
   <Prices
     title="Our prices"
-    subtitle="Only pay for what you need"
+    subtitle='Only pay for what you need & Add a discount note saying: "Preferred pricing available for military, veterans, seniors, and qualifying low-income applicants."'
     prices={[
       {
-        title: 'basic',
-        subtitle: 'Optimal choice for personal use',
-        price: 29,
+        title: 'Algorithm Plan',
+        subtitle: 'Self-starters who want a proven roadmap.',
+        price: 49,
         period: 'per month',
         items: [
           {
-            description: 'Etiam in libero, et volutpat',
+            description: 'Weekly Superhuman Protocol schedule',
           },
           {
-            description: 'Aenean ac nunc dolor tristique',
+            description: 'App or PDF delivery',
           },
           {
-            description: 'Cras scelerisque accumsan lib',
+            description: 'Auto-adjusted loads from your logged data',
           },
           {
-            description: 'In hac habitasse',
+            description: 'Progress dashboard and habit tracker',
+          },
+          {
+            description: 'Access to private community forum',
           },
         ],
         callToAction: {
           target: '_blank',
-          text: 'Get started',
+          text: 'Comming soon',
           href: '#',
         },
+        disabled: true,
       },
       {
-        title: 'standard',
-        subtitle: 'Optimal choice for small teams',
-        price: 69,
-        period: 'Per Month',
+        title: 'Online Coaching',
+        subtitle: 'REmote athletes and busy professionals who NEED expert oversight.',
+        price: 229,
+        period: 'per month',
         items: [
           {
-            description: 'Proin vel laoreet',
+            description: 'All Algorithm Plan benefits',
           },
           {
-            description: 'Ut efficitur habitasse egestas',
+            description: 'Weekly video form and movement review',
           },
           {
-            description: 'Volutpat hac curabitur',
+            description: 'Direct coach messaging with 24-hour response',
           },
           {
-            description: 'Pellentesque blandit ut nibh',
+            description: 'Monthly live strategy call',
           },
           {
-            description: 'Donec fringilla sem',
+            description: 'Personalized mobility programming built into every microcycle',
+          },
+          {
+            description: 'Discount Note: Military, veterans, and seniors save 15 %.',
           },
         ],
         callToAction: {
           target: '_blank',
-          text: 'Get started',
+          text: 'Comming soon',
           href: '#',
+        },
+        disabled: true,
+      },
+      {
+        title: 'In-Gym Coaching Session',
+        subtitle:
+          'Elite performers committed to maximizing physical potential and resilience through bespoke, in-person strength, mobility, and corrective-exercise coaching.',
+        price: 120,
+        period: 'Per Session',
+        items: [
+          {
+            description: 'One 60 - 75 minute session',
+          },
+          {
+            description: 'Personalized mobility and corrective-exercise programming',
+          },
+          {
+            description:
+              'Precision guidance on every rep, dialling load and technique for maximum gains Unlimited coach messaging',
+          },
+          {
+            description: 'Unlimited coach messaging Priority scheduling Quarterly performance assessment',
+          },
+          {
+            description: 'Discount Note: Military, veterans and seniors save 15%.',
+          },
+        ],
+        callToAction: {
+          target: '_blank',
+          text: 'Book In-Gym Coaching Session',
+          href: '/trial',
         },
         hasRibbon: true,
         ribbonTitle: 'popular',
       },
       {
-        title: 'premium',
-        subtitle: 'Optimal choice for companies',
-        price: 199,
+        title: 'In-Gym Coaching Monthly Plan',
+        subtitle:
+          'Elite performers committed to maximizing physical potential and resilience through bespoke, in-person strength, mobility, and corrective-exercise coaching.',
+        price: 480,
         period: 'Per Month',
         items: [
           {
-            description: 'Curabitur suscipit risus',
+            description: 'One 60 - 75 minute session each week (4-pack)',
           },
           {
-            description: 'Aliquam habitasse malesuada',
+            description: 'Personalized mobility and corrective-exercise programming',
           },
           {
-            description: 'Suspendisse sit amet blandit',
+            description:
+              'Precision guidance on every rep, dialling load and technique for maximum gains Unlimited coach messaging',
           },
           {
-            description: 'Suspendisse auctor blandit dui',
+            description: 'Unlimited coach messaging Priority scheduling Quarterly performance assessment',
+          },
+          {
+            description: 'Discount Note: Military, veterans and seniors save 15%.',
           },
         ],
         callToAction: {
           target: '_blank',
-          text: 'Get started',
-          href: '#',
+          text: 'Book In-Gym Coaching Monthly Plan',
+          href: '/trial',
+        },
+        hasRibbon: true,
+        ribbonTitle: 'popular',
+      },
+      {
+        title: 'Hybrid Elite',
+        subtitle: 'Peak performers who demand full-spectrum coaching and total health optimisation.',
+        price: 1299,
+        period: 'Per Month',
+        items: [
+          {
+            description: 'Two 60-minute in-person sessions each week',
+          },
+          {
+            description: 'Unlimited online check-ins and program updates',
+          },
+          {
+            description: 'Personalised mobility and corrective-exercise plans',
+          },
+          {
+            description: 'Personalised sports nutrition programming',
+          },
+          {
+            description: 'Weekly health-coaching consultations',
+          },
+          {
+            description: 'Monthly performance and resilience assessment with protocol recalibration',
+          },
+          {
+            description: 'Discount Note: Military, veterans and seniors save 15%.',
+          },
+        ],
+        callToAction: {
+          target: '_blank',
+          text: 'Join Hybrid Elite',
+          href: '/trial',
         },
       },
     ]}
@@ -113,38 +192,43 @@ const metadata = {
   <!-- Features3 Widget ************** -->
 
   <Features3
-    title="Price-related features"
-    subtitle="Discover the advantages of choosing our plans"
+    title="What Your Investment Delivers"
+    subtitle="Every plan combines adaptive programming with high-touch expertise to maximize the return on your time, effort, and resources"
     columns={2}
     items={[
       {
-        title: 'Tiered Pricing Plans',
-        description: 'Choose from a range of pricing plans designed to accommodate different budgets and requirements.',
+        title: 'Raw Strength & Capability',
+        description:
+          'The Superhuman Protocolʼs adaptive Expert Engine safely boosts strength, power, and real-world stamina at any age or health status, meeting you where you are and moving you forward.',
         icon: 'tabler:stairs',
       },
       {
-        title: 'Transparent Pricing',
-        description: 'Clearly displayed pricing details for each plan, with no hidden costs or unexpected charges.',
+        title: 'Personalised Mobility Programming',
+        description:
+          'Personalised mobility drills rebuild range of motion, minimise injury risk, and keep you strong, independent, and confidently moving for decades.',
         icon: 'tabler:flip-vertical',
       },
       {
-        title: 'Secure Payment Methods',
-        description: 'Secure payment gateways to protect your financial information during transactions.',
+        title: 'Corrective Exercise Programming',
+        description:
+          'Detailed movement assessments and targeted corrective drills resolve imbalances, refine movement patterns, and transform weak links into new strengths.',
         icon: 'tabler:shield-lock',
       },
       {
-        title: 'Instant Access',
-        description: `Immediate access to your chosen plan's features and templates upon subscription.`,
+        title: 'Sports Nutrition Guidnace',
+        description: `Custom macro targets and fuelling strategies speed recovery, optimise body composition, and sustain high output.`,
         icon: 'tabler:accessible',
       },
       {
-        title: 'Upgrade Value',
-        description: 'Upgrade to higher-tier plans to unlock more features and benefits for an enhanced experience.',
+        title: 'Holistic Health Coaching',
+        description:
+          'Sleep, stress, and life-style tracking convert daily choices into long-term performance and resilience.',
         icon: 'tabler:chevrons-up',
       },
       {
-        title: '24H support',
-        description: 'Questions answered via live chat, email or phone, every calendar day.',
+        title: 'Performance R&D Lab',
+        description:
+          'Our in-house Performance Lab conducts continuous simulations and field trials, feeding the latest findings into the Expert Engine so your program always reflects cutting-edge sports science.',
         icon: 'tabler:headset',
       },
     ]}
@@ -154,41 +238,44 @@ const metadata = {
   <!-- Steps Widget ****************** -->
 
   <Steps
-    title="A guided journey from plans to creativity"
+    title="Your Path to Superhuman Strength"
     tagline="simplified process"
     isReversed={true}
     items={[
       {
-        title: 'Explore plans',
+        title: 'Choose a Plan: Select Algorithm, Online, In-Gym, or Hybrid Elite.',
         icon: 'tabler:number-1',
       },
       {
-        title: 'Select a plan',
+        title: 'Complete the Intake: Tell us your goals, equipment, schedule, and readiness metrics.',
         icon: 'tabler:number-2',
       },
       {
-        title: 'Sign Up / Log In',
+        title:
+          'Receive Your First Microcycle: The Expert Engine builds a personalised week of training within minutes.',
         icon: 'tabler:number-3',
       },
       {
-        title: 'Review order',
+        title: 'Train & Log Feedback: Follow each session and record loads, RPE, and notes in the app or PDF.',
         icon: 'tabler:number-4',
       },
       {
-        title: 'Enter payment details',
+        title:
+          'Engine Adapts in Real Time: Your data adjusts loads, exeercise variants, and mobility work automatically.',
         icon: 'tabler:number-5',
       },
       {
-        title: 'Confirmation',
+        title:
+          'Track Progress & Insights: Dashboards highlight gains, and coaches review your data if your plan includes guidance.',
         icon: 'tabler:number-6',
       },
       {
-        title: 'Download and start using the template(s)',
+        title: 'Level Up Support: Renew your plan, add coaching, or upgrade to the next tier as your goals advance.',
         icon: 'tabler:number-7',
       },
     ]}
     image={{
-      src: 'https://images.unsplash.com/photo-1536816579748-4ecb3f03d72a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=987&q=80',
+      src: '~/assets/images/path.png',
       alt: 'Steps image',
     }}
   />
@@ -197,33 +284,43 @@ const metadata = {
 
   <FAQs
     title="Pricing FAQs"
-    subtitle="Choosing the right plan is important, and we're here to answer your questions. If you have queries about our pricing options, you're in the right place."
+    subtitle="Clear answers to help you choose the right Varam plan, understand our transparent pricing, and start training with confidence."
     columns={1}
     items={[
       {
-        title: 'Do the plans come with customer support?',
+        title: 'Does the algorithm Plan include coach support?',
         description:
-          'Absolutely, all plans include access to our dedicated customer support to assist you with any queries or concerns.',
+          'The Algorithm Plan is fully self-directed. You receive a personalized Superhuman Protocol schedule (app or PDF􀀃, while direct coach support is exclusive to the Online, In-Gym, and Hybrid Elite plans.',
       },
       {
-        title: 'Is there a trial period for the different plans?',
+        title: 'Can I upgrade or downgrade my plan later?',
         description:
-          "Unfortunately, we don't offer trial periods for the plans. However, you can check out our demo section to preview the quality of our templates.",
+          'Yes. You can change tiers at any time. New features activate immediately, and any unused in-gym sessions roll forward for 30 days.',
       },
       {
-        title: 'Can I switch between plans?',
+        title: 'Are there any hidden fees?',
         description:
-          'Certainly! You can easily upgrade or downgrade your plan, at any time, to find the one that best suits your evolving requirements.',
+          'No. The subscription price you see is all-inclusive—no initiation, equipment, or cancellation fees.',
       },
       {
-        title: 'What payment methods do you accept?',
+        title: 'How do military, veteran, and senior discounts work?',
         description:
-          'We accept major credit cards and online payment methods to ensure a convenient and secure transaction process.',
+          'During checkout, verify your status through our secure portal and the 15 % preferred rate will be applied automatically to every future bill.',
       },
       {
-        title: 'Are there any hidden fees beyond the displayed cost?',
+        title: 'Do you offer discounts for low-income individuals?',
         description:
-          'No, the subscription cost covers all the features and templates listed under each plan. There are no hidden fees or extra charges.',
+          'Yes. Through our Strength for Life Fund we reserve a limited number of seats at up to 80 % off. Applicants submit brief income documentation once per quarter; approved spots are granted on a first-come basis.',
+      },
+      {
+        title: 'Can I pause my subscription?',
+        description:
+          'You may pause any plan for up to 60 days per calendar year at no cost. Your program and data stay intact until you resume.',
+      },
+      {
+        title: 'What is the refund policy for unused in-gym sessions?',
+        description:
+          'In-gym sessions are sold in 4- or 8-packs and expire eight weeks after purchase to keep progress consistent. Unused sessions are refundable within the first 14 days or transferable to another family member.',
       },
     ]}
   />
@@ -231,13 +328,13 @@ const metadata = {
   <!-- CallToAction Widget *********** -->
 
   <CallToAction
-    title="Ready to boost your projects?"
-    subtitle="Join our community of satisfied customers who have transformed their work with our templates."
+    title="Ready to boost your Superhuman Journey?"
+    subtitle="Select your plan today and start building lifelong strength, mobility, and resilience with Varam. Flexible upgrades and no hidden fees."
     actions={[
       {
         variant: 'primary',
-        text: 'Get started now',
-        href: '/',
+        text: 'Choose Your Plan',
+        href: '#Prices',
       },
     ]}
   />

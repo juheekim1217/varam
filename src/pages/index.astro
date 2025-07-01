@@ -7,99 +7,11 @@ import Features from '~/components/widgets/Features.astro';
 import Content from '~/components/widgets/Content.astro';
 import CallToAction from '~/components/widgets/CallToAction.astro';
 import Testimonials from '~/components/widgets/Testimonials.astro';
+import Brands from '~/components/widgets/Brands.astro';
 
 const metadata = {
   title: 'Varam Strength — A lifelong training system for strength, mobility, and real-world capability.',
   ignoreTitleTemplate: true,
-};
-
-const tabs = [
-  {
-    name: 'Athletes',
-    img: '/img/pt-athlete.webp',
-    alt: 'Athlete performing explosive barbell clean',
-    bullets: [
-      'Off-season strength & sport-specific power cycles.',
-      'Explosive movement diagnostics and mobility screens.',
-      'Data-driven load management via Superhuman engine.',
-      'Speed & conditioning blocks tailored to competition calendar.',
-    ],
-  },
-  {
-    name: '50+ Longevity',
-    img: '/img/pt-longevity.webp',
-    alt: 'Active adult performing kettlebell deadlift under supervision',
-    bullets: [
-      'Joint-friendly, low-impact strength for daily independence.',
-      'Bone-density & posture circuits with mobility primers.',
-      'Heart-rate-guided metabolic conditioning in ≤ 60 min.',
-      'Balance & fall-prevention drills built into every microcycle.',
-    ],
-  },
-  {
-    name: 'Beginners',
-    img: '/img/pt-beginner.webp',
-    alt: 'First-time lifter learning squat technique with coach',
-    bullets: [
-      'Technique-first coaching on fundamental movement patterns.',
-      'Progressive loading that builds confidence, not soreness.',
-      'Habit-forming micro-goals and weekly check-ins.',
-      'Access to video library & form-check feedback between sessions.',
-    ],
-  },
-];
-
-const steps = [
-  {
-    id: 1,
-    title: 'Assess',
-    img: '/img/icons/assess.svg',
-    desc: 'You answer a quick intake: goals, schedule, equipment, readiness metrics (RPE, sleep, HRV).',
-  },
-  {
-    id: 2,
-    title: 'Generate',
-    img: '/img/icons/generate.svg',
-    desc: 'Our Python-based Expert System builds a unique microcycle—mobility, strongman, barbell, accessories—in seconds.',
-  },
-  {
-    id: 3,
-    title: 'Adapt',
-    img: '/img/icons/adapt.svg',
-    desc: 'Each session you log feedback; the engine auto-adjusts loads, variants, and rest to keep progress climbing.',
-  },
-];
-
-const copy = {
-  heading: 'R&D Lab',
-  tagline: 'Innovation Drives Everything We Build.',
-  intro:
-    'Our multidisciplinary team prototypes, simulates, and validates cutting-edge tech that pushes human performance beyond today’s limits.',
-  projects: [
-    {
-      title: 'Force-Plate Fatigue Modeling',
-      desc: 'Real-time ground-reaction analytics predict neuromuscular fatigue and auto-adjust training loads.',
-      icon: '/img/icons/forceplate.svg',
-    },
-    {
-      title: 'Augmented-Reality Coaching',
-      desc: 'AR overlays give instant cueing on joint angles and bar path during big lifts—no phone fumbling.',
-      icon: '/img/icons/ar.svg',
-    },
-    {
-      title: 'AI Auto-Regulation Engine',
-      desc: 'Large-scale reinforcement learning tunes set/reps to maximize adaptation while capping injury risk.',
-      icon: '/img/icons/ai.svg',
-    },
-  ],
-  cta: {
-    label: 'Read Latest White Paper →',
-    href: '/downloads/hts-rnd-whitepaper.pdf',
-  },
-  heroImg: {
-    src: '/img/rnd-lab.webp',
-    alt: 'Researchers testing wearable sensors and force plates',
-  },
 };
 ---
 
@@ -111,7 +23,7 @@ const copy = {
       {
         variant: 'primary',
         text: 'Book Your Trial Session',
-        href: '#registration',
+        href: '/trial',
         target: '_blank',
         icon: 'tabler:arrow-narrow-right',
       },
@@ -180,13 +92,31 @@ const copy = {
         icon: 'tabler:flask',
       },
       {
-        title: 'NCSF-CPT Certified Coaching',
+        title: 'Certified Coaching',
         description:
           'Sessions are led by nationally certified professionals who ensure safety, perfect technique, and ethical practice every step of your training journey.',
         icon: 'tabler:flask',
       },
     ]}
   />
+
+  <!-- Brands Widget ****************** -->
+  <!-- 
+  <Brands
+    title="Certified Coaching"
+    subtitle="Certified by the National Council on Strength and Fitness"
+    icons={[]}
+    images={[
+      {
+        src: '~/assets/images/NCSF.png',
+        alt: 'NCSF',
+      },
+      {
+        src: '~/assets/images/NCSF-master.png',
+        alt: 'NCSF Master Trainer',
+      },
+    ]}
+  /> -->
 
   <!-- Content Widget **************** -->
 
@@ -373,7 +303,7 @@ const copy = {
         name: 'Emily Kennedy',
         job: 'Retiree',
         image: {
-          src: 'https://images.unsplash.com/photo-1545167622-3a6ac756afa4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=824&q=80',
+          src: '~/assets/images/testimonial1.png',
           alt: 'Testmonial Image1',
         },
       },
@@ -382,7 +312,7 @@ const copy = {
         name: 'MCpl Macro Diaz',
         job: 'Canadian Army',
         image: {
-          src: 'https://images.unsplash.com/photo-1561406636-b80293969660?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=774&q=80',
+          src: '~/assets/images/testimonial2.png',
           alt: 'Testmonial Image 2',
         },
       },
@@ -391,17 +321,11 @@ const copy = {
         name: 'Juhee Kim',
         job: 'Software Developer',
         image: {
-          src: '~/assets/images/testimonial3.jpg',
+          src: '~/assets/images/testimonial3.png',
           alt: 'Testmonial Image 3',
         },
       },
     ]}
-    callToAction={{
-      target: '_blank',
-      text: 'More testimonials...',
-      href: 'https://github.com/onwidget/astrowind',
-      icon: 'tabler:chevron-right',
-    }}
   />
 
   <!-- HighlightedPosts Widget ******* -->

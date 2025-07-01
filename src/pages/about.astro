@@ -38,15 +38,25 @@ const metadata = {
     </Fragment>
   </Hero>
 
+  <!-- Features2 Widget ************** -->
+  <Features2
+    title="About us"
+    subtitle="Varam Strength is a lifelong training system designed to build strength, mobility, and real-world capability. We believe that true fitness isn’t about aesthetics or quick fixes — it’s about preparing your body to move well, stay resilient, and perform confidently through every stage of life. Whether you're just starting out or refining your movement after years of training, Varam offers a structured, sustainable approach rooted in functional strength and intentional progress. Our mission is simple: To help you move better, live stronger, and train with purpose — for life."
+  >
+    <Fragment slot="bg">
+      <div class="absolute inset-0 bg-blue-50 dark:bg-transparent"></div>
+    </Fragment>
+  </Features2>
+
   <!-- Stats Widget ****************** -->
 
   <Stats
     title="Key Metrics at a Glance"
     stats={[
-      { title: 'Average Session', amount: '60 MIN' },
-      { title: 'Unique Microcycles', amount: '365' },
-      { title: 'Personalized', amount: '100%' },
-      { title: 'Cookie-Cutter', amount: '0' },
+      { title: 'Average Session Length', amount: '60 MIN' },
+      { title: 'Unique Microcycles Served', amount: '365' },
+      { title: 'Personalized Training', amount: '100%' },
+      { title: 'Cookie-Cutter Programs', amount: '0' },
     ]}
   />
 
@@ -154,10 +164,6 @@ const metadata = {
     title="Innovation Cycle"
     subtitle="Varam Strength never stands still. Data from simulations, real-world training, and coach insight combine to refine the Expert Engine on a rolling schedule, keeping your program fresh and evidence-aligned."
     isReversed={true}
-    callToAction={{
-      text: 'Learn the Process',
-      href: '/',
-    }}
     items={[
       {
         title: 'Continuous Simulation',

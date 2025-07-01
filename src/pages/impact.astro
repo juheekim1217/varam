@@ -1,0 +1,126 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+
+import Hero from '~/components/widgets/Hero.astro';
+import CallToAction from '~/components/widgets/CallToAction.astro';
+
+import Features2 from '~/components/widgets/Features2.astro';
+import Features from '~/components/widgets/Features.astro';
+import Stats from '~/components/widgets/Stats.astro';
+import Features3 from '~/components/widgets/Features3.astro';
+import FAQs from '~/components/widgets/FAQs.astro';
+import Brands from '~/components/widgets/Brands.astro';
+
+import { YouTube } from 'astro-embed';
+
+const metadata = {
+  title: 'Impact',
+};
+---
+
+<Layout metadata={metadata}>
+  <!-- Hero Widget ******************* -->
+
+  <Hero tagline="Impact">
+    <Fragment slot="title">
+      Strength for Life Fund <br /><span class="text-accent dark:text-white">Lifting Barries, Erasing Boundaries</span>
+    </Fragment>
+
+    <Fragment slot="subtitle">
+      <span class="font-semibold">The Strength for Life Fund</span> removes financial barriers to expert training. By combining
+      community donations with Varamʼs coaching, technology, and volunteer hours, we deliver the Superhuman Protocol to veterans,
+      seniors, and low-income individuals who deserve lifelong strength and independence.
+    </Fragment>
+
+    <!-- <Fragment slot="image">
+      <YouTube id="gxBkghlglTg" title="Astro just Launched.... Could it be the ultimate web framework?" />
+      <style is:inline>
+        lite-youtube {
+          margin: 0 auto;
+          max-width: 100%;
+        }
+      </style>
+    </Fragment> -->
+  </Hero>
+
+  <!-- Features2 Widget ************** -->
+
+  <!-- <Features2
+    title="About us"
+    subtitle="We believe in the magic of turning dreams into stunning realities. Founded by passionate developers with a shared vision, we set out to simplify the website creation process. Our templates bring together the innovation of Astro 5.0 and the versatility of Tailwind CSS, enabling you to express your unique brand identity like never before."
+  >
+    <Fragment slot="bg">
+      <div class="absolute inset-0 bg-blue-50 dark:bg-transparent"></div>
+    </Fragment>
+  </Features2> -->
+
+  <!-- Stats Widget ****************** -->
+
+  <Stats
+    title="Impact at a Glance: Annual Targets"
+    subtitle="Each number reflects our commitment to building resilient bodies, empowering movement, and making lifelong training accessible to all."
+    stats={[
+      { title: 'Lives Empowered', amount: '1000' },
+      { title: 'Free Training Sessions', amount: '10000' },
+      { title: 'Coaching Hours Contributed', amount: '5000' },
+      { title: 'Funding Goal', amount: '$150K' },
+    ]}
+  />
+
+  <!-- Features2 Widget ************** -->
+
+  <Features2
+    title="Our Guiding Values"
+    subtitle="We believe that strength and capability should never be held hostage by income, age, or circumstance. The Strength for Life Fund channels our coaching expertise, technology, and community resources toward those who need them most, creating a ripple effect of health, confidence, and independence"
+    columns={4}
+    items={[
+      {
+        title: 'Equity of Access',
+        description:
+          'Everyone deserves a path to physical strength and resilience, regardless of finances or background.',
+        icon: 'flat-color-icons:document',
+      },
+      {
+        title: 'Sustainable Progress',
+        description: 'We focus on long-term habits and education so benefits last well beyond the program period.',
+        icon: 'flat-color-icons:template',
+      },
+      {
+        title: 'Transparency and Trust',
+        description: 'Quarterly reports show exactly how funds, volunteer hours, and outcomes are distributed.',
+        icon: 'flat-color-icons:voice-presentation',
+      },
+      {
+        title: 'Community Collaboration',
+        description:
+          'We aim to partner with local gyms, veteran groups, and senior centers to reach people where they live and train.',
+        icon: 'flat-color-icons:document',
+      },
+    ]}
+  >
+    <Fragment slot="bg">
+      <div class="absolute inset-0 bg-blue-50 dark:bg-transparent"></div>
+    </Fragment>
+  </Features2>
+
+  <!-- CallToAction Widget *********** -->
+
+  <!-- <CallToAction
+    actions={[
+      {
+        variant: 'primary',
+        target: '_blank',
+        text: 'Get Started',
+        href: 'https://github.com/onwidget/astrowind',
+        icon: 'tabler:download',
+      },
+    ]}
+  >
+    <Fragment slot="title">Be a part of our vision</Fragment>
+
+    <Fragment slot="subtitle">
+      Discover a dynamic work environment, unparalleled growth opportunities, and the chance to make a meaningful
+      impact.
+    </Fragment>
+  </CallToAction> -->
+</Layout>
