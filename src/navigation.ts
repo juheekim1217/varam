@@ -103,7 +103,7 @@ export const footerData = {
   //       { text: 'Training Programs', href: '#' },
   //       { text: 'Trainers', href: '#' },
   //       { text: 'Rates', href: '#' },
-  //       { text: 'Comming Soon', href: '#' },
+  //       { text: 'Coming Soon', href: '#' },
   //     ],
   //   }, {
   //     title: 'Booking',
