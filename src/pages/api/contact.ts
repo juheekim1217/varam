@@ -9,8 +9,26 @@ export const POST: APIRoute = async ({ request }) => {
   const email = data.get('email');
   const message = data.get('message');
 
+  // Validate required fields
   if (!name || !email || !message) {
     return new Response('Missing fields', { status: 400 });
+  }
+
+  // 🔒 Step 1: Call Edge Function to validate submission
+  const res = await fetch(`${import.meta.env.PUBLIC_SUPABASE_URL}/functions/v1/check-inquiry-blocked`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ name, email, message }),
+  });
+
+  const result = await res.json();
+
+  if (!res.ok || result.allowed === false) {
+    console.warn('Blocked form submission:', email);
+    return new Response(null, {
+      status: 302,
+      headers: { Location: '/flagged/inquiry-blocked' },
+    });
   }
 
   // Gmail SMTP config
@@ -18,7 +36,7 @@ export const POST: APIRoute = async ({ request }) => {
     service: 'Gmail',
     auth: {
       user: 'varamstrength@gmail.com',
-      pass: import.meta.env.PUBLIC_EMAIL_APP_PASS, // set in your `.env`
+      pass: import.meta.env.EMAIL_APP_PASS, // set in your `.env`
     },
   });
 
@@ -32,7 +50,7 @@ export const POST: APIRoute = async ({ request }) => {
 
     return new Response(null, {
       status: 302,
-      headers: { Location: '/success' },
+      headers: { Location: '/messages/success-message' },
     });
   } catch (err) {
     console.error('Email send error:', err);

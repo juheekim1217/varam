@@ -2,10 +2,6 @@
 // import type { APIRoute } from 'astro';
 // import { createClient } from '@supabase/supabase-js';
 
-// const supabase = createClient(
-//   import.meta.env.PUBLIC_SUPABASE_URL!,
-//   import.meta.env.PUBLIC_SUPABASE_ANON_KEY!
-// );
 
 // export const GET: APIRoute = async () => {
 //   const { data, error } = await supabase.from('bookings').select('*').order('date');
@@ -16,14 +12,10 @@
 // };
 
 import type { APIRoute } from 'astro';
-import { createClient } from '@supabase/supabase-js';
+import { supabase } from '~/lib/supabaseClient'; // Adjust the import path as necessary
 
 export const prerender = false;
 
-const supabase = createClient(
-  import.meta.env.PUBLIC_SUPABASE_URL!,
-  import.meta.env.PUBLIC_SUPABASE_ANON_KEY!
-);
 
 export const GET: APIRoute = async () => {
   const { data, error } = await supabase

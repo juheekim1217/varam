@@ -1,13 +1,8 @@
 // src/pages/api/book-session.ts
-import { createClient } from '@supabase/supabase-js';
 import type { APIRoute } from 'astro';
+import { supabase } from '~/lib/supabaseClient';
 
 export const prerender = false;
-
-const supabase = createClient(
-  import.meta.env.PUBLIC_SUPABASE_URL!,
-  import.meta.env.PUBLIC_SUPABASE_ANON_KEY!
-);
 
 export const POST: APIRoute = async ({ request }) => {
   const formData = await request.formData();
@@ -24,6 +19,6 @@ export const POST: APIRoute = async ({ request }) => {
 
   return new Response(null, {
     status: 302,
-    headers: { Location: '/book/success' },
+    headers: { Location: '/messages/success-booking' },
   });
 };

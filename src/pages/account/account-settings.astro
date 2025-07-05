@@ -1,0 +1,16 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+import AccountSettingsComponent from '~/components/account/AccountSettings.jsx';
+
+const metadata = {
+  title: 'Account Settings',
+  description: 'Manage your profile and account settings.',
+};
+---
+
+<Layout metadata={metadata}>
+  <section class="max-w-md mx-auto py-12 px-4">
+    <h1 class="text-2xl font-bold mb-4 text-center">{metadata.title}</h1>
+    <AccountSettingsComponent client:load />
+  </section>
+</Layout>

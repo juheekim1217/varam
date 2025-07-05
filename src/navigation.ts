@@ -7,15 +7,15 @@ export const headerData = {
       links: [
         {
           text: 'About Us',
-          href: getPermalink('/about'),
+          href: getPermalink('/about/about'),
         },
-                {
+        {
           text: 'Impact',
-          href: getPermalink('/impact'),
+          href: getPermalink('/about/impact'),
         },
         {
           text: 'Contact',
-          href: getPermalink('/contact'),
+          href: getPermalink('/forms/contact'),
         },
       ],
     },
@@ -24,11 +24,11 @@ export const headerData = {
       links: [
         {
           text: 'Personal Training',
-          href: getPermalink('/services'),
+          href: getPermalink('/training/services'),
         },
         {
           text: 'Rates',
-          href: getPermalink('/pricing'),
+          href: getPermalink('/training/pricing'),
         },
       ],
     },
@@ -46,12 +46,17 @@ export const headerData = {
     //   ],
     // },
   ],
-  actions: [{ text: 'Start Trial', href: '/trial', target: '_blank' }], //{ text: 'Sign In', href: '/signin'}, 
+
+  actions: [{ text: 'Start Trial', href: '/forms/trial', target: '_blank' }],
 };
 
 export const footerData = {
-  links: [/* ... */], // add your main links here
-  socialLinks: [/* ... */], // add your social links here
+  links: [
+    /* ... */
+  ], // add your main links here
+  socialLinks: [
+    /* ... */
+  ], // add your social links here
   secondaryLinks: [
     { text: 'Terms', href: getPermalink('/terms') },
     { text: 'Privacy Policy', href: getPermalink('/privacy') },

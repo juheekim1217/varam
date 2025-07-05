@@ -1,10 +1,5 @@
 import type { APIRoute } from 'astro';
-import { createClient } from '@supabase/supabase-js';
-
-const supabase = createClient(
-  import.meta.env.PUBLIC_SUPABASE_URL!,
-  import.meta.env.PUBLIC_SUPABASE_ANON_KEY!
-);
+import { supabase } from '~/lib/supabaseClient'; // Adjust the import path as necessary
 
 export const POST: APIRoute = async ({ request, redirect }) => {
   const formData = await request.formData();
@@ -21,5 +16,5 @@ export const POST: APIRoute = async ({ request, redirect }) => {
   }
 
   // Store session client-side (localStorage) or set cookie server-side if you implement it
-  return redirect('/dashboard');
+  return redirect('/account/dashboard');
 };

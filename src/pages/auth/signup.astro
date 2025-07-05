@@ -1,0 +1,19 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+import SignUpForm from '~/components/auth/SignUpForm.jsx';
+
+const metadata = {
+  title: 'Sign Up',
+  description: 'Create your account.',
+};
+---
+
+<Layout metadata={metadata}>
+  <section class="max-w-md mx-auto py-12 px-4">
+    <h1 class="text-2xl font-bold mb-4 text-center">Sign Up</h1>
+    <SignUpForm client:load />
+    <p class="text-sm text-center mt-4">
+      Already have an account? <a href="/auth/signin" class="text-blue-600 underline">Sign in</a>
+    </p>
+  </section>
+</Layout>

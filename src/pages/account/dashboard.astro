@@ -1,0 +1,38 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+import UserInfo from '~/components/account/UserInfo.jsx';
+
+// import { supabase } from '~/lib/supabaseClient';
+// import { createSignal, onMount } from 'solid-js';
+
+//const [user, setUser] = createSignal(null);
+
+// onMount(async () => {
+//   const {
+//     data: { session },
+//   } = await supabase.auth.getSession();
+//   if (!session) {
+//     // not logged in → back to login
+//     window.location.href = '/login';
+//   } else {
+//     setUser(session.user);
+//   }
+// });
+---
+
+<Layout metadata={{ title: 'Dashboard' }}>
+  <section class="max-w-xl mx-auto my-20 p-4">
+    <h2 class="text-2xl font-bold">Welcome back 👋</h2>
+    <UserInfo client:load />
+  </section>
+
+  <!-- <Show when={user()}>
+      <h1>Welcome, {user().email}!</h1>
+      <button
+        onClick={async () => {
+          await supabase.auth.signOut();
+          window.location.href = '/login';
+        }}>Sign Out</button
+      >
+    </Show> -->
+</Layout>

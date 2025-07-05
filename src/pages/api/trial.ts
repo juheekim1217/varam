@@ -15,15 +15,32 @@ export const POST: APIRoute = async ({ request }) => {
     return new Response('Missing fields', { status: 400 });
   }
 
+  // 🔒 Step 1: Call Edge Function to validate submission
+  const res = await fetch(`${import.meta.env.PUBLIC_SUPABASE_URL}/functions/v1/check-inquiry-blocked`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ firstName, lastName, email, phone, message }),
+  });
+
+  const result = await res.json();
+
+  if (!res.ok || result.allowed === false) {
+    console.warn('Blocked form submission:', email);
+    return new Response(null, {
+      status: 302,
+      headers: { Location: '/flagged/inquiry-blocked' },
+    });
+  }
+
   // Gmail SMTP config
   const transporter = nodemailer.createTransport({
     service: 'Gmail',
     auth: {
       user: 'varamstrength@gmail.com',
-      pass: import.meta.env.PUBLIC_EMAIL_APP_PASS, // set in your `.env`
+      pass: import.meta.env.EMAIL_APP_PASS, // set in your `.env`
     },
   });
-    console.log('transporter created');
+  console.log('transporter created');
   try {
     await transporter.sendMail({
       from: `"Varam Website" <varamstrength@gmail.com>`,
@@ -34,7 +51,7 @@ export const POST: APIRoute = async ({ request }) => {
     console.log('Email sent await');
     return new Response(null, {
       status: 302,
-      headers: { Location: '/success' },
+      headers: { Location: '/messages/success-message' },
     });
   } catch (err) {
     console.error('Email send error:', err);

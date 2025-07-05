@@ -15,6 +15,7 @@ import astrowind from './vendor/integration';
 
 import { readingTimeRemarkPlugin, responsiveTablesRehypePlugin, lazyImagesRehypePlugin } from './src/utils/frontmatter';
 import vercel from '@astrojs/vercel';
+import react from '@astrojs/react';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -24,9 +25,10 @@ const whenExternalScripts = (items: (() => AstroIntegration) | (() => AstroInteg
 
 export default defineConfig({
   output: 'static',
-  site: 'https://varamfit.vercel.app', // ✅ replace with your real domain
+  site: 'https://varamfit.fit', // ✅ replace with your real domain
   adapter: vercel(),
   integrations: [
+    react(),
     tailwind({
       applyBaseStyles: false,
     }),
