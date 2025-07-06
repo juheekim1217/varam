@@ -14,7 +14,8 @@ export const POST: APIRoute = async ({ request }) => {
   const { error } = await supabase.from('bookings').insert([{ name, email, date, time }]);
 
   if (error) {
-    return new Response('Booking failed', { status: 500 });
+    console.error('book-session.ts - Supabase insert error:', error.message);
+    return new Response(JSON.stringify({ error: error.message }), { status: 500 });
   }
 
   return new Response(null, {

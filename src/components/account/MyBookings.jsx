@@ -29,7 +29,8 @@ export default function MyBookings() {
       .from('bookings')
       .select('*')
       .eq('email', email)
-      .order('date', { ascending: true });
+      .order('date', { ascending: true })
+      .order('time', { ascending: true });
 
     if (fetchError) {
       setError(fetchError.message);
