@@ -1,0 +1,4 @@
+/* src/styles/global.css */
+.react-datepicker-popper {
+  z-index: 9999 !important;
+}

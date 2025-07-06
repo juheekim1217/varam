@@ -16,5 +16,5 @@ export const POST: APIRoute = async ({ request, redirect }) => {
   }
 
   // Store session client-side (localStorage) or set cookie server-side if you implement it
-  return redirect('/account/dashboard');
+  return redirect('/account/my-bookings');
 };

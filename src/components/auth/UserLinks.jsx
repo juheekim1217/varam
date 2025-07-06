@@ -66,14 +66,14 @@ export default function UserLinks() {
           </button>
 
           <ul className="dropdown-menu md:backdrop-blur-md dark:md:bg-dark rounded md:absolute pl-4 md:pl-0 md:hidden font-medium md:bg-white/90 md:min-w-[200px] drop-shadow-xl">
-            <li>
+            {/* <li>
               <a
                 href="/account/dashboard"
                 className="md:hover:bg-gray-100 hover:text-link dark:hover:text-white dark:hover:bg-gray-700 py-2 px-5 block whitespace-no-wrap"
               >
                 Dashboard
               </a>
-            </li>
+            </li> */}
 
             {role === 'member' && (
               <li>
@@ -88,10 +88,10 @@ export default function UserLinks() {
 
             <li>
               <a
-                href="/account/my-classes"
+                href="/account/my-bookings"
                 className="md:hover:bg-gray-100 hover:text-link dark:hover:text-white dark:hover:bg-gray-700 py-2 px-5 block whitespace-no-wrap"
               >
-                My Classes
+                My Bookings
               </a>
             </li>
             <li>

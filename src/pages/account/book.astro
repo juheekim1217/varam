@@ -1,11 +1,11 @@
 ---
 // src/pages/account/book.astro
 import Layout from '~/layouts/PageLayout.astro';
-import BookPage from '~/components/account/BookPage.jsx';
+import BookComponent from '~/components/account/Book.jsx';
 
 const metadata = { title: 'Book a Session' };
 ---
 
 <Layout metadata={metadata}>
-  <BookPage client:load />
+  <BookComponent client:load />
 </Layout>

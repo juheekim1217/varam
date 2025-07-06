@@ -104,15 +104,15 @@ export default function AuthToggleButton() {
           </div>
 
           <div className="py-2 text-sm text-gray-700 dark:text-white">
-            <a href="/account/dashboard" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">
-              Dashboard
+            <a href="/account/my-bookings" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">
+              My Bookings
             </a>
             <a href="/account/account-settings" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">
               Account Settings
             </a>
-            <a href="/account/my-classes" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">
-              My Classes
-            </a>
+            {/* <a href="/account/dashboard" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">
+              Dashboard
+            </a> */}
           </div>
 
           <div className="border-t border-gray-100 dark:border-gray-700">

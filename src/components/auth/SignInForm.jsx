@@ -21,7 +21,7 @@ export default function SignInForm() {
     } else {
       setSuccessMsg('Signed in successfully!');
       // Optional: Redirect after login
-      window.location.href = '/account/dashboard';
+      window.location.href = '/account/my-bookings';
     }
 
     setLoading(false);
