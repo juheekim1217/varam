@@ -56,6 +56,9 @@ export default function MyBookings() {
     }
 
     setCancelingId(null);
+
+    // Refresh the current page to show the updated bookings
+    window.location.reload();
   }
 
   if (loading) {
