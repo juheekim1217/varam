@@ -79,10 +79,11 @@ export default function SignUpForm() {
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       <div>
-        <label>Email</label>
+        <label htmlFor="email">Email</label>
         <input
+          id="email"
           type="email"
-          autoComplete="username"
+          autoComplete="email"
           required
           value={email}
           onChange={(e) => setEmail(e.target.value)}

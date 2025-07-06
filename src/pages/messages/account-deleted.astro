@@ -1,0 +1,27 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+
+const metadata = {
+  title: 'Account Deleted',
+  description: 'Your Varam Strength account has been successfully deleted.',
+};
+
+// Extract email from query string if available
+const url = new URL(Astro.request.url);
+const email = url.searchParams.get('email');
+---
+
+<Layout metadata={metadata}>
+  <section class="max-w-xl mx-auto my-20 text-center px-6">
+    <h1 class="text-3xl font-bold mb-4 text-red-600">🗑️ Account Deleted</h1>
+    <p class="text-lg text-gray-700 dark:text-gray-300 mb-4">
+      Your Varam Strength account{email ? ` (${email})` : ''} has been permanently deleted.
+    </p>
+    <p class="text-sm text-gray-500 dark:text-gray-400 mb-6">
+      We're sorry to see you go. If this was a mistake, please contact us.
+    </p>
+    <a href="/" class="inline-block bg-primary text-white px-6 py-2 rounded hover:bg-opacity-90 transition">
+      Return to Home
+    </a>
+  </section>
+</Layout>
