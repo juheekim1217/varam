@@ -1,66 +1,13 @@
 ---
-// src/pages/my-classes.astro
 import Layout from '~/layouts/PageLayout.astro';
+import MyClassesComponent from '~/components/account/MyClasses.jsx';
 
 const metadata = { title: 'All Booked Sessions' };
-
-type Session = {
-  name: string;
-  email: string;
-  date: string;
-  time: string;
-};
-
-const baseUrl = import.meta.env.SITE_URL || 'http://localhost:4321';
-const endpoint = `${baseUrl}/api/list-bookings`;
-
-let classes: Session[] = [];
-let error = '';
-
-try {
-  const response = await fetch(endpoint);
-
-  if (!response.ok) {
-    const text = await response.text(); // helpful for debugging
-    error = `Fetch failed: ${response.status} ${response.statusText}. ${text}`;
-  } else {
-    const data = await response.json();
-    classes = data.classes || [];
-  }
-} catch (e) {
-  error = `Exception: ${e.message}`;
-}
 ---
 
 <Layout metadata={metadata}>
   <section class="max-w-3xl mx-auto my-10 p-6 border rounded-2xl shadow space-y-6">
-    <h2 class="text-2xl font-bold text-center">📋 All Booked Sessions</h2>
-
-    {
-      error ? (
-        <p class="text-red-500 text-center">❌ Error: {error}</p>
-      ) : !classes.length ? (
-        <p class="text-gray-600 text-center">No sessions have been booked yet.</p>
-      ) : (
-        <div class="space-y-4 text-sm text-gray-800">
-          {classes.map((c) => (
-            <div class="border p-4 rounded shadow-sm bg-white">
-              <p>
-                <strong>Name:</strong> {c.name}
-              </p>
-              <p>
-                <strong>Email:</strong> {c.email}
-              </p>
-              <p>
-                <strong>Date:</strong> {c.date}
-              </p>
-              <p>
-                <strong>Time:</strong> {c.time}
-              </p>
-            </div>
-          ))}
-        </div>
-      )
-    }
+    <h2 class="text-2xl font-bold text-center mb-4">📋 My Scheduled Training Sessions</h2>
+    <MyClassesComponent client:load />
   </section>
 </Layout>

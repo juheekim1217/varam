@@ -32,19 +32,6 @@ export const headerData = {
         },
       ],
     },
-    // {
-    //   text: 'Members',
-    //   links: [
-    //     {
-    //       text: 'Book A Session',
-    //       href: getPermalink('/book'),
-    //     },
-    //     {
-    //       text: 'My Classes',
-    //       href: getPermalink('/my-classes'),
-    //     },
-    //   ],
-    // },
   ],
 
   actions: [{ text: 'Start Trial', href: '/forms/trial', target: '_blank' }],
