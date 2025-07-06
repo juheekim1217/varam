@@ -61,9 +61,12 @@ export default function Book() {
       acc[date] = acc[date] ? [...acc[date], time] : [time];
       return acc;
     }, {});
-    return Object.entries(grouped)
-      .filter(([_, times]) => times.length >= timeSlots.length)
-      .map(([date]) => date);
+    return (
+      Object.entries(grouped)
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        .filter(([_, times]) => times.length >= timeSlots.length)
+        .map(([date]) => date)
+    );
   };
 
   const handleDateChange = (selectedDate) => {
