@@ -31,6 +31,7 @@ export default function Book() {
   const [role, setRole] = useState(null);
   const [loading, setLoading] = useState(true);
   const [date, setDate] = useState(null);
+  const [time, setTime] = useState(null);
   const [bookings, setBookings] = useState([]);
   const [bookedTimes, setBookedTimes] = useState([]);
 
@@ -74,6 +75,7 @@ export default function Book() {
     const dayBookings = bookings.filter((b) => b.date === formatted).map((b) => b.time);
     setBookedTimes(dayBookings);
     setDate(selectedDate);
+    setTime(''); // ← reset time
   };
 
   const isAvailableDate = (d) => {
@@ -145,19 +147,23 @@ export default function Book() {
           <label htmlFor="time" className="text-sm font-medium text-gray-700 w-32 shrink-0">
             Select Time
           </label>
-          <select name="time" required className="input w-full border rounded px-3 py-2 bg-white">
-            {/* {timeSlots.map((time) => (
-              <option key={time} value={time} disabled={bookedTimes.includes(time)}>
-                {time} {bookedTimes.includes(time) ? '(Reserved)' : ''}
-              </option>
-            ))} */}
-            {timeSlots.map((time) => {
-              const day = date?.getDay(); // 0 = Sunday, 6 = Saturday
-              const isUnavailable = unavailableHours[day]?.includes(time);
-              const isReserved = bookedTimes.includes(time);
+          <select
+            name="time"
+            required
+            value={time}
+            onChange={(e) => setTime(e.target.value)}
+            className="input w-full border rounded px-3 py-2 bg-white"
+          >
+            <option value="" disabled hidden>
+              Select a time
+            </option>
+            {timeSlots.map((slot) => {
+              const day = date?.getDay();
+              const isUnavailable = unavailableHours[day]?.includes(slot);
+              const isReserved = bookedTimes.includes(slot);
               return (
-                <option key={time} value={time} disabled={isUnavailable || isReserved}>
-                  {time} {isUnavailable || isReserved ? '(Reserved)' : ''}
+                <option key={slot} value={slot} disabled={isUnavailable || isReserved}>
+                  {slot} {isUnavailable || isReserved ? '(Reserved)' : ''}
                 </option>
               );
             })}
