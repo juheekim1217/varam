@@ -2,12 +2,13 @@
 // src/pages/account/book.astro
 import Layout from '~/layouts/PageLayout.astro';
 import BookComponent from '~/components/account/Book.jsx';
-import BookingCalendarComponent from '~/components/account/BookingCalendar.jsx';
+import BookingsCalendarComponent from '~/components/account/MyBookingsCalendar.jsx';
 
 const metadata = { title: 'Book a Session' };
 ---
 
 <Layout metadata={metadata}>
-  <BookingCalendarComponent client:load />
   <BookComponent client:load />
+  <h2 class="text-2xl font-bold text-center mb-2">📅 My Scheduled Training Sessions</h2>
+  <BookingsCalendarComponent client:load />
 </Layout>

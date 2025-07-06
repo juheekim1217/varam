@@ -1,13 +1,17 @@
 ---
 import Layout from '~/layouts/PageLayout.astro';
 import MyBookingsComponent from '~/components/account/MyBookings.jsx';
+import MyBookingsCalendarComponent from '~/components/account/MyBookingsCalendar.jsx';
 
 const metadata = { title: 'All Booked Sessions' };
 ---
 
 <Layout metadata={metadata}>
   <section class="max-w-3xl mx-auto my-10 p-6 border rounded-2xl shadow space-y-6">
-    <h2 class="text-2xl font-bold text-center mb-4">📋 My Scheduled Training Sessions</h2>
+    <h2 class="text-2xl font-bold text-center mb-4">📅 My Scheduled Training Sessions</h2>
+    <MyBookingsCalendarComponent client:load />
+
+    <h2 class="text-2xl font-bold text-center mb-4 pb-4">✏️ Manage Your Sessions</h2>
     <MyBookingsComponent client:load />
   </section>
 </Layout>

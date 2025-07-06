@@ -31,11 +31,38 @@ export default function BookingCalendar() {
   const [selectedDate, setSelectedDate] = useState(null);
   const [bookings, setBookings] = useState([]);
 
+  // useEffect(() => {
+  //   const fetchBookings = async () => {
+  //     const { data } = await supabase.from('bookings').select('date, time');
+  //     setBookings(data || []);
+  //   };
+  //   fetchBookings();
+  // }, []);
   useEffect(() => {
     const fetchBookings = async () => {
-      const { data } = await supabase.from('bookings').select('date, time');
+      const { data: sessionData, error: sessionError } = await supabase.auth.getSession();
+      const user = sessionData?.session?.user;
+
+      if (sessionError || !user) {
+        console.error('User not authenticated');
+        return;
+      }
+
+      const { data, error: fetchError } = await supabase
+        .from('bookings')
+        .select('*')
+        .eq('email', user.email)
+        .order('date', { ascending: true })
+        .order('time', { ascending: true });
+
+      if (fetchError) {
+        console.error('Failed to fetch bookings:', fetchError.message);
+        return;
+      }
+
       setBookings(data || []);
     };
+
     fetchBookings();
   }, []);
 
@@ -87,10 +114,13 @@ export default function BookingCalendar() {
             onClick={() => setSelectedDate(day)}
           >
             <div className="absolute top-1 left-1">{formatted}</div>
-            <div className="text-xs mt-6 space-y-0.5">
+            <div className="text-[12px] mt-4 space-y-0.5">
               {dayBookings.slice(0, 3).map((time) => (
-                <div key={time}>{time}</div>
+                <div key={time} className="bg-green-100 text-green-800 rounded px-1 leading-none py-0.5">
+                  {time}
+                </div>
               ))}
+
               {dayBookings.length > 3 && <div>+{dayBookings.length - 3} more</div>}
             </div>
           </div>
