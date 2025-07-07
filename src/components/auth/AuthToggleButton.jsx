@@ -67,7 +67,7 @@ export default function AuthToggleButton() {
     return (
       <button
         onClick={handleLogin}
-        className="px-3 py-1.5 text-sm font-medium text-white bg-black rounded hover:bg-gray-800"
+        className="px-3 py-1.5 text-sm font-medium text-white bg-black rounded hover:bg-gray-800 dark:bg-gray-700 dark:hover:bg-gray-600 transition"
       >
         Sign In
       </button>

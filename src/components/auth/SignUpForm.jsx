@@ -87,7 +87,7 @@ export default function SignUpForm() {
           required
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          className="w-full px-4 py-2 border rounded"
+          className="w-full px-4 py-2 border rounded dark:bg-gray-800 dark:text-gray-200 dark:border-gray-700 focus:ring-2 focus:ring-blue-500 focus:outline-none "
         />
       </div>
       <div>
@@ -98,7 +98,7 @@ export default function SignUpForm() {
           required
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          className="w-full px-4 py-2 border rounded"
+          className="w-full px-4 py-2 border rounded dark:bg-gray-800 dark:text-gray-200 dark:border-gray-700 focus:ring-2 focus:ring-blue-500 focus:outline-none   "
         />
       </div>
       {errorMsg && <p className="text-red-600">{errorMsg}</p>}
