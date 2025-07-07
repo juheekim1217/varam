@@ -1,27 +1,42 @@
 // src/pages/api/book-session.ts
 import type { APIRoute } from 'astro';
-import { supabase } from '~/lib/supabaseClient';
-import { Resend } from 'resend';
+import nodemailer from 'nodemailer';
+import { addBooking } from '~/stores/bookingStore';
 
 export const prerender = false;
 
 export const POST: APIRoute = async ({ request }) => {
   const formData = await request.formData();
-  const name = formData.get('name');
-  const email = formData.get('email');
-  const date = formData.get('date');
-  const time = formData.get('time');
+  const name = formData.get('name')?.toString();
+  const email = formData.get('email')?.toString();
+  const date = formData.get('date')?.toString();
+  const time = formData.get('time')?.toString();
 
-  const { error } = await supabase.from('bookings').insert([{ name, email, date, time }]);
-
-  if (error) {
-    console.error('book-session.ts - Supabase insert error:', error.message);
-    return new Response(JSON.stringify({ error: error.message }), { status: 500 });
+  if (!name || !email || !date || !time) {
+    return new Response('Missing fields', { status: 400 });
   }
 
-  // ✉️ Email content
+  try {
+    const result = await addBooking({ name, email, date, time });
+    if (!result.success) {
+      return new Response(JSON.stringify({ error: result.error }), { status: 500 });
+    }
+  } catch (err) {
+    return new Response(JSON.stringify({ error: err.message }), { status: 500 });
+  }
+
+  // ✅ Step 2: Send confirmation emails
+  const adminEmail = import.meta.env.ADMIN_EMAIL;
+  const transporter = nodemailer.createTransport({
+    service: 'Gmail',
+    auth: {
+      user: adminEmail,
+      pass: import.meta.env.ADMIN_EMAIL_APP_PASS, // App password from Gmail
+    },
+  });
+
   const subject = `✅ Varam Strength Session Booked - ${date} at ${time}`;
-  const message = `
+  const htmlMessage = `
     <p>Hi ${name},</p>
     <p>Your training session has been confirmed:</p>
     <ul>
@@ -31,35 +46,27 @@ export const POST: APIRoute = async ({ request }) => {
     <p>We look forward to training with you!</p>
     <p>– Varam Strength</p>
   `;
-  const from = `Varam Strength <${import.meta.env.ADMIN_EMAIL as string}>`;
 
+  const from = `"Varam Strength" <${adminEmail}>`;
   try {
-    const resend = new Resend(import.meta.env.RESEND_API_KEY as string);
-    console.log('Sending email to:', email);
-    console.log('RESEND_API_KEY:', import.meta.env.RESEND_API_KEY as string);
-    // Send to user
-    await resend.emails.send({
-      from: from,
-      to: [email as string],
+    // To user
+    await transporter.sendMail({
+      from,
+      to: email,
       subject,
-      html: message,
+      html: htmlMessage,
     });
 
-    // Send to admin
-    await resend.emails.send({
-      from: from,
-      to: [import.meta.env.ADMIN_EMAIL as string], // change to your admin email
+    // To admin
+    await transporter.sendMail({
+      from,
+      to: adminEmail,
       subject: `📥 New Booking from ${name}`,
-      html: `
-        <p><strong>Name:</strong> ${name}</p>
-        <p><strong>Email:</strong> ${email}</p>
-        <p><strong>Date:</strong> ${date}</p>
-        <p><strong>Time:</strong> ${time}</p>
-      `,
+      text: `Name: ${name}\nEmail: ${email}\nDate: ${date}\nTime: ${time}`,
     });
-  } catch (e) {
-    console.error('Failed to send email:', e);
-    // Don’t block user booking if email fails
+  } catch (err) {
+    console.error('❌ Failed to send booking emails:', err);
+    // Don't block user if email fails
   }
 
   return new Response(null, {

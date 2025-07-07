@@ -1,5 +1,6 @@
-import { useEffect, useState } from 'react';
-import { supabase } from '~/lib/supabaseClient';
+import { useState } from 'react';
+import { useStore } from '@nanostores/react';
+import { user as userStore, bookings as bookingsStore, loading } from '~/stores/bookingStore';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
@@ -16,49 +17,25 @@ const timeSlots = [
   '7:30 PM',
 ];
 
-// disable certain hours for specific days
-// Example: Tuesday 6:00 AM, 7:30 AM, 9:
 const unavailableHours = {
-  2: ['6:00 AM', '7:30 AM', '9:00 AM'], // Tuesday
-  3: ['6:00 AM', '7:30 AM', '9:00 AM'], // Wednesday
-  4: ['9:00 AM', '10:30 AM', '12:00 PM'], // Thursday
-  5: ['4:30 PM', '6:00 PM', '7:30 PM'], // Friday
-  6: ['9:00 AM', '10:30 AM', '12:00 PM'], // Saturday
+  2: ['6:00 AM', '7:30 AM', '9:00 AM'],
+  3: ['6:00 AM', '7:30 AM', '9:00 AM'],
+  4: ['9:00 AM', '10:30 AM', '12:00 PM'],
+  5: ['4:30 PM', '6:00 PM', '7:30 PM'],
+  6: ['9:00 AM', '10:30 AM', '12:00 PM'],
 };
 
-export default function Book() {
-  const [user, setUser] = useState(null);
-  const [role, setRole] = useState(null);
-  const [loading, setLoading] = useState(true);
+export default function BookingSession() {
+  const $user = useStore(userStore);
+  const $bookings = useStore(bookingsStore);
+  const $loading = useStore(loading);
+
   const [date, setDate] = useState(null);
-  const [time, setTime] = useState(null);
-  const [bookings, setBookings] = useState([]);
+  const [time, setTime] = useState('');
   const [bookedTimes, setBookedTimes] = useState([]);
 
-  useEffect(() => {
-    const fetchUserAndRole = async () => {
-      const { data: sessionData } = await supabase.auth.getSession();
-      const currentUser = sessionData?.session?.user;
-      if (!currentUser) {
-        setLoading(false);
-        return;
-      }
-      setUser(currentUser);
-
-      const { data: userRow } = await supabase.from('users').select('role').eq('id', currentUser.id).maybeSingle();
-
-      if (userRow) setRole(userRow.role);
-
-      const { data: bookingsData } = await supabase.from('bookings').select('date,time');
-      setBookings(bookingsData || []);
-      setLoading(false);
-    };
-
-    fetchUserAndRole();
-  }, []);
-
   const getBookedDates = () => {
-    const grouped = bookings.reduce((acc, { date, time }) => {
+    const grouped = $bookings.reduce((acc, { date, time }) => {
       acc[date] = acc[date] ? [...acc[date], time] : [time];
       return acc;
     }, {});
@@ -72,28 +49,27 @@ export default function Book() {
 
   const handleDateChange = (selectedDate) => {
     const formatted = selectedDate.toISOString().split('T')[0];
-    const dayBookings = bookings.filter((b) => b.date === formatted).map((b) => b.time);
+    const dayBookings = $bookings.filter((b) => b.date === formatted).map((b) => b.time);
     setBookedTimes(dayBookings);
     setDate(selectedDate);
-    setTime(''); // ← reset time
+    setTime('');
   };
 
   const isAvailableDate = (d) => {
     const today = new Date();
     const isFuture = d >= today.setHours(0, 0, 0, 0);
-    //const notWeekend = d.getDay() !== 0 && d.getDay() !== 6;
-    const notAvailableDay = d.getDay() !== 1; // diable monday
+    const notMonday = d.getDay() !== 1;
     const notFullyBooked = !getBookedDates().includes(d.toISOString().split('T')[0]);
-    return isFuture && notAvailableDay && notFullyBooked;
+    return isFuture && notMonday && notFullyBooked;
   };
 
-  if (loading) return <p className="text-center mt-10 text-gray-600">Loading...</p>;
-  if (!user) return <p className="text-center mt-10 text-gray-600">Please sign in to continue.</p>;
+  if ($loading) return <p className="text-center mt-10 text-gray-600">Loading...</p>;
+  if (!$user) return <p className="text-center mt-10 text-gray-600">Please sign in to continue.</p>;
 
-  if (role === 'guest') {
+  if ($user.role === 'guest') {
     return (
-      <section className="max-w-xl mx-auto my-12 p-6 bg-white border rounded-xl shadow">
-        <h2 className="text-2xl font-bold mb-2">Book a Trial Session</h2>
+      <section className="max-w-xl mx-auto p-6 bg-white border rounded-xl shadow">
+        <h2 className="text-xl font-bold mb-2">Book a Trial Session</h2>
         <p className="text-gray-600 mb-4">
           You're currently signed in as a guest. Enjoy a free trial session to experience our training firsthand before
           committing.
@@ -109,11 +85,9 @@ export default function Book() {
   }
 
   return (
-    <section className="max-w-xl mx-auto my-12 p-6 bg-white border rounded-xl shadow space-y-6 dark:bg-gray-800">
-      <h2 className="text-2xl font-bold">Book a Training Session</h2>
-
+    <section className="max-w-xl mx-auto p-6 bg-white border rounded-xl shadow space-y-6 dark:bg-gray-800">
       <p className="text-sm text-gray-500 dark:text-gray-300">
-        Booking as <strong>{user.email}</strong>
+        Booking as <strong>{$user.email}</strong>
       </p>
 
       <p className="text-sm text-gray-600 dark:text-gray-300">
@@ -121,10 +95,9 @@ export default function Book() {
       </p>
 
       <form method="POST" action="/api/book-session" className="space-y-6">
-        <input type="hidden" name="email" value={user.email} />
-        <input type="hidden" name="name" value={user.user_metadata?.full_name || user.email.split('@')[0]} />
+        <input type="hidden" name="email" value={$user.email} />
+        <input type="hidden" name="name" value={$user.fullName} />
 
-        {/* Select Date */}
         <div className="flex flex-col sm:flex-row sm:items-center gap-3 z-1000">
           <label htmlFor="date" className="text-sm font-medium text-gray-700 w-32 shrink-0 dark:text-gray-300">
             Select Date
@@ -133,8 +106,8 @@ export default function Book() {
             selected={date}
             onChange={handleDateChange}
             filterDate={isAvailableDate}
-            minDate={new Date(Date.now() + 2 * 24 * 60 * 60 * 1000)} // disable today + 1 days
-            maxDate={new Date(Date.now() + 120 * 24 * 60 * 60 * 1000)} // Today + 120 days (~4 months)
+            minDate={new Date(Date.now() + 2 * 24 * 60 * 60 * 1000)}
+            maxDate={new Date(Date.now() + 120 * 24 * 60 * 60 * 1000)}
             placeholderText="Select a date"
             name="date"
             required
@@ -142,7 +115,6 @@ export default function Book() {
           />
         </div>
 
-        {/* Select Time (always below date) */}
         <div className="flex flex-col sm:flex-row sm:items-center gap-3">
           <label htmlFor="time" className="text-sm font-medium text-gray-700 w-32 shrink-0 dark:text-gray-300">
             Select Time

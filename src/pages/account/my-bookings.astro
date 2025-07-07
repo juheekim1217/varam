@@ -7,11 +7,21 @@ const metadata = { title: 'All Booked Sessions' };
 ---
 
 <Layout metadata={metadata}>
-  <section class="max-w-3xl mx-auto my-10 p-6 border rounded-2xl shadow space-y-6">
-    <h2 class="text-2xl font-bold text-center mb-4">📅 My Scheduled Training Sessions</h2>
-    <MyBookingsCalendarComponent client:load />
+  <section class="max-w-6xl mx-auto my-10 p-6 rounded-2xl space-y-6">
+    <h2 class="text-3xl font-bold text-center mb-8">📅 My Bookings</h2>
 
-    <h2 class="text-2xl font-bold text-center mb-4 pb-4">✏️ Manage Your Sessions</h2>
-    <MyBookingsComponent client:load />
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <!-- Calendar Column -->
+      <div class="rounded-xl bg-slate-100 shadow p-4 dark:bg-gray-800">
+        <h3 class="text-xl font-semibold mb-4">🗓️ Booking Calendar</h3>
+        <MyBookingsCalendarComponent client:load />
+      </div>
+
+      <!-- List/Manage Column -->
+      <div class="rounded-xl bg-slate-100 shadow p-4 dark:bg-gray-800">
+        <h3 class="text-xl font-semibold mb-4">✏️ Manage Your Sessions</h3>
+        <MyBookingsComponent client:load />
+      </div>
+    </div>
   </section>
 </Layout>

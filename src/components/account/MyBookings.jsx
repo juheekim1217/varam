@@ -1,45 +1,13 @@
-import { useEffect, useState } from 'react';
-import { supabase } from '~/lib/supabaseClient';
+// components/MyBookings.jsx
+import { useState } from 'react';
+import { useStore } from '@nanostores/react';
+import { bookings, loading, error, deleteBooking, fetchBookings } from '~/stores/bookingStore';
 
 export default function MyBookings() {
-  const [classes, setClasses] = useState([]);
-  const [error, setError] = useState('');
-  const [loading, setLoading] = useState(true);
+  const $bookings = useStore(bookings);
+  const $loading = useStore(loading);
+  const $error = useStore(error);
   const [cancelingId, setCancelingId] = useState(null);
-
-  useEffect(() => {
-    fetchBookings();
-  }, []);
-
-  async function fetchBookings() {
-    const {
-      data: { session },
-      error: sessionError,
-    } = await supabase.auth.getSession();
-
-    if (sessionError || !session?.user) {
-      setError('Please sign in to view your bookings.');
-      setLoading(false);
-      return;
-    }
-
-    const email = session.user.email;
-
-    const { data, error: fetchError } = await supabase
-      .from('bookings')
-      .select('*')
-      .eq('email', email)
-      .order('date', { ascending: true })
-      .order('time', { ascending: true });
-
-    if (fetchError) {
-      setError(fetchError.message);
-    } else {
-      setClasses(data || []);
-    }
-
-    setLoading(false);
-  }
 
   async function handleCancel(id) {
     const confirmed = window.confirm('Are you sure you want to cancel this session?');
@@ -47,54 +15,70 @@ export default function MyBookings() {
 
     setCancelingId(id);
 
-    const { error: deleteError } = await supabase.from('bookings').delete().eq('id', id);
+    const result = await deleteBooking(id);
 
-    if (deleteError) {
-      alert(`Failed to cancel: ${deleteError.message}`);
+    if (!result.success) {
+      alert(`Failed to cancel: ${result.error}`);
     } else {
-      setClasses((prev) => prev.filter((c) => c.id !== id));
+      await fetchBookings(); // manually refresh bookings list
     }
 
     setCancelingId(null);
-
-    // Refresh the current page to show the updated bookings
-    window.location.reload();
   }
 
-  if (loading) {
-    return <p className="text-center text-gray-500">Loading your sessions...</p>;
+  if ($loading) {
+    return (
+      <div className="flex items-center justify-center p-8">
+        <div className="flex items-center space-x-2">
+          <div className="w-6 h-6 border-2 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+          <span className="text-gray-500">Loading your sessions...</span>
+        </div>
+      </div>
+    );
   }
 
-  if (error) {
-    return <p className="text-red-500 text-center">❌ {error}</p>;
+  if ($error) {
+    return <p className="text-red-500 text-center">❌ {$error}</p>;
   }
 
-  if (!classes.length) {
-    return <p className="text-gray-600 text-center">No sessions booked yet.</p>;
+  if (!$bookings.length) {
+    return (
+      <div className="text-center py-8">
+        <p className="text-gray-600 dark:text-gray-400 mb-4">No sessions booked yet.</p>
+        <p className="text-sm text-gray-500">Book your first session to get started!</p>
+      </div>
+    );
   }
 
   return (
     <div className="space-y-4 text-sm text-gray-800 dark:text-gray-200">
-      {classes.map((c) => (
-        <div key={c.id} className="border p-4 rounded shadow-sm bg-white dark:bg-gray-800">
+      {$bookings.map((booking) => (
+        <div key={booking.id} className="border p-4 rounded-xl shadow-sm bg-white dark:bg-gray-800">
           <p>
-            <strong>Name:</strong> {c.name}
+            <strong>Name:</strong> {booking.name}
           </p>
           <p>
-            <strong>Email:</strong> {c.email}
+            <strong>Email:</strong> {booking.email}
           </p>
           <p>
-            <strong>Date:</strong> {c.date}
+            <strong>Date:</strong> {booking.date}
           </p>
           <p>
-            <strong>Time:</strong> {c.time}
+            <strong>Time:</strong> {booking.time}
           </p>
           <button
-            onClick={() => handleCancel(c.id)}
-            disabled={cancelingId === c.id}
-            className="mt-2 px-3 py-1.5 text-sm text-white bg-red-600 rounded hover:bg-red-700 disabled:opacity-50"
+            onClick={() => handleCancel(booking.id)}
+            disabled={cancelingId === booking.id}
+            className="mt-2 px-3 py-1.5 text-sm text-white bg-red-600 rounded hover:bg-red-700 disabled:opacity-50 transition-colors"
           >
-            {cancelingId === c.id ? 'Cancelling...' : 'Cancel'}
+            {cancelingId === booking.id ? (
+              <span className="flex items-center">
+                <div className="w-3 h-3 border border-white border-t-transparent rounded-full animate-spin mr-2"></div>
+                Cancelling...
+              </span>
+            ) : (
+              'Cancel'
+            )}
           </button>
         </div>
       ))}

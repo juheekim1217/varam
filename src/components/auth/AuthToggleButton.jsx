@@ -129,9 +129,9 @@ export default function AuthToggleButton() {
           <div className="p-4 border-t border-gray-100 dark:border-gray-700">
             <button
               className="w-full text-sm font-semibold text-white bg-black rounded px-4 py-2 hover:bg-gray-900"
-              onClick={() => (window.location.href = '/account/book')}
+              onClick={() => (window.location.href = '/account/book-session')}
             >
-              Book a Session
+              Book Session
             </button>
           </div>
         </div>

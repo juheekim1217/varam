@@ -32,18 +32,19 @@ export const POST: APIRoute = async ({ request }) => {
   }
 
   // Gmail SMTP config
+  const adminEmail = import.meta.env.ADMIN_EMAIL;
   const transporter = nodemailer.createTransport({
     service: 'Gmail',
     auth: {
-      user: 'varamstrength@gmail.com',
-      pass: import.meta.env.EMAIL_APP_PASS, // set in your `.env`
+      user: adminEmail,
+      pass: import.meta.env.ADMIN_EMAIL_APP_PASS, // set in your `.env`
     },
   });
 
   try {
     await transporter.sendMail({
-      from: `"Varam Website" <varamstrength@gmail.com>`,
-      to: 'varamstrength@gmail.com',
+      from: `"Varam Strength" <${adminEmail}>`,
+      to: adminEmail,
       subject: 'New Contact Message from Website',
       text: `Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`,
     });

@@ -80,10 +80,10 @@ export default function UserLinks() {
             {role !== 'guest' && (
               <li>
                 <a
-                  href="/account/book"
+                  href="/account/book-session"
                   className="first:rounded-t md:hover:bg-gray-100 hover:text-link dark:hover:text-white dark:hover:bg-gray-700 py-2 px-5 block whitespace-no-wrap"
                 >
-                  Book A Session
+                  Book Session
                 </a>
               </li>
             )}
