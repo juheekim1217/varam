@@ -1,11 +1,14 @@
 ---
 import Layout from '~/layouts/PageLayout.astro';
 import UserInfo from '~/components/account/UserInfo.jsx';
+import BookingCalendar from '~/components/account/MyBookingsCalendar';
 ---
 
 <Layout metadata={{ title: 'Dashboard' }}>
   <section class="max-w-xl mx-auto my-20 p-4">
     <h2 class="text-2xl font-bold">Welcome back 👋</h2>
     <UserInfo client:load />
+
+    <BookingCalendar client:load />
   </section>
 </Layout>
