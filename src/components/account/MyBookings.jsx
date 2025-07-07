@@ -74,9 +74,9 @@ export default function MyBookings() {
   }
 
   return (
-    <div className="space-y-4 text-sm text-gray-800">
+    <div className="space-y-4 text-sm text-gray-800 dark:text-gray-200">
       {classes.map((c) => (
-        <div key={c.id} className="border p-4 rounded shadow-sm bg-white">
+        <div key={c.id} className="border p-4 rounded shadow-sm bg-white dark:bg-gray-800">
           <p>
             <strong>Name:</strong> {c.name}
           </p>

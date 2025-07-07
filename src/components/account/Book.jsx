@@ -21,8 +21,8 @@ const timeSlots = [
 const unavailableHours = {
   2: ['6:00 AM', '7:30 AM', '9:00 AM'], // Tuesday
   3: ['6:00 AM', '7:30 AM', '9:00 AM'], // Wednesday
-  4: ['4:30 PM', '6:00 PM', '7:30 PM'], // Thursday
-  5: ['6:00 AM', '7:30 AM', '9:00 AM'], // Friday
+  4: ['9:00 AM', '10:30 AM', '12:00 PM'], // Thursday
+  5: ['4:30 PM', '6:00 PM', '7:30 PM'], // Friday
   6: ['9:00 AM', '10:30 AM', '12:00 PM'], // Saturday
 };
 
@@ -109,14 +109,14 @@ export default function Book() {
   }
 
   return (
-    <section className="max-w-xl mx-auto my-12 p-6 bg-white border rounded-xl shadow space-y-6">
+    <section className="max-w-xl mx-auto my-12 p-6 bg-white border rounded-xl shadow space-y-6 dark:bg-gray-800">
       <h2 className="text-2xl font-bold">Book a Training Session</h2>
 
-      <p className="text-sm text-gray-500">
+      <p className="text-sm text-gray-500 dark:text-gray-300">
         Booking as <strong>{user.email}</strong>
       </p>
 
-      <p className="text-sm text-gray-600">
+      <p className="text-sm text-gray-600 dark:text-gray-300">
         Each session lasts <strong>60 minutes</strong>, with a 30-minute break between sessions.
       </p>
 
@@ -126,7 +126,7 @@ export default function Book() {
 
         {/* Select Date */}
         <div className="flex flex-col sm:flex-row sm:items-center gap-3 z-1000">
-          <label htmlFor="date" className="text-sm font-medium text-gray-700 w-32 shrink-0">
+          <label htmlFor="date" className="text-sm font-medium text-gray-700 w-32 shrink-0 dark:text-gray-300">
             Select Date
           </label>
           <DatePicker
@@ -138,13 +138,13 @@ export default function Book() {
             placeholderText="Select a date"
             name="date"
             required
-            className="input w-full border rounded px-3 py-2"
+            className="input w-full border rounded px-3 py-2 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-600"
           />
         </div>
 
         {/* Select Time (always below date) */}
         <div className="flex flex-col sm:flex-row sm:items-center gap-3">
-          <label htmlFor="time" className="text-sm font-medium text-gray-700 w-32 shrink-0">
+          <label htmlFor="time" className="text-sm font-medium text-gray-700 w-32 shrink-0 dark:text-gray-300">
             Select Time
           </label>
           <select
@@ -152,7 +152,7 @@ export default function Book() {
             required
             value={time}
             onChange={(e) => setTime(e.target.value)}
-            className="input w-full border rounded px-3 py-2 bg-white"
+            className="input w-full border rounded px-3 py-2 bg-white dark:bg-gray-700 dark:text-gray-300 dark:border-gray-600"
           >
             <option value="" disabled hidden>
               Select a time
@@ -170,7 +170,10 @@ export default function Book() {
           </select>
         </div>
 
-        <button type="submit" className="w-full bg-black text-white py-2 rounded hover:bg-gray-900 transition">
+        <button
+          type="submit"
+          className="w-full bg-black text-white py-2 rounded hover:bg-gray-900 transition dark:bg-gray-700 dark:hover:bg-gray-600"
+        >
           Book Now
         </button>
       </form>

@@ -13,18 +13,18 @@ import {
   isSameDay,
 } from 'date-fns';
 
-const timeSlots = [
-  '6:00 AM',
-  '7:30 AM',
-  '9:00 AM',
-  '10:30 AM',
-  '12:00 PM',
-  '1:30 PM',
-  '3:00 PM',
-  '4:30 PM',
-  '6:00 PM',
-  '7:30 PM',
-];
+// const timeSlots = [
+//   '6:00 AM',
+//   '7:30 AM',
+//   '9:00 AM',
+//   '10:30 AM',
+//   '12:00 PM',
+//   '1:30 PM',
+//   '3:00 PM',
+//   '4:30 PM',
+//   '6:00 PM',
+//   '7:30 PM',
+// ];
 
 export default function BookingCalendar() {
   const [currentMonth, setCurrentMonth] = useState(new Date());
@@ -110,7 +110,7 @@ export default function BookingCalendar() {
         days.push(
           <div
             key={day.toString()}
-            className={`p-2 text-sm border h-24 relative cursor-pointer ${isDisabled ? 'text-gray-400 bg-gray-50' : ''} ${isSelected ? 'bg-black text-white' : ''}`}
+            className={`p-2 text-sm border h-24 relative cursor-pointer ${isDisabled ? 'text-gray-400 bg-gray-50 dark:bg-gray-700' : ''} ${isSelected ? 'bg-black text-white' : ''}`}
             onClick={() => setSelectedDate(day)}
           >
             <div className="absolute top-1 left-1">{formatted}</div>
@@ -139,7 +139,7 @@ export default function BookingCalendar() {
   };
 
   return (
-    <section className="max-w-3xl mx-auto my-10 p-6 border rounded-xl bg-white shadow">
+    <section className="max-w-3xl mx-auto my-10 p-6 border rounded-xl bg-white shadow dark:bg-gray-800">
       {renderHeader()}
       {renderDays()}
       {renderCells()}

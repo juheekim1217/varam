@@ -1,7 +1,7 @@
 ---
 import { Icon } from 'astro-icon/components';
 import Logo from '~/components/Logo.astro';
-//import ToggleTheme from '~/components/common/ToggleTheme.astro';
+import ToggleTheme from '~/components/common/ToggleTheme.astro';
 import ToggleMenu from '~/components/common/ToggleMenu.astro';
 import Button from '~/components/ui/Button.astro';
 
@@ -41,7 +41,7 @@ const {
   isSticky = false,
   isDark = false,
   isFullWidth = false,
-  //showToggleTheme = false,
+  showToggleTheme = false,
   position = 'center',
 } = Astro.props;
 
@@ -188,11 +188,11 @@ const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`;
           <AuthToggleButton client:load />
         </span>
 
-        <!-- <span class="ml-4 rtl:ml-0 rtl:mr-4">
+        <span class="ml-4 rtl:ml-0 rtl:mr-4">
           <div class="flex">
             {showToggleTheme && <ToggleTheme iconClass="w-6 h-6 md:w-5 md:h-5 md:inline-block" />}
           </div>
-        </span> -->
+        </span>
       </div>
     </div>
   </div>

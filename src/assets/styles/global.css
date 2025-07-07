@@ -2,3 +2,14 @@
 .react-datepicker-popper {
   z-index: 9999 !important;
 }
+
+.flex-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.flex-column {
+  display: flex;
+  flex-direction: column;
+}

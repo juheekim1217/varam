@@ -76,18 +76,20 @@ export default function AuthToggleButton() {
 
   return (
     <div className="relative" ref={menuRef}>
-      <button
-        onClick={() => setMenuOpen(!menuOpen)}
-        className="w-8 h-8 rounded-full bg-gradient-to-br from-green-400 via-blue-500 to-purple-500 text-white text-sm font-semibold flex items-center justify-center shadow-sm ring-1 ring-gray-300"
-        aria-label="Open profile menu"
-      >
-        {getInitials(user.email)}
-      </button>
+      <div className="flex-container">
+        <button
+          onClick={() => setMenuOpen(!menuOpen)}
+          className="w-8 h-8 rounded-full bg-gradient-to-br from-green-400 via-blue-500 to-purple-500 text-white text-sm font-semibold flex items-center justify-center shadow-sm ring-1 ring-gray-300"
+          aria-label="Open profile menu"
+        >
+          {getInitials(user.email)}
+        </button>
 
-      {/* Mobile sign out */}
-      <button onClick={handleLogout} className="md:hidden ml-2 text-sm text-black underline">
-        Log Out
-      </button>
+        {/* Mobile sign out */}
+        <button onClick={handleLogout} className="md:hidden ml-2 text-sm text-black underline dark:text-white">
+          Log Out
+        </button>
+      </div>
 
       {menuOpen && (
         <div className="hidden md:block absolute right-0 mt-2 w-72 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-xl shadow-xl z-50 overflow-hidden">

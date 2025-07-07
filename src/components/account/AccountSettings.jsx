@@ -60,7 +60,7 @@ export default function AccountSettings() {
 
   return (
     <div className="space-y-6">
-      <p className="text-sm text-gray-700">
+      <p className="text-sm text-gray-700 dark:text-gray-300">
         Signed in as <strong>{user.email}</strong>
       </p>
 
