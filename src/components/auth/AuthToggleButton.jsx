@@ -1,5 +1,6 @@
 import { useEffect, useState, useRef } from 'react';
 import { supabase } from '~/lib/supabaseClient';
+import UserInfo from '~/components/account/UserInfo.jsx';
 
 export default function AuthToggleButton() {
   const [user, setUser] = useState(null);
@@ -93,16 +94,8 @@ export default function AuthToggleButton() {
 
       {menuOpen && (
         <div className="hidden md:block absolute right-0 mt-2 w-72 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-xl shadow-xl z-50 overflow-hidden">
-          <div className="px-4 py-3 border-b border-gray-100 dark:border-gray-700">
-            <p className="text-sm font-semibold text-gray-900 dark:text-white">
-              {user.user_metadata?.full_name || user.email.split('@')[0]}
-            </p>
-            <p className="text-xs text-gray-500 dark:text-gray-400 truncate">{user.email}</p>
-            {role && (
-              <p className="text-xs text-gray-400 dark:text-gray-500 mt-1">
-                <span className="capitalize">{role}</span>
-              </p>
-            )}
+          <div className="border-b border-gray-100 dark:border-gray-700">
+            <UserInfo client:load />
           </div>
 
           <div className="py-2 text-sm text-gray-700 dark:text-white">

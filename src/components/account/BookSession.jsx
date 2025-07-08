@@ -1,8 +1,9 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useStore } from '@nanostores/react';
 import { user as userStore, futureBookings, futureBookingsLoading } from '~/stores/bookingStore';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import { supabase } from '~/lib/supabaseClient';
 
 const timeSlots = [
   '6:00 AM',
@@ -30,10 +31,23 @@ export default function BookingSession() {
   const $futureBookings = useStore(futureBookings);
   const $loading = useStore(futureBookingsLoading);
 
+  const [coaches, setCoaches] = useState([]);
+  const [selectedCoach, setSelectedCoach] = useState('');
+
+  const [selectedTrainingType, setSelectedTrainingType] = useState('');
   const [date, setDate] = useState(null);
   const [time, setTime] = useState('');
   const [bookedTimes, setBookedTimes] = useState([]);
   const [submitting, setSubmitting] = useState(false);
+
+  useEffect(() => {
+    // Fetch coaches for dropdown
+    const fetchCoaches = async () => {
+      const { data, error } = await supabase.from('coaches').select('id, full_name');
+      if (!error) setCoaches(data || []);
+    };
+    fetchCoaches();
+  }, []);
 
   const getBookedDates = () => {
     const grouped = $futureBookings.reduce((acc, { date, time }) => {
@@ -114,6 +128,29 @@ export default function BookingSession() {
         <input type="hidden" name="email" value={$user.email} />
         <input type="hidden" name="name" value={$user.fullName} />
 
+        {/* Coach Dropdown */}
+        <div className="flex flex-col sm:flex-row sm:items-center gap-3">
+          <label htmlFor="coach" className="text-sm font-medium text-gray-700 w-32 shrink-0 dark:text-gray-300">
+            Select Coach
+          </label>
+          <select
+            name="coach_id"
+            required
+            value={selectedCoach}
+            onChange={(e) => setSelectedCoach(e.target.value)}
+            className="input w-full border rounded px-3 py-2 bg-white dark:bg-gray-700 dark:text-gray-300 dark:border-gray-600"
+          >
+            <option value="" disabled hidden>
+              Select a coach
+            </option>
+            {coaches.map((coach) => (
+              <option key={coach.id} value={coach.id}>
+                {coach.full_name}
+              </option>
+            ))}
+          </select>
+        </div>
+
         <div className="flex flex-col sm:flex-row sm:items-center gap-3 z-1000">
           <label htmlFor="date" className="text-sm font-medium text-gray-700 w-32 shrink-0 dark:text-gray-300">
             Select Date
@@ -158,6 +195,50 @@ export default function BookingSession() {
           </select>
         </div>
 
+        {/* Training Type Dropdown */}
+        <div className="flex flex-col sm:flex-row sm:items-center gap-3">
+          <label htmlFor="coach" className="text-sm font-medium text-gray-700 w-32 shrink-0 dark:text-gray-300">
+            Select Training Type
+          </label>
+          <select
+            name="training_type"
+            required
+            value={selectedTrainingType}
+            onChange={(e) => setSelectedTrainingType(e.target.value)}
+            className="input w-full border rounded px-3 py-2 bg-white dark:bg-gray-700 dark:text-gray-300 dark:border-gray-600"
+          >
+            <option value="" disabled hidden>
+              Select Training Type
+            </option>
+            <option value="strength">Strength</option>
+            <option value="cardio">Cardio</option>
+            <option value="mobility">Mobility</option>
+            <option value="rehab">Rehab</option>
+            <option value="stretching">Stretching</option>
+            <option value="HIIT">HIIT</option>
+            <option value="custom">Custom</option>
+          </select>
+        </div>
+
+        <label htmlFor="concern" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+          Health or Physical Concerns
+        </label>
+        <textarea
+          id="concern"
+          name="concern"
+          placeholder="E.g. knee pain, limited mobility, or chronic conditions"
+          className="mt-1 p-2 border rounded w-full"
+        />
+
+        <label htmlFor="note" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mt-4">
+          Notes for Your Coach
+        </label>
+        <textarea
+          id="note"
+          name="note"
+          placeholder="Anything else you'd like your coach to know (optional)"
+          className="p-2 border rounded w-full"
+        />
         <button
           type="submit"
           disabled={submitting}

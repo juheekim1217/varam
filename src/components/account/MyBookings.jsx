@@ -1,4 +1,3 @@
-// components/MyBookings.jsx
 import { useState } from 'react';
 import { useStore } from '@nanostores/react';
 import { userBookings, loading, error, deleteBooking, fetchUserBookings } from '~/stores/bookingStore';
@@ -14,15 +13,12 @@ export default function MyBookings() {
     if (!confirmed) return;
 
     setCancelingId(id);
-
     const result = await deleteBooking(id);
-
     if (!result.success) {
       alert(`Failed to cancel: ${result.error}`);
     } else {
-      await fetchUserBookings(); // manually refresh bookings list
+      await fetchUserBookings();
     }
-
     setCancelingId(null);
   }
 
@@ -52,36 +48,67 @@ export default function MyBookings() {
 
   return (
     <div className="space-y-4 text-sm text-gray-800 dark:text-gray-200">
-      {$userBookings.map((booking) => (
-        <div key={booking.id} className="border p-4 rounded-xl shadow-sm bg-white dark:bg-gray-800">
-          <p>
-            <strong>Name:</strong> {booking.name}
-          </p>
-          <p>
-            <strong>Email:</strong> {booking.email}
-          </p>
-          <p>
-            <strong>Date:</strong> {booking.date}
-          </p>
-          <p>
-            <strong>Time:</strong> {booking.time}
-          </p>
-          <button
-            onClick={() => handleCancel(booking.id)}
-            disabled={cancelingId === booking.id}
-            className="mt-2 px-3 py-1.5 text-sm text-white bg-red-600 rounded hover:bg-red-700 disabled:opacity-50 transition-colors"
+      {$userBookings.map((booking) => {
+        const createdAt = booking.created_at
+          ? new Date(booking.created_at).toLocaleString(undefined, {
+              dateStyle: 'medium',
+              timeStyle: 'short',
+            })
+          : null;
+
+        return (
+          <div
+            key={booking.id}
+            className="rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-5 shadow-sm hover:shadow-md transition-shadow"
           >
-            {cancelingId === booking.id ? (
-              <span className="flex items-center">
-                <div className="w-3 h-3 border border-white border-t-transparent rounded-full animate-spin mr-2"></div>
-                Cancelling...
-              </span>
-            ) : (
-              'Cancel'
+            <div className="grid grid-cols-2 gap-2 text-xs">
+              <div className="text-gray-600 dark:text-gray-300">
+                <span className="font-medium">Date:</span> {booking.date}
+              </div>
+              <div className="text-gray-600 dark:text-gray-300">
+                <span className="font-medium">Time:</span> {booking.time}
+              </div>
+              <div className=" text-gray-600 dark:text-gray-300">
+                <span className="font-medium">Training Type:</span> {booking.training_type || '–'}
+              </div>
+              <div className=" text-gray-600 dark:text-gray-300">
+                <span className="font-medium">Coach:</span> {booking.coach?.full_name || '–'}
+              </div>
+              {booking.concern && (
+                <div className="col-span-2 text-gray-600 dark:text-gray-300">
+                  <span className="font-medium">Concern:</span> {booking.concern}
+                </div>
+              )}
+              {booking.note && (
+                <div className="col-span-2 text-gray-600 dark:text-gray-300">
+                  <span className="font-medium">Note:</span> {booking.note}
+                </div>
+              )}
+            </div>
+            {createdAt && (
+              <div className=" text-gray-400 text-[0.6rem] mt-2">
+                Booking created at {createdAt} by {booking.email}
+              </div>
             )}
-          </button>
-        </div>
-      ))}
+            <div className="mt-4">
+              <button
+                onClick={() => handleCancel(booking.id)}
+                disabled={cancelingId === booking.id}
+                className="px-4 py-1.5 text-sm font-medium bg-red-600 text-white rounded-md hover:bg-red-700 disabled:opacity-50 transition-colors"
+              >
+                {cancelingId === booking.id ? (
+                  <span className="flex items-center justify-center">
+                    <div className="w-3 h-3 border border-white border-t-transparent rounded-full animate-spin mr-2"></div>
+                    Cancelling...
+                  </span>
+                ) : (
+                  'Cancel'
+                )}
+              </button>
+            </div>
+          </div>
+        );
+      })}
     </div>
   );
 }

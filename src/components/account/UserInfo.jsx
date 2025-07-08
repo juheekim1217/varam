@@ -1,21 +1,27 @@
-import { useEffect, useState } from 'react';
-import { supabase } from '~/lib/supabaseClient';
+import { useStore } from '@nanostores/react';
+import { user as userStore } from '~/stores/bookingStore';
 
 export default function UserInfo() {
-  const [user, setUser] = useState(null)
+  const $user = useStore(userStore);
 
-  useEffect(() => {
-    supabase.auth.getUser().then(({ data }) => {
-      setUser(data.user)
-    })
-  }, [])
+  if (!$user) {
+    return <div className="text-sm text-gray-500 dark:text-gray-400">You are not signed in.</div>;
+  }
 
   return (
-    user ?
-        <div><p>You're logged in as:</p>
-    <p className="text-gray-700 mt-2">
-      {user.user_metadata?.full_name || user.email} <br/>
-    </p></div>
-    : <p>You are not signed in.</p>
-  )
+    <div className="bg-white dark:bg-gray-800 rounded-lg p-4 w-full max-w-md">
+      <div className="text-xs uppercase text-gray-400 tracking-wide mb-1">Logged in as</div>
+
+      <div className="flex items-center justify-between">
+        <div className="text-sm font-medium text-gray-900 dark:text-white truncate">
+          {$user.fullName || $user.email.split('@')[0]}
+        </div>
+        <span className="px-2 py-0.5 text-xs bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 rounded-full capitalize">
+          {$user.role}
+        </span>
+      </div>
+
+      <div className="text-xs text-gray-500 dark:text-gray-400 mt-1 truncate">{$user.email}</div>
+    </div>
+  );
 }

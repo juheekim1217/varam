@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useStore } from '@nanostores/react';
 import { fetchFutureBookings, futureBookingsLoading, fetchUser, loading } from '~/stores/bookingStore';
 import BookSessionComponent from '~/components/account/BookSession.jsx';
-import FutureBookingsCalendarComponent from '~/components/dashboard/FutureBookingsCalendar.jsx';
+import FutureBookingsCalendarComponent from '~/components/calendar/FutureBookingsCalendar.jsx';
 
 export default function AdminBookingWrapper() {
   const $futureBookingsLoading = useStore(futureBookingsLoading);

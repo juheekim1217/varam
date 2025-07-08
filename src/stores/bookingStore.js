@@ -94,7 +94,12 @@ export const fetchUserBookings = async () => {
 
     const { data: bookingData, error: fetchError } = await supabase
       .from('bookings')
-      .select('*') // Replace with '*' if full details are needed
+      .select(
+        `
+      *,
+      coach:coach_id (full_name)
+    `
+      )
       .eq('email', currentUser.email)
       .order('date', { ascending: true })
       .order('time', { ascending: true });
@@ -115,7 +120,7 @@ export const fetchUserBookings = async () => {
 };
 
 // ─────────── Add Booking ───────────
-export const addBooking = async ({ name, email, date, time }) => {
+export const addBooking = async ({ name, email, date, time, coach_id, training_type, concern, note }) => {
   try {
     // Check for existing booking at the same date and time
     const { data: existing, error: checkError } = await supabase
@@ -133,12 +138,23 @@ export const addBooking = async ({ name, email, date, time }) => {
       return {
         success: false,
         error: 'This time slot is already booked. Please choose another.',
-        status: 409, // Conflict
+        status: 409,
       };
     }
 
-    // Proceed to insert new booking
-    const { error: insertError } = await supabase.from('bookings').insert([{ name, email, date, time }]);
+    // Proceed to insert new booking with extended fields
+    const { error: insertError } = await supabase.from('bookings').insert([
+      {
+        name,
+        email,
+        date,
+        time,
+        coach_id,
+        training_type,
+        concern: concern || null,
+        note: note || null,
+      },
+    ]);
 
     if (insertError) {
       throw new Error('Failed to create booking: ' + insertError.message);

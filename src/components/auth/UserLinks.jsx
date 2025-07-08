@@ -66,7 +66,7 @@ export default function UserLinks() {
           </button>
 
           <ul className="dropdown-menu md:backdrop-blur-md dark:md:bg-dark rounded md:absolute pl-4 md:pl-0 md:hidden font-medium md:bg-white/90 md:min-w-[200px] drop-shadow-xl">
-            {role === 'admin' && (
+            {(role === 'admin' || role === 'coach') && (
               <li>
                 <a
                   href="/account/dashboard"
