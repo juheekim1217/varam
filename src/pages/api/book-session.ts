@@ -7,22 +7,21 @@ export const prerender = false;
 
 export const POST: APIRoute = async ({ request }) => {
   const formData = await request.formData();
-  const name = formData.get('name')?.toString();
-  const email = formData.get('email')?.toString();
+  const name = formData.get('name')?.toString().trim();
+  const email = formData.get('email')?.toString().trim();
   const date = formData.get('date')?.toString();
   const time = formData.get('time')?.toString();
 
   if (!name || !email || !date || !time) {
-    return new Response('Missing fields', { status: 400 });
+    const url = new URL('/messages/error-booking?reason=missing-fields', request.url);
+    return Response.redirect(url.toString(), 302);
   }
 
-  try {
-    const result = await addBooking({ name, email, date, time });
-    if (!result.success) {
-      return new Response(JSON.stringify({ error: result.error }), { status: 500 });
-    }
-  } catch (err) {
-    return new Response(JSON.stringify({ error: err.message }), { status: 500 });
+  const result = await addBooking({ name, email, date, time });
+  if (!result.success) {
+    const url = new URL('/messages/error-booking', request.url);
+    url.searchParams.set('reason', result.error);
+    return Response.redirect(url.toString(), 302);
   }
 
   // ✅ Step 2: Send confirmation emails
@@ -49,20 +48,21 @@ export const POST: APIRoute = async ({ request }) => {
 
   const from = `"Varam Strength" <${adminEmail}>`;
   try {
-    // To user
+    // 📧 Email To admin
+    await transporter.sendMail({
+      from,
+      to: adminEmail,
+      replyTo: email,
+      subject: `📥 New Booking from ${name}`,
+      text: `Name: ${name}\nEmail: ${email}\nDate: ${date}\nTime: ${time}`,
+    });
+
+    // 📧 Email To user
     await transporter.sendMail({
       from,
       to: email,
       subject,
       html: htmlMessage,
-    });
-
-    // To admin
-    await transporter.sendMail({
-      from,
-      to: adminEmail,
-      subject: `📥 New Booking from ${name}`,
-      text: `Name: ${name}\nEmail: ${email}\nDate: ${date}\nTime: ${time}`,
     });
   } catch (err) {
     console.error('❌ Failed to send booking emails:', err);

@@ -3,7 +3,9 @@ import { supabase } from '~/lib/supabaseClient';
 
 // ─────────── Atoms ───────────
 export const user = atom(null); // { id, email, fullName, role }
-export const bookings = atom([]); // List of bookings for the user
+export const allFutureBookings = atom([]);
+export const futureBookingsLoading = atom(false);
+export const userBookings = atom([]); // List of bookings for the user
 export const loading = atom(false); // Global loading state for booking-related operations
 export const error = atom(''); // Holds error messages
 export const bookingsCount = atom(0); // Derived: total number of bookings
@@ -19,7 +21,7 @@ export const fetchUser = async () => {
 
     if (sessionError || !currentUser) {
       user.set(null);
-      bookings.set([]);
+      userBookings.set([]);
       bookingsCount.set(0);
       error.set('Please sign in.');
       return;
@@ -49,8 +51,38 @@ export const fetchUser = async () => {
   }
 };
 
-// ─────────── Fetch Bookings ───────────
-export const fetchBookings = async () => {
+// ─────────── Fetch All Bookings ───────────
+export const fetchAllFutureBookings = async () => {
+  try {
+    futureBookingsLoading.set(true);
+    error.set('');
+
+    const today = new Date().toISOString().split('T')[0];
+    const { data, error: fetchError } = await supabase
+      .from('bookings')
+      .select('*')
+      .gte('date', today)
+      .order('date', { ascending: true })
+      .order('time', { ascending: true });
+
+    if (fetchError) {
+      error.set(fetchError.message);
+      allFutureBookings.set([]);
+    } else {
+      allFutureBookings.set(data || []);
+    }
+  } catch (err) {
+    error.set('Failed to fetch future bookings: ' + err.message);
+    allFutureBookings.set([]);
+  } finally {
+    console.log('fetchAllFutureBookings done');
+    console.log('fetchAllFutureBookings data: ' + allFutureBookings);
+    futureBookingsLoading.set(false);
+  }
+};
+
+// ─────────── Fetch User Bookings ───────────
+export const fetchUserBookings = async () => {
   try {
     loading.set(true);
     error.set('');
@@ -58,7 +90,7 @@ export const fetchBookings = async () => {
     const currentUser = user.get();
     if (!currentUser) {
       error.set('No user session found.');
-      bookings.set([]);
+      userBookings.set([]);
       return;
     }
 
@@ -71,14 +103,14 @@ export const fetchBookings = async () => {
 
     if (fetchError) {
       error.set(fetchError.message);
-      bookings.set([]);
+      userBookings.set([]);
     } else {
-      bookings.set(bookingData || []);
+      userBookings.set(bookingData || []);
       bookingsCount.set(bookingData?.length || 0);
     }
   } catch (err) {
     error.set('Failed to fetch bookings: ' + err.message);
-    bookings.set([]);
+    userBookings.set([]);
   } finally {
     loading.set(false);
   }
@@ -86,30 +118,51 @@ export const fetchBookings = async () => {
 
 // ─────────── Add Booking ───────────
 export const addBooking = async ({ name, email, date, time }) => {
-  const { error } = await supabase.from('bookings').insert([{ name, email, date, time }]);
+  try {
+    // Check for existing booking at the same date and time
+    const { data: existing, error: checkError } = await supabase
+      .from('bookings')
+      .select('id')
+      .eq('date', date)
+      .eq('time', time)
+      .maybeSingle();
 
-  if (error) {
-    throw new Error(error.message);
+    if (checkError) {
+      throw new Error('Failed to check existing bookings: ' + checkError.message);
+    }
+
+    if (existing) {
+      return {
+        success: false,
+        error: 'This time slot is already booked. Please choose another.',
+        status: 409, // Conflict
+      };
+    }
+
+    // Proceed to insert new booking
+    const { error: insertError } = await supabase.from('bookings').insert([{ name, email, date, time }]);
+
+    if (insertError) {
+      throw new Error('Failed to create booking: ' + insertError.message);
+    }
+
+    return { success: true };
+  } catch (err) {
+    return {
+      success: false,
+      error: err.message || 'Unknown error occurred while booking.',
+      status: 500,
+    };
   }
-
-  // ✅ Re-fetch to get updated list from DB
-  //await fetchBookings(); // Trigger fetches explicitly from the client, not automatically inside store actions.
-
-  return { success: true };
 };
 
 // ─────────── Delete Booking ───────────
 export const deleteBooking = async (id) => {
   try {
     const { error: deleteError } = await supabase.from('bookings').delete().eq('id', id);
-
     if (deleteError) {
       throw new Error(deleteError.message);
     }
-
-    // ✅ Re-fetch to get updated list from DB
-    //await fetchBookings(); // Trigger fetches explicitly from the client, not automatically inside store actions.
-
     return { success: true };
   } catch (err) {
     return { success: false, error: err.message };
@@ -119,7 +172,7 @@ export const deleteBooking = async (id) => {
 // ─────────── Initialize ───────────
 let initialized = false;
 if (!initialized && typeof window !== 'undefined') {
-  fetchUser().then(fetchBookings); // Fetch user first, then bookings
+  fetchUser().then(fetchUserBookings); // Fetch user first, then bookings
   initialized = true;
 }
 
@@ -127,10 +180,10 @@ if (!initialized && typeof window !== 'undefined') {
 if (typeof window !== 'undefined') {
   supabase.auth.onAuthStateChange((event) => {
     if (event === 'SIGNED_IN') {
-      fetchUser().then(fetchBookings);
+      fetchUser().then(fetchUserBookings);
     } else if (event === 'SIGNED_OUT') {
       user.set(null);
-      bookings.set([]);
+      userBookings.set([]);
       bookingsCount.set(0);
       error.set('');
       loading.set(false);

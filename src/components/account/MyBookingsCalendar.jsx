@@ -1,7 +1,7 @@
 // components/BookingCalendar.jsx
 import { useState } from 'react';
 import { useStore } from '@nanostores/react';
-import { bookings, loading } from '~/stores/bookingStore';
+import { userBookings, loading } from '~/stores/bookingStore';
 import {
   format,
   startOfMonth,
@@ -16,14 +16,14 @@ import {
 } from 'date-fns';
 
 export default function BookingCalendar() {
-  const $bookings = useStore(bookings);
+  const $userBookings = useStore(userBookings);
   const $loading = useStore(loading);
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState(null);
 
   const getBookingsForDate = (date) => {
     const formatted = format(date, 'yyyy-MM-dd');
-    return $bookings.filter((b) => b.date === formatted).map((b) => b.time);
+    return $userBookings.filter((b) => b.date === formatted).map((b) => b.time);
   };
 
   const renderHeader = () => (

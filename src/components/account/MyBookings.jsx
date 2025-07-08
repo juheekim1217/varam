@@ -1,10 +1,10 @@
 // components/MyBookings.jsx
 import { useState } from 'react';
 import { useStore } from '@nanostores/react';
-import { bookings, loading, error, deleteBooking, fetchBookings } from '~/stores/bookingStore';
+import { userBookings, loading, error, deleteBooking, fetchUserBookings } from '~/stores/bookingStore';
 
 export default function MyBookings() {
-  const $bookings = useStore(bookings);
+  const $userBookings = useStore(userBookings);
   const $loading = useStore(loading);
   const $error = useStore(error);
   const [cancelingId, setCancelingId] = useState(null);
@@ -20,7 +20,7 @@ export default function MyBookings() {
     if (!result.success) {
       alert(`Failed to cancel: ${result.error}`);
     } else {
-      await fetchBookings(); // manually refresh bookings list
+      await fetchUserBookings(); // manually refresh bookings list
     }
 
     setCancelingId(null);
@@ -41,7 +41,7 @@ export default function MyBookings() {
     return <p className="text-red-500 text-center">❌ {$error}</p>;
   }
 
-  if (!$bookings.length) {
+  if (!$userBookings.length) {
     return (
       <div className="text-center py-8">
         <p className="text-gray-600 dark:text-gray-400 mb-4">No sessions booked yet.</p>
@@ -52,7 +52,7 @@ export default function MyBookings() {
 
   return (
     <div className="space-y-4 text-sm text-gray-800 dark:text-gray-200">
-      {$bookings.map((booking) => (
+      {$userBookings.map((booking) => (
         <div key={booking.id} className="border p-4 rounded-xl shadow-sm bg-white dark:bg-gray-800">
           <p>
             <strong>Name:</strong> {booking.name}

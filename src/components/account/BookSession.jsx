@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useStore } from '@nanostores/react';
-import { user as userStore, bookings as bookingsStore, loading } from '~/stores/bookingStore';
+import { user as userStore, allFutureBookings, futureBookingsLoading, loading } from '~/stores/bookingStore';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
@@ -27,29 +27,28 @@ const unavailableHours = {
 
 export default function BookingSession() {
   const $user = useStore(userStore);
-  const $bookings = useStore(bookingsStore);
-  const $loading = useStore(loading);
+  const $allFutureBookings = useStore(allFutureBookings);
+  const $loading = useStore(futureBookingsLoading);
 
   const [date, setDate] = useState(null);
   const [time, setTime] = useState('');
   const [bookedTimes, setBookedTimes] = useState([]);
+  const [submitting, setSubmitting] = useState(false);
+  console.log('booksession.jsx: ' + $allFutureBookings.length);
 
   const getBookedDates = () => {
-    const grouped = $bookings.reduce((acc, { date, time }) => {
+    const grouped = $allFutureBookings.reduce((acc, { date, time }) => {
       acc[date] = acc[date] ? [...acc[date], time] : [time];
       return acc;
     }, {});
-    return (
-      Object.entries(grouped)
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        .filter(([_, times]) => times.length >= timeSlots.length)
-        .map(([date]) => date)
-    );
+    return Object.entries(grouped)
+      .filter(([_, times]) => times.length >= timeSlots.length)
+      .map(([date]) => date);
   };
 
   const handleDateChange = (selectedDate) => {
     const formatted = selectedDate.toISOString().split('T')[0];
-    const dayBookings = $bookings.filter((b) => b.date === formatted).map((b) => b.time);
+    const dayBookings = $allFutureBookings.filter((b) => b.date === formatted).map((b) => b.time);
     setBookedTimes(dayBookings);
     setDate(selectedDate);
     setTime('');
@@ -68,9 +67,9 @@ export default function BookingSession() {
 
   if ($user.role === 'guest') {
     return (
-      <section className="max-w-xl mx-auto p-6 bg-white border rounded-xl shadow">
+      <section className="max-w-xl mx-auto p-6 bg-white border rounded-xl shadow dark:bg-gray-800">
         <h2 className="text-xl font-bold mb-2">Book a Trial Session</h2>
-        <p className="text-gray-600 mb-4">
+        <p className="text-gray-600 mb-4 dark:text-gray-400">
           You're currently signed in as a guest. Enjoy a free trial session to experience our training firsthand before
           committing.
         </p>
@@ -94,7 +93,25 @@ export default function BookingSession() {
         Each session lasts <strong>60 minutes</strong>, with a 30-minute break between sessions.
       </p>
 
-      <form method="POST" action="/api/book-session" className="space-y-6">
+      <form
+        method="POST"
+        action="/api/book-session"
+        className="space-y-6"
+        onSubmit={(e) => {
+          e.preventDefault();
+          if (!date || !time || submitting) return;
+
+          const formattedDate = date.toISOString().split('T')[0];
+          const isDuplicate = $allFutureBookings.some((b) => b.date === formattedDate && b.time === time);
+          if (isDuplicate) {
+            alert('This time slot is already booked. Please choose another.');
+            return;
+          }
+
+          setSubmitting(true);
+          e.target.submit();
+        }}
+      >
         <input type="hidden" name="email" value={$user.email} />
         <input type="hidden" name="name" value={$user.fullName} />
 
@@ -144,9 +161,10 @@ export default function BookingSession() {
 
         <button
           type="submit"
-          className="w-full bg-black text-white py-2 rounded hover:bg-gray-900 transition dark:bg-gray-700 dark:hover:bg-gray-600"
+          disabled={submitting}
+          className="w-full bg-black text-white py-2 rounded hover:bg-gray-900 transition disabled:opacity-50 dark:bg-gray-700 dark:hover:bg-gray-600"
         >
-          Book Now
+          {submitting ? 'Booking...' : 'Book Now'}
         </button>
       </form>
     </section>

@@ -5,17 +5,17 @@ export const prerender = false;
 
 export const POST: APIRoute = async ({ request }) => {
   const data = await request.formData();
-  const firstName = data.get('firstName');
-  const lastName = data.get('lastName');
-  const email = data.get('email');
-  const phone = data.get('phone');
-  const message = data.get('message');
+  const firstName = data.get('firstName')?.toString().trim();
+  const lastName = data.get('lastName')?.toString().trim();
+  const email = data.get('email')?.toString().trim();
+  const phone = data.get('phone')?.toString().trim();
+  const message = data.get('message')?.toString().trim();
 
   if (!firstName || !lastName || !email || !phone || !message) {
     return new Response('Missing fields', { status: 400 });
   }
 
-  // 🔒 Step 1: Call Edge Function to validate submission
+  // 🔒 Edge Function to block spam
   const res = await fetch(`${import.meta.env.PUBLIC_SUPABASE_URL}/functions/v1/check-inquiry-blocked`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -25,31 +25,69 @@ export const POST: APIRoute = async ({ request }) => {
   const result = await res.json();
 
   if (!res.ok || result.allowed === false) {
-    console.warn('Blocked form submission:', email);
+    console.warn('Blocked trial request from:', email);
     return new Response(null, {
       status: 302,
       headers: { Location: '/flagged/inquiry-blocked' },
     });
   }
 
-  // Gmail SMTP config
   const adminEmail = import.meta.env.ADMIN_EMAIL;
+
   const transporter = nodemailer.createTransport({
     service: 'Gmail',
     auth: {
       user: adminEmail,
-      pass: import.meta.env.ADMIN_EMAIL_APP_PASS, // set in your `.env`
+      pass: import.meta.env.ADMIN_EMAIL_APP_PASS,
     },
   });
-  console.log('transporter created');
+
+  // 📧 Email to Admin
   try {
     await transporter.sendMail({
       from: `"Varam Strength" <${adminEmail}>`,
       to: adminEmail,
-      subject: 'New Trial Request from Website',
-      text: `Name: ${firstName} ${lastName}\nEmail: ${email}\nPhone: ${phone}\n\nMessage:\n${message}`,
+      replyTo: email,
+      subject: `📥 Trial Request: ${firstName} ${lastName}`,
+      text: `You’ve received a new trial request.
+
+–––––––––––––––––––––––––––––
+Name:   ${firstName} ${lastName}
+Email:  ${email}
+Phone:  ${phone}
+
+Message:
+${message}
+–––––––––––––––––––––––––––––
+
+Reply directly to respond.`,
     });
-    console.log('Email sent await');
+
+    // 📧 Confirmation Email to User
+    await transporter.sendMail({
+      from: `"Varam Strength" <${adminEmail}>`,
+      to: email,
+      subject: '✅ Trial Session Request Received – Varam Strength',
+      text: `Hi ${firstName},
+
+Thank you for requesting a trial session with Varam Strength!
+
+We’ve received your message and will get back to you shortly.
+
+Here’s what you submitted:
+–––––––––––––––––––––––––––––
+Name:   ${firstName} ${lastName}
+Email:  ${email}
+Phone:  ${phone}
+
+Message:
+${message}
+–––––––––––––––––––––––––––––
+
+Talk to you soon!
+– Varam Strength Team`,
+    });
+
     return new Response(null, {
       status: 302,
       headers: { Location: '/messages/success-message' },

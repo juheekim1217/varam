@@ -1,0 +1,31 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+
+const metadata = {
+  title: 'Booking Failed',
+  description: 'There was a problem while processing your booking.',
+};
+
+const reason = Astro.url.searchParams.get('reason') || 'Something went wrong. Please try again.';
+---
+
+<Layout metadata={metadata}>
+  <section class="max-w-xl mx-auto my-20 p-6 text-center border rounded-2xl shadow space-y-4 bg-white dark:bg-gray-800">
+    <h1 class="text-3xl font-bold text-red-600">❌ Booking Failed</h1>
+
+    <p class="text-gray-700 dark:text-gray-300 text-lg">We couldn’t complete your booking request.</p>
+
+    <p class="text-red-500 font-medium">
+      Reason: {decodeURIComponent(reason)}
+    </p>
+
+    <p class="text-sm text-gray-500 dark:text-gray-400">Please choose a different time slot or try again later.</p>
+
+    <a
+      href="/account/book-session"
+      class="inline-block mt-4 px-6 py-2 bg-black text-white rounded hover:bg-gray-800 dark:bg-gray-700 dark:hover:bg-gray-600 transition"
+    >
+      Try Again
+    </a>
+  </section>
+</Layout>
