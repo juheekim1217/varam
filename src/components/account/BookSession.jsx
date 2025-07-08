@@ -227,7 +227,7 @@ export default function BookingSession() {
           id="concern"
           name="concern"
           placeholder="E.g. knee pain, limited mobility, or chronic conditions"
-          className="mt-1 p-2 border rounded w-full"
+          className="mt-1 p-2 border rounded w-full dark:bg-gray-700"
         />
 
         <label htmlFor="note" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mt-4">
@@ -237,7 +237,7 @@ export default function BookingSession() {
           id="note"
           name="note"
           placeholder="Anything else you'd like your coach to know (optional)"
-          className="p-2 border rounded w-full"
+          className="p-2 border rounded w-full dark:bg-gray-700"
         />
         <button
           type="submit"
