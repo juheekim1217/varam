@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useStore } from '@nanostores/react';
-import { user as userStore, allFutureBookings, futureBookingsLoading, loading } from '~/stores/bookingStore';
+import { user as userStore, futureBookings, futureBookingsLoading } from '~/stores/bookingStore';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
@@ -27,17 +27,16 @@ const unavailableHours = {
 
 export default function BookingSession() {
   const $user = useStore(userStore);
-  const $allFutureBookings = useStore(allFutureBookings);
+  const $futureBookings = useStore(futureBookings);
   const $loading = useStore(futureBookingsLoading);
 
   const [date, setDate] = useState(null);
   const [time, setTime] = useState('');
   const [bookedTimes, setBookedTimes] = useState([]);
   const [submitting, setSubmitting] = useState(false);
-  console.log('booksession.jsx: ' + $allFutureBookings.length);
 
   const getBookedDates = () => {
-    const grouped = $allFutureBookings.reduce((acc, { date, time }) => {
+    const grouped = $futureBookings.reduce((acc, { date, time }) => {
       acc[date] = acc[date] ? [...acc[date], time] : [time];
       return acc;
     }, {});
@@ -48,7 +47,7 @@ export default function BookingSession() {
 
   const handleDateChange = (selectedDate) => {
     const formatted = selectedDate.toISOString().split('T')[0];
-    const dayBookings = $allFutureBookings.filter((b) => b.date === formatted).map((b) => b.time);
+    const dayBookings = $futureBookings.filter((b) => b.date === formatted).map((b) => b.time);
     setBookedTimes(dayBookings);
     setDate(selectedDate);
     setTime('');
@@ -62,8 +61,8 @@ export default function BookingSession() {
     return isFuture && notMonday && notFullyBooked;
   };
 
-  if ($loading) return <p className="text-center mt-10 text-gray-600">Loading...</p>;
-  if (!$user) return <p className="text-center mt-10 text-gray-600">Please sign in to continue.</p>;
+  if ($loading) return <p className="text-center mt-10 text-gray-600">Loading Booking...</p>;
+  if (!$user) return <p className="text-center mt-10 text-gray-600">Loading User...</p>;
 
   if ($user.role === 'guest') {
     return (
@@ -102,7 +101,7 @@ export default function BookingSession() {
           if (!date || !time || submitting) return;
 
           const formattedDate = date.toISOString().split('T')[0];
-          const isDuplicate = $allFutureBookings.some((b) => b.date === formattedDate && b.time === time);
+          const isDuplicate = $futureBookings.some((b) => b.date === formattedDate && b.time === time);
           if (isDuplicate) {
             alert('This time slot is already booked. Please choose another.');
             return;

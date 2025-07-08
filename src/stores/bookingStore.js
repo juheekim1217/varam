@@ -3,7 +3,7 @@ import { supabase } from '~/lib/supabaseClient';
 
 // ─────────── Atoms ───────────
 export const user = atom(null); // { id, email, fullName, role }
-export const allFutureBookings = atom([]);
+export const futureBookings = atom([]);
 export const futureBookingsLoading = atom(false);
 export const userBookings = atom([]); // List of bookings for the user
 export const loading = atom(false); // Global loading state for booking-related operations
@@ -51,8 +51,8 @@ export const fetchUser = async () => {
   }
 };
 
-// ─────────── Fetch All Bookings ───────────
-export const fetchAllFutureBookings = async () => {
+// ─────────── Fetch Future Bookings ───────────
+export const fetchFutureBookings = async () => {
   try {
     futureBookingsLoading.set(true);
     error.set('');
@@ -67,16 +67,14 @@ export const fetchAllFutureBookings = async () => {
 
     if (fetchError) {
       error.set(fetchError.message);
-      allFutureBookings.set([]);
+      futureBookings.set([]);
     } else {
-      allFutureBookings.set(data || []);
+      futureBookings.set(data || []);
     }
   } catch (err) {
     error.set('Failed to fetch future bookings: ' + err.message);
-    allFutureBookings.set([]);
+    futureBookings.set([]);
   } finally {
-    console.log('fetchAllFutureBookings done');
-    console.log('fetchAllFutureBookings data: ' + allFutureBookings);
     futureBookingsLoading.set(false);
   }
 };

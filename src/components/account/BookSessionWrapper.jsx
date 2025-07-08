@@ -1,20 +1,20 @@
 import { useEffect } from 'react';
 import { useStore } from '@nanostores/react';
-import { fetchAllFutureBookings, futureBookingsLoading, fetchUser, loading } from '~/stores/bookingStore';
+import { fetchFutureBookings, futureBookingsLoading, fetchUser, loading } from '~/stores/bookingStore';
 import BookSessionComponent from '~/components/account/BookSession.jsx';
-import AllBookingsCalendarComponent from '~/components/dashboard/AllBookingsCalendar.jsx';
+import FutureBookingsCalendarComponent from '~/components/dashboard/FutureBookingsCalendar.jsx';
 
 export default function AdminBookingWrapper() {
   const $futureBookingsLoading = useStore(futureBookingsLoading);
   const $loading = useStore(loading);
 
   useEffect(() => {
-    fetchAllFutureBookings();
+    fetchFutureBookings();
     fetchUser();
   }, []);
 
   if ($futureBookingsLoading || $loading) {
-    return <div className="text-center py-12 text-gray-600 dark:text-gray-300">Loading admin bookings...</div>;
+    return <div className="text-center py-12 text-gray-600 dark:text-gray-300">Loading bookings...</div>;
   }
 
   return (
@@ -29,7 +29,7 @@ export default function AdminBookingWrapper() {
       <div className="order-2 lg:order-2">
         <div className="rounded-xl bg-slate-100 shadow p-4 dark:bg-gray-800">
           <h2 className="text-xl font-semibold mb-4">📅 All Bookings</h2>
-          <AllBookingsCalendarComponent client:load />
+          <FutureBookingsCalendarComponent client:load />
         </div>
       </div>
     </div>

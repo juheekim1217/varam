@@ -1,7 +1,7 @@
 // components/BookingCalendar.jsx
 import { useState } from 'react';
 import { useStore } from '@nanostores/react';
-import { allFutureBookings, futureBookingsLoading, user } from '~/stores/bookingStore';
+import { futureBookings, futureBookingsLoading, user } from '~/stores/bookingStore';
 import {
   format,
   startOfMonth,
@@ -17,19 +17,19 @@ import {
 
 export default function BookingCalendar() {
   const $user = useStore(user);
-  const $allFutureBookings = useStore(allFutureBookings);
+  const $futureBookings = useStore(futureBookings);
   const $loading = useStore(futureBookingsLoading);
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState(null);
 
   //   const getBookingsForDate = (date) => {
   //     const formatted = format(date, 'yyyy-MM-dd');
-  //     return $allFutureBookings.filter((b) => b.date === formatted).map((b) => b.time);
+  //     return $futureBookings.filter((b) => b.date === formatted).map((b) => b.time);
   //   };
 
-  const getBookingsForDate2 = (date) => {
+  const getFutureBookingsForDate = (date) => {
     const formatted = format(date, 'yyyy-MM-dd');
-    const bookings = $allFutureBookings.filter((b) => b.date === formatted);
+    const bookings = $futureBookings.filter((b) => b.date === formatted);
     const userBookings = bookings.filter((b) => b.email === $user?.email).map((b) => b.time);
     const otherBookings = bookings.filter((b) => b.email !== $user?.email).map((b) => b.time);
     return { userBookings, otherBookings };
@@ -84,7 +84,7 @@ export default function BookingCalendar() {
         const isDisabled = !isSameMonth(day, monthStart);
         const isSelected = selectedDate && isSameDay(day, selectedDate);
         //const dayBookings = getBookingsForDate(day);
-        const { userBookings, otherBookings } = getBookingsForDate2(day);
+        const { userBookings, otherBookings } = getFutureBookingsForDate(day);
 
         days.push(
           <div
