@@ -1,134 +1,207 @@
-# 🛡️ Superhuman Protocol by Varam Strength
+# 🛡️ Varam Strength - Personal Training Platform
 
 ## 🚀 Overview
 
 **Strength for Life. Power with Purpose.**
 
-![Superhuman Protocol](https://github.com/juheekim1217/hts/blob/main/src/assets/images/screenshot.png)
+![Varam Strength](https://github.com/juheekim1217/hts/blob/main/src/assets/images/screenshot.png)
 
-The **Superhuman Protocol** is the flagship offering from **Varam Strength**, a healthtech startup focused on unlocking human potential through precision training, expert systems, and tactical readiness. Built on a Python-based logic engine, it provides lifelong training that adapts to every stage of life and performance level.
+**Varam Strength** is a comprehensive personal training platform that connects clients with certified coaches for customized training sessions. Our platform specializes in both general fitness and **specialized rehabilitation programs** for clients with injuries—such as back pain, shoulder issues, and hip problems.
 
-Whether you're a parent lifting toddlers, a first responder on the job, or a retiree seeking longevity and resilience, the protocol intelligently evolves with your goals.
+Whether you're a beginner seeking guidance, an athlete recovering from injury, or someone looking to improve their overall fitness, our platform provides personalized training solutions delivered by certified strength-coaching professionals.
 
-> "This is not a gimmick. This is strength reimagined for everyone."
+> "This is not just training. This is strength reimagined for everyone."
+
+**Coming Soon:** We plan to extend Varam Strength to a cross-platform mobile app using **Flutter** for both iOS and Android, bringing all features and booking capabilities to your phone.
+
+---
+
+## 📋 Product Requirements Document (PRD)
+
+Our comprehensive PRD outlines the MVP scope and future roadmap for Varam Strength's booking platform. This includes:
+
+### 🎯 Core Features
+
+- **User Authentication**: Email/password and magic link flows via Supabase Auth
+- **Booking System**: Real-time calendar with availability checks and session booking
+- **Coach Profiles**: Detailed coach listings with specialties and rehabilitation expertise
+- **Admin Dashboard**: User management, booking oversight, and content management
+- **Rehabilitation Programs**: Specialized training for back, shoulder, and hip injuries
+- **Blog Module**: Content marketing with admin publishing capabilities
+
+### 🧪 Testing Framework
+
+We maintain comprehensive automated tests covering:
+
+- **API Endpoints**: Booking validation, error handling, and email functionality
+- **React Components**: User interactions, form validation, and state management
+- **Business Logic**: Data validation, duplicate prevention, and error scenarios
+
+Run tests with: `npm test`
+
+### 📊 Technical Architecture
+
+- **Frontend**: AstroWind (React + Tailwind CSS)
+- **Backend**: Supabase (Auth, PostgreSQL, Edge Functions)
+- **Testing**: Jest + React Testing Library
+- **Deployment**: Vercel + Supabase
+- **Mobile (Planned)**: Flutter (iOS & Android)
+
+For detailed specifications, see: [`PRD.md`](./PRD.md)
 
 ---
 
 ## 🧠 Core Technology
 
-The heart of the Superhuman Protocol is a Python Expert System that mimics the decision-making of elite strength coaches:
-
-- Rule-based inference engine (Python + NumPy + Pandas)
-- Adaptive session generation based on RPE, readiness, and feedback
-- Modular training blocks (Mobility, Strongman, Barbell, Accessories)
-- Daily undulating concurrent periodization
-- Long-term structural balance and performance tracking
+Varam Strength is built on modern web technologies designed for scalability, performance, and user experience:
 
 ### 🔧 Tech Stack
 
-- **Backend**: FastAPI (Python)
-- **Expert Engine**: Python rule-based logic
-- **Frontend**: React Native (mobile)
-- **Database**: PostgreSQL
-- **DevOps**: Docker + GitHub Actions
+- **Frontend**: Astro + React + Tailwind CSS
+- **Backend**: Supabase (PostgreSQL + Auth + Edge Functions)
+- **Styling**: Tailwind CSS + AstroWind components
+- **Testing**: Jest + React Testing Library
+- **Deployment**: Vercel + Supabase
+- **Email**: Nodemailer for booking confirmations
+- **Content**: MDX for blog posts and documentation
+- **Mobile (Planned)**: Flutter for cross-platform app
+
+### 🏗️ Architecture Highlights
+
+- **Server-Side Rendering**: Fast initial page loads with Astro
+- **Real-Time Updates**: Live booking availability and notifications
+- **Responsive Design**: Mobile-first approach for all devices
+- **Type Safety**: TypeScript throughout the application
+- **SEO Optimized**: Built-in SEO features with Astro
 
 ---
 
 ## 🧱 Training Framework
 
-| Block | Focus                            | Purpose                                   |
-| ----- | -------------------------------- | ----------------------------------------- |
-| A     | Mobility & Activation            | Joint health & readiness                  |
-| B     | Strongman Carries/Loads          | Real-world strength                       |
-| C     | Barbell Max Strength & Endurance | Peak strength and power output            |
-| D     | Accessories & Calisthenics       | Weak-point targeting & structural balance |
+Our platform supports various training modalities:
 
-- **Undulating Load:** Daily intensity variation (Heavy / Moderate / Light)
-- **Periodization:** 4-week mesocycles with load waves and deloads
-- **Variant Engine:** 8-week freshness guarantee, no repeated combinations
-
----
-
-## 📆 Weekly Microcycle Example
-
-| Day | Block B (Strongman) | Block C (Barbell) | Notes                       |
-| --- | ------------------- | ----------------- | --------------------------- |
-| Mon | Heavy Carry         | Moderate SE Lower | OK pairing                  |
-| Tue | Moderate            | Heavy ME Upper    | OK pairing                  |
-| Wed | Light Medley        | Light Technique   | Recovery day                |
-| Thu | Moderate            | Heavy ME Lower    | OK pairing                  |
-| Fri | Heavy Load          | Moderate SE Upper | OK pairing                  |
-| Sat | Light/Conditioning  | Optional Barbell  | GPP day                     |
-| Sun | —                   | —                 | Passive recovery / mobility |
-
-> **Rule:** No Heavy–Heavy pairing on same day (mutex logic)
+| Training Type | Focus                            | Specialization                           |
+| ------------- | -------------------------------- | ---------------------------------------- |
+| Strength      | Power and muscle development     | Progressive overload principles          |
+| Cardio        | Endurance and conditioning       | HIIT and steady-state training           |
+| Mobility      | Flexibility and joint health     | Movement quality and range of motion     |
+| Rehab         | Injury recovery and prevention   | Back, shoulder, and hip rehabilitation   |
+| Stretching    | Recovery and flexibility         | Active and passive stretching techniques |
+| HIIT          | High-intensity interval training | Metabolic conditioning                   |
+| Custom        | Personalized programming         | Tailored to individual needs             |
 
 ---
 
-## 🔄 Personalization Flow
+## 📆 Booking System Features
 
-1. **Onboarding**: Joint health and readiness assessment
-2. **Session Generator**: Selects unique variants from a library of 250+ movements
-3. **User Feedback Loop**: RPE and readiness drive next session
-4. **Logging & Progression**: Tracks trends, weaknesses, and performance gains
+### 🗓️ Smart Calendar
+
+- Real-time availability checking
+- Coach-specific time slots
+- Automatic conflict prevention
+- Mobile-responsive interface
+
+### 👥 Coach Management
+
+- Detailed coach profiles
+- Specialization tracking
+- Rehabilitation certifications
+- Availability management
+
+### 📧 Automated Notifications
+
+- Booking confirmations
+- Session reminders
+- Cancellation notifications
+- Admin alerts
 
 ---
 
-## 🌍 Who It’s For
+## 🌍 Who It's For
 
-- **General Population**: Everyday strength for parenting, aging, and injury prevention
-- **Tactical Operators**: Military, law enforcement, and first responders
-- **Athletes**: Seeking smart, sustainable strength training
+- **General Population**: Individuals seeking personalized training guidance
+- **Injury Recovery**: Clients with back, shoulder, or hip rehabilitation needs
+- **Athletes**: Performance-focused training with expert coaching
+- **Fitness Enthusiasts**: Structured programs for consistent progress
+- **Coaches**: Platform for managing clients and schedules
 
-> Inclusive by design. Personalized by logic. Effective for life.
+> Inclusive by design. Personalized by expertise. Effective for life.
 
 ---
 
-## 🔬 R\&D and Future Roadmap
+## 🔬 Development Roadmap
 
-Varam Strength is more than a protocol — it's a full healthtech startup.
+Varam Strength is continuously evolving to meet user needs.
 
-### 🔧 Roadmap
+### 🔧 Current Phase (MVP)
 
-1. ✅ **Phase 1**: Core system logic & engine development
-2. ✅ **Phase 2**: Mobile app + Beta launch
-3. 🔄 **Phase 3**: Full product launch + community coaching hub
-4. 🔜 **Phase 4**: Wearable integration, nutrition modules, performance dashboards
+1. ✅ **User Authentication**: Email/password and magic link flows
+2. ✅ **Booking System**: Calendar interface and session management
+3. ✅ **Coach Profiles**: Detailed listings and specialization tracking
+4. ✅ **Admin Dashboard**: User and booking management
+5. ✅ **Blog Module**: Content publishing and management
+6. 🔄 **Rehabilitation Programs**: Specialized injury recovery protocols
 
-### 🎯 Varam Strength Future Offerings
+### 🎯 Future Enhancements
 
-- Superhuman Protocol (app + engine)
-- Personal training (aligned with Varam Strength philosophy)
-- Tactical training contracts
-- Sports nutrition programs
-- R\&D on performance tech (wearables, analytics, simulation)
+- **Payment Processing**: Integrated billing and subscription management
+- **Video Coaching**: In-app video sessions and progress tracking
+- **Mobile App**: Native iOS and Android applications using **Flutter**
+- **Wearable Integration**: Fitness tracker and smartwatch connectivity
+- **AI Coaching**: Personalized recommendations and progress insights
 
 ---
 
 ## 📣 Get Involved
 
-Varam Strength is open-source and community-driven. We’re building in public and welcome collaboration, feedback, and contributions.
+Varam Strength is built with modern web technologies and welcomes contributions from the developer community.
 
-> Become part of a future where world-class training is accessible to everyone.
+### 🛠️ Development Setup
+
+```bash
+# Clone the repository
+git clone [repository-url]
+
+# Install dependencies
+npm install
+
+# Start development server
+npm run dev
+
+# Run tests
+npm test
+```
+
+### 🧪 Testing
+
+```bash
+# Run all tests
+npm test
+
+# Run tests in watch mode
+npm run test:watch
+
+# Generate coverage report
+npm run test:coverage
+```
+
+> Join us in building the future of personalized fitness training.
 
 ---
 
-## 📚 Reference Docs
+## 📚 Documentation
 
-All logic, ontologies, training rules, and system flows are defined in:
-
-- `README_SUPERHUMAN.md`
-- `training_engine.py`
-- `variant_ontology.yaml`
-- `daily_scheduler.py`
-- `mobile_interface/`
+- [`PRD.md`](./PRD.md) - Product Requirements Document
+- [`tests/README.md`](./tests/README.md) - Testing Guide
+- [`src/config.yaml`](./src/config.yaml) - Site Configuration
+- [`astro.config.ts`](./astro.config.ts) - Astro Configuration
 
 ---
 
 ## 🔗 Links
 
-- Website: [Coming soon](https://varamfit.vercel.app/)
-- Protocol Overview: `docs/README_SUPERHUMAN.md`
+- Website: [Varam Strength](https://varamfit.fit)
+- Documentation: [Project Wiki](https://github.com/juheekim1217/hts/wiki)
 - License: MIT
 
 ---
