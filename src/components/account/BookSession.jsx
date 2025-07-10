@@ -55,7 +55,7 @@ export default function BookingSession() {
       return acc;
     }, {});
     return Object.entries(grouped)
-      .filter(([_, times]) => times.length >= timeSlots.length)
+      .filter(([, times]) => times.length >= timeSlots.length)
       .map(([date]) => date);
   };
 
