@@ -28,8 +28,6 @@ ehthumbs.db
 Icon?
 Desktop.ini
 
-pnpm-lock.yaml
-
 .astro
 
 # VS Code settings
@@ -39,3 +37,24 @@ pnpm-lock.yaml
 coverage/
 
 .vercel/
+
+docker-compose.override.yml
+*.tsbuildinfo
+*.snap
+
+# IDE files
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store?
+._*
+
+# Test artifacts
+*.lcov
+.nyc_output/
+
+# Temporary files
+*.tmp
+*.temp
