@@ -140,29 +140,7 @@ const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`;
       ]}
     >
       <div class="items-center flex justify-between w-full md:w-auto">
-        <!-- {
-          actions?.length ? (
-            <span class="ml-4 rtl:ml-0 rtl:mr-4">
-              {actions.map((action) =>
-                action.variant == 'link' ? (
-                  <a
-                    title={action.text}
-                    href={action.href}
-                    target={action.target}
-                    class="ml-2 text-sm font-medium text-gray-700 hover:underline"
-                  >
-                    {action.text}
-                  </a>
-                ) : (
-                  <Button {...action} class="ml-2 py-2.5 px-5.5 md:px-6 font-semibold shadow-none text-sm w-auto" />
-                )
-              )}
-            </span>
-          ) : (
-            ''
-          )
-        } -->
-
+        <!--  Hide Start Trial button if user is logged in -->
         <ShowIfGuest client:load>
           <span class="ml-4 rtl:ml-0 rtl:mr-4">
             {
@@ -184,6 +162,7 @@ const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`;
           </span>
         </ShowIfGuest>
 
+        <!-- Toggle Sign in/Profile button -->
         <span class="ml-4 rtl:ml-0 rtl:mr-4">
           <AuthToggleButton client:load />
         </span>

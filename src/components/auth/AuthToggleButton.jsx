@@ -1,54 +1,22 @@
 import { useEffect, useState, useRef } from 'react';
-import { supabase } from '~/lib/supabaseClient';
+import { useStore } from '@nanostores/react';
+import { user as userStore } from '~/stores/bookingStore';
 import UserInfo from '~/components/account/UserInfo.jsx';
 
 export default function AuthToggleButton() {
-  const [user, setUser] = useState(null);
-  const [role, setRole] = useState(null);
+  const $user = useStore(userStore);
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef();
 
-  useEffect(() => {
-    const getUserAndRole = async () => {
-      const { data: userData } = await supabase.auth.getUser();
-      const currentUser = userData?.user;
-      setUser(currentUser);
-
-      if (currentUser) {
-        const { data, error } = await supabase.from('users').select('role').eq('id', currentUser.id).single();
-        if (data && !error) {
-          setRole(data.role);
-        }
-      }
-    };
-
-    getUserAndRole();
-
-    const { data: subscription } = supabase.auth.onAuthStateChange((_, session) => {
-      const authUser = session?.user ?? null;
-      setUser(authUser);
-
-      if (authUser) {
-        supabase
-          .from('users')
-          .select('role')
-          .eq('id', authUser.id)
-          .single()
-          .then(({ data }) => setRole(data?.role ?? null));
-      } else {
-        setRole(null);
-      }
-    });
-
-    return () => subscription?.subscription?.unsubscribe();
-  }, []);
+  // Remove useEffect for fetching user/role
 
   const handleLogin = () => {
     window.location.href = '/auth/signin';
   };
 
   const handleLogout = async () => {
-    await supabase.auth.signOut();
+    // Optionally, you can call supabase.auth.signOut() here if needed
+    await import('~/lib/supabaseClient').then(({ supabase }) => supabase.auth.signOut());
     window.location.href = '/';
   };
 
@@ -64,7 +32,7 @@ export default function AuthToggleButton() {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  if (!user) {
+  if (!$user) {
     return (
       <button
         onClick={handleLogin}
@@ -83,7 +51,7 @@ export default function AuthToggleButton() {
           className="w-8 h-8 rounded-full bg-gradient-to-br from-green-400 via-blue-500 to-purple-500 text-white text-sm font-semibold flex items-center justify-center shadow-sm ring-1 ring-gray-300"
           aria-label="Open profile menu"
         >
-          {getInitials(user.email)}
+          {getInitials($user.email)}
         </button>
 
         {/* Mobile sign out */}
