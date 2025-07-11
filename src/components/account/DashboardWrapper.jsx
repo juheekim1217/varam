@@ -1,7 +1,8 @@
 // src/components/dashboard/DashboardWrapper.jsx
 import { useEffect } from 'react';
 import { useStore } from '@nanostores/react';
-import { fetchFutureBookings, futureBookingsLoading, loading as userLoading } from '~/stores/bookingStore';
+import { fetchFutureBookings, fetchUserBookings, futureBookingsLoading } from '~/stores/bookingStore';
+import { user, loading as userLoading } from '~/stores/authStore';
 
 import UserInfo from '~/components/account/UserInfo.jsx';
 import BookingCalendar from '~/components/calendar/BookingsCalendar';
@@ -9,12 +10,27 @@ import CoachInfo from '~/components/account/CoachInfo';
 import CoachesInfo from '~/components/account/CoachesInfo';
 
 export default function DashboardWrapper() {
+  const $user = useStore(user);
   const $isFutureLoading = useStore(futureBookingsLoading);
   const $isUserLoading = useStore(userLoading);
 
   useEffect(() => {
-    fetchFutureBookings();
-  }, []);
+    const fetchData = async () => {
+      try {
+        // Fetch all future bookings
+        await fetchFutureBookings();
+
+        // Fetch user-specific bookings when user is available
+        if ($user?.email) {
+          await fetchUserBookings($user.email);
+        }
+      } catch (err) {
+        console.error('Error fetching bookings:', err);
+      }
+    };
+
+    fetchData();
+  }, [$user]); // Re-run when user changes
 
   if ($isFutureLoading || $isUserLoading) {
     return (

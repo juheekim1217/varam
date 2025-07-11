@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { supabase } from '~/lib/supabaseClient';
+import { signIn } from '~/stores/authStore';
 
 export default function SignInForm() {
   const [email, setEmail] = useState('');
@@ -15,29 +15,23 @@ export default function SignInForm() {
     setErrorMsg('');
     setSuccessMsg('');
 
-    const { error } = await supabase.auth.signInWithPassword({ email, password });
+    const result = await signIn(email, password);
 
-    if (error) {
-      setErrorMsg(error.message);
+    if (!result.success) {
+      setErrorMsg(result.error || 'Unknown error');
       setLoading(false);
     } else {
       setSuccessMsg('Signed in successfully!');
       setLoading(false);
-
-      // Show redirecting state
       setRedirecting(true);
-
       window.location.href = '/account/my-bookings';
     }
   };
 
-  // Loading overlay component
   const LoadingOverlay = () => (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
       <div className="bg-white dark:bg-gray-800 rounded-lg p-8 flex flex-col items-center space-y-4">
-        <div className="relative">
-          <div className="w-12 h-12 border-4 border-blue-200 border-t-blue-600 rounded-full animate-spin"></div>
-        </div>
+        <div className="w-12 h-12 border-4 border-blue-200 border-t-blue-600 rounded-full animate-spin"></div>
         <p className="text-gray-700 dark:text-gray-300 font-medium">Redirecting to your bookings...</p>
       </div>
     </div>
@@ -48,6 +42,7 @@ export default function SignInForm() {
       {redirecting && <LoadingOverlay />}
 
       <form onSubmit={handleSubmit} className="space-y-6">
+        {/* email */}
         <div>
           <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
             Email
@@ -64,6 +59,7 @@ export default function SignInForm() {
           />
         </div>
 
+        {/* password */}
         <div>
           <label htmlFor="password" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
             Password
@@ -88,15 +84,10 @@ export default function SignInForm() {
           disabled={loading || redirecting}
           className="w-full bg-black text-white py-2 rounded-lg hover:bg-gray-800 transition dark:bg-gray-700 dark:hover:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
         >
-          {loading ? (
+          {loading || redirecting ? (
             <>
               <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></div>
-              Signing in...
-            </>
-          ) : redirecting ? (
-            <>
-              <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></div>
-              Redirecting...
+              {loading ? 'Signing in...' : 'Redirecting...'}
             </>
           ) : (
             'Sign In'

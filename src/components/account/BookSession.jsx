@@ -3,8 +3,8 @@ import { useStore } from '@nanostores/react';
 import { futureBookings, futureBookingsLoading } from '~/stores/bookingStore';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import { supabase } from '~/lib/supabaseClient';
-import { user } from '~/stores/userStore';
+import { user } from '~/stores/authStore';
+import { coaches, coachesLoading, fetchCoaches } from '~/stores/coachStore';
 
 const timeSlots = [
   '6:00 AM',
@@ -31,8 +31,9 @@ export default function BookingSession() {
   const $user = useStore(user);
   const $futureBookings = useStore(futureBookings);
   const $loading = useStore(futureBookingsLoading);
+  const $coaches = useStore(coaches);
+  const $coachesLoading = useStore(coachesLoading);
 
-  const [coaches, setCoaches] = useState([]);
   const [selectedCoach, setSelectedCoach] = useState('');
 
   const [selectedTrainingType, setSelectedTrainingType] = useState('');
@@ -42,13 +43,25 @@ export default function BookingSession() {
   const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
-    // Fetch coaches for dropdown
-    const fetchCoaches = async () => {
-      const { data, error } = await supabase.from('coaches').select('id, full_name');
-      if (!error) setCoaches(data || []);
+    let mounted = true;
+
+    const loadCoaches = async () => {
+      try {
+        await fetchCoaches();
+      } catch (err) {
+        if (mounted) {
+          console.error('Failed to fetch coaches:', err);
+          // Handle error appropriately in UI
+        }
+      }
     };
-    fetchCoaches();
-  }, []);
+
+    loadCoaches();
+
+    return () => {
+      mounted = false;
+    };
+  }, []); // Empty deps array because fetchCoaches is stable
 
   const getBookedDates = () => {
     const grouped = $futureBookings.reduce((acc, { date, time }) => {
@@ -144,11 +157,12 @@ export default function BookingSession() {
             <option value="" disabled hidden>
               Select a coach
             </option>
-            {coaches.map((coach) => (
+            {$coaches.map((coach) => (
               <option key={coach.id} value={coach.id}>
                 {coach.full_name}
               </option>
             ))}
+            {!$coaches.length && !$coachesLoading && <option disabled>No coaches available</option>}
           </select>
         </div>
 

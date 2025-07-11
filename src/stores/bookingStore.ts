@@ -4,17 +4,16 @@ import { supabase } from '~/lib/supabaseClient';
 // Types for type safety
 interface Booking {
   id: string;
-  name: string;
-  email: string;
   date: string;
   time: string;
-  coach_id: string;
-  training_type: string;
-  concern?: string;
-  note?: string;
+  training_type?: string;
   coach?: {
     full_name: string;
   };
+  concern?: string;
+  note?: string;
+  created_at?: string;
+  email: string;
 }
 
 // Atoms with proper typing

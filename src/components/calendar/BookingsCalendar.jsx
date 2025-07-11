@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import { useStore } from '@nanostores/react';
 import { futureBookings, futureBookingsLoading } from '~/stores/bookingStore';
-import { user } from '~/stores/userStore';
+import { user } from '~/stores/authStore';
 
 import {
   format,

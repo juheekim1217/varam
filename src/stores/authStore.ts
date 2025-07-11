@@ -2,7 +2,7 @@ import { atom } from 'nanostores';
 import { supabase } from '~/lib/supabaseClient';
 import type { User } from '@supabase/supabase-js';
 
-// Define interfaces for type safety
+// Types
 export interface UserData {
   id: string;
   email: string | undefined;
@@ -14,19 +14,18 @@ interface UserRow {
   role: string | null;
 }
 
-// Add this interface for sign-in response
 interface SignInResponse {
   success: boolean;
   error?: string;
   data?: UserData;
 }
 
-// Typed atoms
+// Atoms (global state)
 export const user = atom<UserData | null>(null);
 export const loading = atom<boolean>(false);
 export const error = atom<string>('');
 
-// Fetch user and role from Supabase with type safety
+// Fetch user from Supabase session + user row
 export const fetchUser = async (): Promise<void> => {
   try {
     loading.set(true);
@@ -67,8 +66,8 @@ export const fetchUser = async (): Promise<void> => {
   }
 };
 
-// Add the signIn function after fetchUser
-export async function signIn(email: string, password: string): Promise<SignInResponse> {
+// Sign in with Supabase and set user
+export const signIn = async (email: string, password: string): Promise<SignInResponse> => {
   try {
     loading.set(true);
     error.set('');
@@ -83,16 +82,17 @@ export async function signIn(email: string, password: string): Promise<SignInRes
       return { success: false, error: signInError.message };
     }
 
-    if (!authData?.user) {
-      error.set('No user data returned');
-      return { success: false, error: 'No user data returned' };
+    const userObj = authData.user;
+    if (!userObj) {
+      const msg = 'No user data returned.';
+      error.set(msg);
+      return { success: false, error: msg };
     }
 
-    // Fetch user role from database
     const { data: userRow, error: userFetchError } = await supabase
       .from('users')
       .select('role')
-      .eq('id', authData.user.id)
+      .eq('id', userObj.id)
       .maybeSingle<UserRow>();
 
     if (userFetchError) {
@@ -100,9 +100,9 @@ export async function signIn(email: string, password: string): Promise<SignInRes
     }
 
     const userData: UserData = {
-      id: authData.user.id,
-      email: authData.user.email,
-      fullName: authData.user.user_metadata?.full_name || authData.user.email?.split('@')[0] || '',
+      id: userObj.id,
+      email: userObj.email,
+      fullName: userObj.user_metadata?.full_name || userObj.email?.split('@')[0] || '',
       role: userRow?.role || null,
     };
 
@@ -115,4 +115,13 @@ export async function signIn(email: string, password: string): Promise<SignInRes
   } finally {
     loading.set(false);
   }
-}
+};
+
+export const signOut = async (): Promise<void> => {
+  try {
+    await supabase.auth.signOut();
+  } finally {
+    user.set(null);
+    error.set('');
+  }
+};

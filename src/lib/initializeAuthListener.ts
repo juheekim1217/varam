@@ -1,12 +1,37 @@
-// src/lib/initializeAuthListener.ts
 import { supabase } from '~/lib/supabaseClient';
-import { user, loading, error } from '~/stores/userStore';
+import { user, loading, error } from '~/stores/authStore';
+import type { UserData } from '~/stores/authStore';
 
-export const initializeAuthListener = () => {
-  supabase.auth.onAuthStateChange(async (event, session) => {
+export const initializeAuthListener = async () => {
+  loading.set(true);
+
+  // Try to restore cached user
+  const cached = localStorage.getItem('user');
+  if (cached) {
+    try {
+      const parsedUser: UserData = JSON.parse(cached);
+      // Verify the cached user still exists in Supabase
+      const {
+        data: { user: currentUser },
+      } = await supabase.auth.getUser();
+      if (currentUser && currentUser.id === parsedUser.id) {
+        user.set(parsedUser);
+      } else {
+        localStorage.removeItem('user');
+      }
+    } catch {
+      localStorage.removeItem('user');
+    }
+  }
+
+  loading.set(false);
+
+  // Listen to Supabase auth events
+  return supabase.auth.onAuthStateChange(async (event, session) => {
     if (event === 'SIGNED_IN' && session?.user) {
       loading.set(true);
       error.set('');
+
       try {
         const currentUser = session.user;
 
@@ -16,12 +41,14 @@ export const initializeAuthListener = () => {
           .eq('id', currentUser.id)
           .maybeSingle();
 
-        if (userFetchError) console.warn('Could not fetch user role:', userFetchError.message);
+        if (userFetchError) {
+          console.warn('Could not fetch user role:', userFetchError.message);
+        }
 
-        const userData = {
+        const userData: UserData = {
           id: currentUser.id,
           email: currentUser.email,
-          fullName: currentUser.user_metadata?.full_name || currentUser?.email?.split('@')[0],
+          fullName: currentUser.user_metadata?.full_name ?? currentUser.email?.split('@')[0] ?? '',
           role: userRow?.role || null,
         };
 
@@ -29,7 +56,7 @@ export const initializeAuthListener = () => {
         localStorage.setItem('user', JSON.stringify(userData));
       } catch (err) {
         user.set(null);
-        error.set('Failed to fetch user: ' + err.message);
+        error.set('Failed to fetch user: ' + (err as Error).message);
       } finally {
         loading.set(false);
       }
@@ -40,14 +67,4 @@ export const initializeAuthListener = () => {
       localStorage.removeItem('user');
     }
   });
-
-  // Try to restore cached user if exists
-  const cached = localStorage.getItem('user');
-  if (cached) {
-    try {
-      user.set(JSON.parse(cached));
-    } catch {
-      localStorage.removeItem('user');
-    }
-  }
 };

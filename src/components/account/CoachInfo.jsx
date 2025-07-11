@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { supabase } from '~/lib/supabaseClient';
 import { useStore } from '@nanostores/react';
-import { user } from '~/stores/userStore';
+import { user } from '~/stores/authStore';
 
 export default function CoachInfo() {
   const [coach, setCoach] = useState(null);

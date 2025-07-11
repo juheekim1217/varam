@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { useStore } from '@nanostores/react';
-import { user } from '~/stores/userStore';
+import { user, signOut } from '~/stores/authStore';
 import UserInfo from '~/components/account/UserInfo';
 
 export default function AuthToggleButton() {
@@ -13,8 +13,9 @@ export default function AuthToggleButton() {
   };
 
   const handleLogout = async () => {
-    const { supabase } = await import('~/lib/supabaseClient');
-    await supabase.auth.signOut();
+    console.log('Logging out...');
+    await signOut();
+    console.log('Logged out successfully');
     window.location.href = '/';
   };
 
@@ -79,7 +80,7 @@ export default function AuthToggleButton() {
               onClick={handleLogout}
               className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100 dark:hover:bg-gray-700"
             >
-              Log Out
+              Sign Out
             </button>
           </div>
 

@@ -1,34 +1,86 @@
-import { useState } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { useStore } from '@nanostores/react';
 import { userBookings, loading, error, deleteBooking, fetchUserBookings } from '~/stores/bookingStore';
+import { user } from '~/stores/authStore';
+
+const LoadingSpinner = () => (
+  <div className="w-3 h-3 border border-white border-t-transparent rounded-full animate-spin mr-2" />
+);
 
 export default function MyBookings() {
+  // 1. Hooks first - maintain consistent order
+  const $user = useStore(user);
   const $userBookings = useStore(userBookings);
   const $loading = useStore(loading);
   const $error = useStore(error);
   const [cancelingId, setCancelingId] = useState(null);
 
-  async function handleCancel(id) {
-    const confirmed = window.confirm('Are you sure you want to cancel this session?');
-    if (!confirmed) return;
+  // 2. useMemo hooks
+  const sortedBookings = useMemo(() => {
+    return [...($userBookings || [])].sort((a, b) => {
+      const dateCompare = a.date.localeCompare(b.date);
+      return dateCompare !== 0 ? dateCompare : a.time.localeCompare(b.time);
+    });
+  }, [$userBookings]);
 
-    setCancelingId(id);
-    const result = await deleteBooking(id);
-    if (!result.success) {
-      alert(`Failed to cancel: ${result.error}`);
-    } else {
-      await fetchUserBookings();
+  const formattedBookings = useMemo(
+    () =>
+      sortedBookings.map((booking) => ({
+        ...booking,
+        formattedDate:
+          booking.created_at?.toLocaleString(undefined, {
+            dateStyle: 'medium',
+            timeStyle: 'short',
+          }) || null,
+      })),
+    [sortedBookings]
+  );
+
+  // 3. useEffect hooks
+  useEffect(() => {
+    if ($user?.email) {
+      fetchUserBookings($user.email);
     }
-    setCancelingId(null);
+  }, [$user]);
+
+  // 4. Event handlers
+  async function handleCancel(id) {
+    try {
+      const confirmed = window.confirm('Are you sure you want to cancel this session?');
+      if (!confirmed) return;
+
+      setCancelingId(id);
+      const result = await deleteBooking(id);
+
+      if (!result.success) {
+        throw new Error(result.error);
+      }
+
+      if ($user?.email) {
+        await fetchUserBookings($user.email);
+      }
+    } catch (err) {
+      console.error('Failed to cancel booking:', err);
+      alert(`Failed to cancel: ${err.message}`);
+    } finally {
+      setCancelingId(null);
+    }
+  }
+
+  // 5. Early returns
+  if (!$user) {
+    return (
+      <div className="text-center py-8">
+        <p className="text-gray-600 dark:text-gray-400">Please sign in to view your bookings.</p>
+      </div>
+    );
   }
 
   if ($loading) {
     return (
-      <div className="flex items-center justify-center p-8">
-        <div className="flex items-center space-x-2">
-          <div className="w-6 h-6 border-2 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
-          <span className="text-gray-500">Loading your sessions...</span>
-        </div>
+      <div className="text-center py-8">
+        <LoadingSpinner />
+        <p>Loading your bookings...</p>
       </div>
     );
   }
@@ -37,7 +89,7 @@ export default function MyBookings() {
     return <p className="text-red-500 text-center">❌ {$error}</p>;
   }
 
-  if (!$userBookings.length) {
+  if (!sortedBookings.length) {
     return (
       <div className="text-center py-8">
         <p className="text-gray-600 dark:text-gray-400 mb-4">No sessions booked yet.</p>
@@ -46,16 +98,10 @@ export default function MyBookings() {
     );
   }
 
+  // 6. Main render
   return (
     <div className="space-y-4 text-sm text-gray-800 dark:text-gray-200">
-      {$userBookings.map((booking) => {
-        const createdAt = booking.created_at
-          ? new Date(booking.created_at).toLocaleString(undefined, {
-              dateStyle: 'medium',
-              timeStyle: 'short',
-            })
-          : null;
-
+      {formattedBookings.map((booking) => {
         return (
           <div
             key={booking.id}
@@ -85,9 +131,9 @@ export default function MyBookings() {
                 </div>
               )}
             </div>
-            {createdAt && (
+            {booking.formattedDate && (
               <div className=" text-gray-400 text-[0.6rem] mt-2">
-                Booking created at {createdAt} by {booking.email}
+                Booking created at {booking.formattedDate} by {booking.email}
               </div>
             )}
             <div className="mt-4">
@@ -98,7 +144,7 @@ export default function MyBookings() {
               >
                 {cancelingId === booking.id ? (
                   <span className="flex items-center justify-center">
-                    <div className="w-3 h-3 border border-white border-t-transparent rounded-full animate-spin mr-2"></div>
+                    <LoadingSpinner />
                     Cancelling...
                   </span>
                 ) : (

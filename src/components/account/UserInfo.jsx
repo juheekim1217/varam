@@ -1,5 +1,5 @@
 import { useStore } from '@nanostores/react';
-import { user } from '~/stores/userStore';
+import { user } from '~/stores/authStore';
 
 export default function UserInfo() {
   const $user = useStore(user);
