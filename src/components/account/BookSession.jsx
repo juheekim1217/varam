@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
 import { useStore } from '@nanostores/react';
-import { user as userStore, futureBookings, futureBookingsLoading } from '~/stores/bookingStore';
+import { futureBookings, futureBookingsLoading } from '~/stores/bookingStore';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { supabase } from '~/lib/supabaseClient';
+import { user } from '~/stores/userStore';
 
 const timeSlots = [
   '6:00 AM',
@@ -27,7 +28,7 @@ const unavailableHours = {
 };
 
 export default function BookingSession() {
-  const $user = useStore(userStore);
+  const $user = useStore(user);
   const $futureBookings = useStore(futureBookings);
   const $loading = useStore(futureBookingsLoading);
 

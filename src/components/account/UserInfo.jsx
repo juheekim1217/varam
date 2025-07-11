@@ -1,8 +1,8 @@
 import { useStore } from '@nanostores/react';
-import { user as userStore } from '~/stores/bookingStore';
+import { user } from '~/stores/userStore';
 
 export default function UserInfo() {
-  const $user = useStore(userStore);
+  const $user = useStore(user);
 
   if (!$user) {
     return <div className="text-sm text-gray-500 dark:text-gray-400">You are not signed in.</div>;
@@ -14,10 +14,10 @@ export default function UserInfo() {
 
       <div className="flex items-center justify-between">
         <div className="text-sm font-medium text-gray-900 dark:text-white truncate">
-          {$user.fullName || $user.email.split('@')[0]}
+          {$user.fullName || $user.email?.split('@')[0]}
         </div>
         <span className="px-2 py-0.5 text-xs bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 rounded-full capitalize">
-          {$user.role}
+          {$user.role || 'member'}
         </span>
       </div>
 

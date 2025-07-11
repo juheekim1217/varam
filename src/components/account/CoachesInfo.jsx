@@ -1,11 +1,8 @@
 // src/components/CoachInfo.jsx
 import { useEffect, useState } from 'react';
-import { useStore } from '@nanostores/react';
-import { user as userStore } from '~/stores/bookingStore';
 import { supabase } from '~/lib/supabaseClient';
 
 export default function CoachInfo() {
-  const $user = useStore(userStore);
   const [coaches, setCoaches] = useState([]);
   const [loading, setLoading] = useState(true);
 

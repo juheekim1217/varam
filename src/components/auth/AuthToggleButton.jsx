@@ -1,26 +1,26 @@
-import { useEffect, useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useStore } from '@nanostores/react';
-import { user as userStore } from '~/stores/bookingStore';
-import UserInfo from '~/components/account/UserInfo.jsx';
+import { user } from '~/stores/userStore';
+import UserInfo from '~/components/account/UserInfo';
 
 export default function AuthToggleButton() {
-  const $user = useStore(userStore);
+  const $user = useStore(user);
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef();
-
-  // Remove useEffect for fetching user/role
 
   const handleLogin = () => {
     window.location.href = '/auth/signin';
   };
 
   const handleLogout = async () => {
-    // Optionally, you can call supabase.auth.signOut() here if needed
-    await import('~/lib/supabaseClient').then(({ supabase }) => supabase.auth.signOut());
+    const { supabase } = await import('~/lib/supabaseClient');
+    await supabase.auth.signOut();
     window.location.href = '/';
   };
 
-  const getInitials = (email) => email?.slice(0, 2).toUpperCase();
+  const getInitials = (email) => {
+    return email?.slice(0, 2).toUpperCase() || '??';
+  };
 
   useEffect(() => {
     const handleClickOutside = (e) => {
@@ -54,7 +54,6 @@ export default function AuthToggleButton() {
           {getInitials($user.email)}
         </button>
 
-        {/* Mobile sign out */}
         <button onClick={handleLogout} className="md:hidden ml-2 text-sm text-black underline dark:text-white">
           Log Out
         </button>
@@ -73,9 +72,6 @@ export default function AuthToggleButton() {
             <a href="/account/account-settings" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">
               Account Settings
             </a>
-            {/* <a href="/account/dashboard" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">
-              Dashboard
-            </a> */}
           </div>
 
           <div className="border-t border-gray-100 dark:border-gray-700">

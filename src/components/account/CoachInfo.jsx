@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
 import { supabase } from '~/lib/supabaseClient';
 import { useStore } from '@nanostores/react';
-import { user as userStore } from '~/stores/bookingStore';
+import { user } from '~/stores/userStore';
 
 export default function CoachInfo() {
   const [coach, setCoach] = useState(null);
   const [loading, setLoading] = useState(true);
-  const $user = useStore(userStore);
+  const $user = useStore(user);
 
   useEffect(() => {
     if (!$user?.id) return;

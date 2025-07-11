@@ -1,7 +1,9 @@
 // components/BookingCalendar.jsx
 import { useState } from 'react';
 import { useStore } from '@nanostores/react';
-import { futureBookings, futureBookingsLoading, user } from '~/stores/bookingStore';
+import { futureBookings, futureBookingsLoading } from '~/stores/bookingStore';
+import { user } from '~/stores/userStore';
+
 import {
   format,
   startOfMonth,

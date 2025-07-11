@@ -1,7 +1,7 @@
 // src/components/dashboard/DashboardWrapper.jsx
 import { useEffect } from 'react';
 import { useStore } from '@nanostores/react';
-import { fetchUser, fetchFutureBookings, futureBookingsLoading, loading as userLoading } from '~/stores/bookingStore';
+import { fetchFutureBookings, futureBookingsLoading, loading as userLoading } from '~/stores/bookingStore';
 
 import UserInfo from '~/components/account/UserInfo.jsx';
 import BookingCalendar from '~/components/calendar/BookingsCalendar';
@@ -13,7 +13,7 @@ export default function DashboardWrapper() {
   const $isUserLoading = useStore(userLoading);
 
   useEffect(() => {
-    fetchUser().then(fetchFutureBookings);
+    fetchFutureBookings();
   }, []);
 
   if ($isFutureLoading || $isUserLoading) {

@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useStore } from '@nanostores/react';
-import { fetchFutureBookings, futureBookingsLoading, fetchUser, loading } from '~/stores/bookingStore';
+import { fetchFutureBookings, futureBookingsLoading, loading } from '~/stores/bookingStore';
 import BookSessionComponent from '~/components/account/BookSession.jsx';
 import FutureBookingsCalendarComponent from '~/components/calendar/FutureBookingsCalendar.jsx';
 
@@ -10,7 +10,6 @@ export default function AdminBookingWrapper() {
 
   useEffect(() => {
     fetchFutureBookings();
-    fetchUser();
   }, []);
 
   if ($futureBookingsLoading || $loading) {
