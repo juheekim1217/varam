@@ -11,20 +11,31 @@ export default function SignInForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
-    setErrorMsg('');
-    setSuccessMsg('');
 
-    const result = await signIn(email, password);
+    try {
+      setLoading(true);
+      setErrorMsg('');
+      setSuccessMsg('');
+      console.log('Attempting to sign in with:', { email });
+      const result = await signIn(email, password);
+      console.log('Sign in result:', result.success);
 
-    if (!result.success) {
-      setErrorMsg(result.error || 'Unknown error');
-      setLoading(false);
-    } else {
+      if (!result.success) {
+        throw new Error(result.error || 'Unknown error');
+      }
+
       setSuccessMsg('Signed in successfully!');
-      setLoading(false);
       setRedirecting(true);
-      window.location.href = '/account/my-bookings';
+
+      // Add timeout to ensure state updates before redirect
+      setTimeout(() => {
+        window.location.href = '/account/my-bookings';
+      }, 100);
+    } catch (err) {
+      setErrorMsg(err.message);
+      setRedirecting(false);
+    } finally {
+      setLoading(false);
     }
   };
 
