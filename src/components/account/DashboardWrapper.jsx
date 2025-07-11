@@ -29,32 +29,32 @@ export default function DashboardWrapper() {
 
   return (
     <>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-        <div class="bg-slate-100 dark:bg-gray-900  dark:border-gray-700 rounded-2xl p-6 shadow-sm">
-          <h2 class="text-xl font-semibold text-gray-900 dark:text-white mb-4">🧑 Account</h2>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+        <div className="bg-slate-100 dark:bg-gray-900  dark:border-gray-700 rounded-2xl p-6 shadow-sm">
+          <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">🧑 Account</h2>
           <UserInfo client:load />
-          <div class="mt-6">
-            <h3 class="text-lg font-semibold text-gray-800 dark:text-white mb-2">📌 Tips</h3>
-            <ul class="list-disc list-inside text-sm text-gray-600 dark:text-gray-300 space-y-1">
+          <div className="mt-6">
+            <h3 className="text-lg font-semibold text-gray-800 dark:text-white mb-2">📌 Tips</h3>
+            <ul className="list-disc list-inside text-sm text-gray-600 dark:text-gray-300 space-y-1">
               <li>✅ Only future sessions appear in the calendar.</li>
               <li>📆 Click a date to view available time slots.</li>
               <li>🗑️ Cancel or reschedule from the session list.</li>
             </ul>
           </div>
         </div>
-        <div class="bg-slate-100 dark:bg-gray-900 dark:border-gray-700 rounded-2xl p-6 shadow-sm">
-          <h2 class="text-xl font-semibold text-gray-900 dark:text-white mb-4">🎓 Coach Profile</h2>
+        <div className="bg-slate-100 dark:bg-gray-900 dark:border-gray-700 rounded-2xl p-6 shadow-sm">
+          <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">🎓 Coach Profile</h2>
           <CoachInfo client:load />
         </div>
       </div>
 
-      <div class="mb-8 bg-slate-100 dark:bg-gray-900 dark:border-gray-700 rounded-2xl p-6 shadow-sm">
-        <h2 class="text-xl font-semibold text-gray-900 dark:text-white mb-4">👥 All Coaches</h2>
+      <div className="mb-8 bg-slate-100 dark:bg-gray-900 dark:border-gray-700 rounded-2xl p-6 shadow-sm">
+        <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">👥 All Coaches</h2>
         <CoachesInfo client:load />
       </div>
 
-      <div class="mb-8 bg-slate-100 dark:bg-gray-900 dark:border-gray-700 rounded-2xl p-6 shadow-sm">
-        <h2 class="text-xl font-semibold text-gray-900 dark:text-white mb-4">📅 Upcoming Bookings</h2>
+      <div className="mb-8 bg-slate-100 dark:bg-gray-900 dark:border-gray-700 rounded-2xl p-6 shadow-sm">
+        <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">📅 Upcoming Bookings</h2>
         <BookingCalendar client:load />
       </div>
     </>
