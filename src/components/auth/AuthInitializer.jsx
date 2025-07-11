@@ -5,5 +5,5 @@ export default function AuthInitializer() {
   useEffect(() => {
     initializeAuthListener();
   }, []);
-  return <></>;
+  return null; // This component does not render anything
 }

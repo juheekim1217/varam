@@ -13,5 +13,5 @@ export default function TriggerUserBookingRefresh() {
     return <div className="text-center py-12 text-gray-600 dark:text-gray-300">Loading bookings...</div>;
   }
 
-  return <></>;
+  return null; // This component does not render anything
 }
