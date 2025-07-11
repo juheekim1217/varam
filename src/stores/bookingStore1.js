@@ -46,9 +46,10 @@ export const fetchUser = async () => {
   } catch (err) {
     error.set('Failed to fetch user: ' + err.message);
     user.set(null);
-  } finally {
-    loading.set(false);
-  }
+    } finally {
+      loading.set(false);
+    }
+  };
 };
 
 // ─────────── Fetch Future Bookings ───────────

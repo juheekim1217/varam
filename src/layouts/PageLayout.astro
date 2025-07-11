@@ -30,5 +30,5 @@ const { metadata } = Astro.props;
     <Footer {...footerData} />
   </slot>
 
-  <DisableInspect client:load />
+  <DisableInspect client:only="react" />
 </Layout>

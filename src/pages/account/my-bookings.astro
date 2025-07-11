@@ -14,13 +14,13 @@ const metadata = { title: 'All Booked Sessions' };
       <!-- Calendar Column -->
       <div class="rounded-xl bg-slate-100 shadow p-4 dark:bg-gray-800">
         <h3 class="text-xl font-semibold mb-4">🗓️ Booking Calendar</h3>
-        <MyBookingsCalendarComponent client:load />
+        <MyBookingsCalendarComponent client:only="react" />
       </div>
 
       <!-- List/Manage Column -->
       <div class="rounded-xl bg-slate-100 shadow p-4 dark:bg-gray-800">
         <h3 class="text-xl font-semibold mb-4">✏️ Manage Your Sessions</h3>
-        <MyBookingsComponent client:load />
+        <MyBookingsComponent client:only="react" />
       </div>
     </div>
   </section>

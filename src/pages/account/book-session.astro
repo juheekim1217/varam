@@ -11,6 +11,6 @@ const metadata = {
 <Layout metadata={metadata}>
   <div class="container mx-auto px-4 py-8">
     <h1 class="text-3xl font-bold mb-8 text-center">{metadata.title}</h1>
-    <BookSessionWrapper client:load />
+    <BookSessionWrapper client:only="react" />
   </div>
 </Layout>

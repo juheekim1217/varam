@@ -130,7 +130,7 @@ const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`;
         }
 
         <!-- Inject My Account menu if user is logged in -->
-        <UserLinks client:load />
+        <UserLinks client:only="react" />
       </ul>
     </nav>
     <div
@@ -141,7 +141,7 @@ const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`;
     >
       <div class="items-center flex justify-between w-full md:w-auto">
         <!--  Hide Start Trial button if user is logged in -->
-        <ShowIfGuest client:load>
+        <ShowIfGuest client:only="react">
           <span class="ml-4 rtl:ml-0 rtl:mr-4">
             {
               actions.map((action) =>
@@ -164,7 +164,7 @@ const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`;
 
         <!-- Toggle Sign in/Profile button -->
         <span class="ml-4 rtl:ml-0 rtl:mr-4">
-          <AuthToggleButton client:load />
+          <AuthToggleButton client:only="react" />
         </span>
 
         <span class="ml-4 rtl:ml-0 rtl:mr-4">

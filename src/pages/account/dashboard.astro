@@ -10,6 +10,6 @@ const metadata = { title: 'Dashboard' };
     <div class="text-center">
       <h1 class="text-4xl font-extrabold text-gray-900 pb-4 dark:text-white">{metadata.title}</h1>
     </div>
-    <DashboardWrapper client:load />
+    <DashboardWrapper client:only="react" />
   </section>
 </Layout>

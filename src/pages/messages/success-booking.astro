@@ -10,7 +10,7 @@ const metadata = {
 
 <Layout metadata={metadata}>
   <section class="max-w-xl mx-auto my-20 p-6 text-center border rounded-2xl shadow space-y-4">
-    <TriggerUserBookingRefresh client:load />
+    <TriggerUserBookingRefresh client:only="react" />
 
     <h1 class="text-3xl font-bold text-green-600">✅ Booking Confirmed</h1>
     <p class="text-lg">Thanks for booking your training session with Varam Strength.</p>

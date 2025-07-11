@@ -11,6 +11,6 @@ const metadata = {
 <Layout metadata={metadata}>
   <section class="max-w-md mx-auto py-12 px-4">
     <h1 class="text-2xl font-bold mb-4 text-center">{metadata.title}</h1>
-    <AccountSettingsComponent client:load />
+    <AccountSettingsComponent client:only="react" />
   </section>
 </Layout>

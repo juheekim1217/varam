@@ -22,14 +22,14 @@ export default function AdminBookingWrapper() {
       <div className="order-1 lg:order-1">
         <div className="rounded-xl bg-slate-100 shadow p-4 dark:bg-gray-800">
           <h2 className="text-xl font-semibold mb-4">✏️ Book Your Training Session</h2>
-          <BookSessionComponent client:load />
+          <BookSessionComponent client:only="react" />
         </div>
       </div>
 
       <div className="order-2 lg:order-2">
         <div className="rounded-xl bg-slate-100 shadow p-4 dark:bg-gray-800">
           <h2 className="text-xl font-semibold mb-4">📅 All Bookings</h2>
-          <FutureBookingsCalendarComponent client:load />
+          <FutureBookingsCalendarComponent client:only="react" />
         </div>
       </div>
     </div>
