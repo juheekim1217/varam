@@ -1,6 +1,6 @@
 import { atom } from 'nanostores';
 import { supabase } from '~/lib/supabaseClient';
-import type { User } from '@supabase/supabase-js';
+import type { AuthChangeEvent, Session } from '@supabase/supabase-js';
 
 // Types
 export interface UserData {
@@ -26,7 +26,7 @@ export const loading = atom<boolean>(false);
 export const error = atom<string>('');
 
 // Fetch user from Supabase session + user row
-export const fetchUser = async (): Promise<void> => {
+export const fetchUser = async (): Promise<UserData | null> => {
   try {
     loading.set(true);
     error.set('');
@@ -37,7 +37,7 @@ export const fetchUser = async (): Promise<void> => {
     if (sessionError || !currentUser) {
       user.set(null);
       error.set('Please sign in.');
-      return;
+      return null;
     }
 
     const { data: userRow, error: userFetchError } = await supabase
@@ -58,9 +58,11 @@ export const fetchUser = async (): Promise<void> => {
     };
 
     user.set(userData);
+    return userData;
   } catch (err) {
     error.set(`Failed to fetch user: ${(err as Error).message}`);
     user.set(null);
+    return null;
   } finally {
     loading.set(false);
   }
@@ -124,4 +126,46 @@ export const signOut = async (): Promise<void> => {
     user.set(null);
     error.set('');
   }
+};
+
+export const initAuthListener = () => {
+  return supabase.auth.onAuthStateChange(async (event: AuthChangeEvent, session: Session | null) => {
+    if (event === 'SIGNED_IN' && session?.user) {
+      loading.set(true);
+      error.set('');
+
+      try {
+        const currentUser = session.user;
+        const { data: userRow, error: userFetchError } = await supabase
+          .from('users')
+          .select('role')
+          .eq('id', currentUser.id)
+          .maybeSingle<UserRow>();
+
+        if (userFetchError) {
+          console.warn('Could not fetch user role:', userFetchError.message);
+        }
+
+        const userData: UserData = {
+          id: currentUser.id,
+          email: currentUser.email,
+          fullName: currentUser.user_metadata?.full_name ?? currentUser.email?.split('@')[0] ?? '',
+          role: userRow?.role ?? null,
+        };
+
+        user.set(userData);
+        localStorage.setItem('user', JSON.stringify(userData));
+      } catch (err) {
+        user.set(null);
+        error.set(`Failed to fetch user: ${(err as Error).message}`);
+      } finally {
+        loading.set(false);
+      }
+    }
+
+    if (event === 'SIGNED_OUT') {
+      user.set(null);
+      localStorage.removeItem('user');
+    }
+  });
 };
