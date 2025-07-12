@@ -1,6 +1,6 @@
 import { atom } from 'nanostores';
 import { supabase } from '~/lib/supabaseClient';
-import type { AuthChangeEvent, Session } from '@supabase/supabase-js';
+import type { AuthChangeEvent, Session, User } from '@supabase/supabase-js';
 
 // Types
 export interface UserData {
@@ -15,6 +15,12 @@ interface UserRow {
 }
 
 interface SignInResponse {
+  success: boolean;
+  error?: string;
+  data?: UserData;
+}
+
+interface SignUpResponse {
   success: boolean;
   error?: string;
   data?: UserData;
@@ -109,6 +115,45 @@ export const signIn = async (email: string, password: string): Promise<SignInRes
     };
 
     user.set(userData);
+    return { success: true, data: userData };
+  } catch (err) {
+    const message = (err as Error).message;
+    error.set(message);
+    return { success: false, error: message };
+  } finally {
+    loading.set(false);
+  }
+};
+
+export const signUp = async (email: string, password: string): Promise<SignUpResponse> => {
+  try {
+    loading.set(true);
+    error.set('');
+
+    const { data: authData, error: signUpError } = await supabase.auth.signUp({
+      email,
+      password,
+    });
+
+    if (signUpError) {
+      error.set(signUpError.message);
+      return { success: false, error: signUpError.message };
+    }
+
+    if (!authData?.user) {
+      const msg = 'No user data returned';
+      error.set(msg);
+      return { success: false, error: msg };
+    }
+
+    const userData: UserData = {
+      id: authData.user.id,
+      email: authData.user.email,
+      fullName: authData.user.email?.split('@')[0] ?? '',
+      role: 'guest',
+    };
+
+    // Don't set user here since they need to verify email
     return { success: true, data: userData };
   } catch (err) {
     const message = (err as Error).message;

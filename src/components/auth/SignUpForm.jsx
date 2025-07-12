@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { supabase } from '~/lib/supabaseClient';
+import { signUp } from '~/stores/authStore';
 
 export default function SignUpForm() {
   const [email, setEmail] = useState('');
@@ -48,32 +48,34 @@ export default function SignUpForm() {
     setErrorMsg('');
     setSuccessMsg('');
 
-    // Validate email from abuse and spam
-    const allowed = await checkBlockedEmail(email);
-    if (!allowed) {
-      setErrorMsg('Sign-up denied. This email address is permanently blocked due to suspicious or abusive activity.');
-      setLoading(false);
-      return;
-    }
+    try {
+      // Validate email from abuse and spam
+      const allowed = await checkBlockedEmail(email);
+      if (!allowed) {
+        setErrorMsg('Sign-up denied. This email address is permanently blocked.');
+        return;
+      }
 
-    // Check if email is already registered
-    const exists = await checkEmailExists(email);
-    if (exists) {
-      setErrorMsg('This email is already registered. Please sign in instead.');
-      setLoading(false);
-      return;
-    }
+      // Check if email is already registered
+      const exists = await checkEmailExists(email);
+      if (exists) {
+        setErrorMsg('This email is already registered. Please sign in instead.');
+        return;
+      }
 
-    // Proceed with sign-up
-    const { error } = await supabase.auth.signUp({ email, password });
+      // Proceed with sign-up
+      const result = await signUp(email, password);
 
-    if (error) {
-      setErrorMsg(error.message);
-    } else {
+      if (!result.success) {
+        throw new Error(result.error);
+      }
+
       setSuccessMsg('Account created! Please check your email to confirm your registration.');
+    } catch (err) {
+      setErrorMsg(err.message);
+    } finally {
+      setLoading(false);
     }
-
-    setLoading(false);
   };
 
   return (

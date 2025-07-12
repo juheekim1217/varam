@@ -1,5 +1,4 @@
-import { supabase } from '~/lib/supabaseClient';
-import { user, loading, error, fetchUser, initAuthListener } from '~/stores/authStore';
+import { loading, fetchUser, initAuthListener } from '~/stores/authStore';
 import type { UserData } from '~/stores/authStore';
 
 export const initializeAuthListener = async () => {
