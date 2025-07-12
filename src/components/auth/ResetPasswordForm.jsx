@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { supabase } from '~/lib/supabaseClient';
+import { resetPassword } from '~/stores/authStore';
 
 export default function ResetPasswordForm() {
   const [password, setPassword] = useState('');
@@ -13,12 +13,16 @@ export default function ResetPasswordForm() {
     setError('');
     setMessage('');
 
-    const { error } = await supabase.auth.updateUser({ password });
+    const result = await resetPassword(password);
 
-    if (error) {
-      setError(error.message);
+    if (result.error) {
+      setError(result.error);
     } else {
-      setMessage('Password updated! You can now sign in.');
+      setMessage('Password updated successfully!');
+      // Optional: Redirect to login
+      setTimeout(() => {
+        window.location.href = '/auth/signin';
+      }, 2000);
     }
 
     setLoading(false);

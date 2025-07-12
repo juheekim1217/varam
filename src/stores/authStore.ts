@@ -26,6 +26,11 @@ interface SignUpResponse {
   data?: UserData;
 }
 
+interface PasswordResetResponse {
+  success: boolean;
+  error?: string;
+}
+
 // Atoms (global state)
 export const user = atom<UserData | null>(null);
 export const loading = atom<boolean>(false);
@@ -213,4 +218,50 @@ export const initAuthListener = () => {
       localStorage.removeItem('user');
     }
   });
+};
+
+export const resetPassword = async (password: string): Promise<PasswordResetResponse> => {
+  try {
+    loading.set(true);
+    error.set('');
+
+    const { error: updateError } = await supabase.auth.updateUser({ password });
+
+    if (updateError) {
+      error.set(updateError.message);
+      return { success: false, error: updateError.message };
+    }
+
+    return { success: true };
+  } catch (err) {
+    const message = (err as Error).message;
+    error.set(message);
+    return { success: false, error: message };
+  } finally {
+    loading.set(false);
+  }
+};
+
+export const resetPasswordForEmail = async (email: string, redirectTo: string): Promise<PasswordResetResponse> => {
+  try {
+    loading.set(true);
+    error.set('');
+
+    const { error: resetError } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo,
+    });
+
+    if (resetError) {
+      error.set(resetError.message);
+      return { success: false, error: resetError.message };
+    }
+
+    return { success: true };
+  } catch (err) {
+    const message = (err as Error).message;
+    error.set(message);
+    return { success: false, error: message };
+  } finally {
+    loading.set(false);
+  }
 };

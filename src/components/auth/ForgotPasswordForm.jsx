@@ -1,30 +1,12 @@
 import { useState } from 'react';
-import { supabase } from '~/lib/supabaseClient';
+import { resetPasswordForEmail } from '~/stores/authStore';
+import { checkEmailExists } from '~/utils/authUtils';
 
 export default function ForgotPasswordForm() {
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-
-  // Helper to check if the email is registered
-  const checkEmailExists = async (email) => {
-    try {
-      const res = await fetch(import.meta.env.PUBLIC_SUPABASE_URL + '/functions/v1/check-email-exists', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email }),
-      });
-
-      if (!res.ok) throw new Error('Failed to check email');
-
-      const result = await res.json();
-      return result.exists === true;
-    } catch (err) {
-      console.error('Error checking email:', err);
-      return false;
-    }
-  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -39,12 +21,10 @@ export default function ForgotPasswordForm() {
       return;
     }
 
-    const { error } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: `${window.location.origin}/auth/reset-password`,
-    });
+    const result = await resetPasswordForEmail(email, `${window.location.origin}/auth/reset-password`);
 
-    if (error) {
-      setError(error.message);
+    if (result.error) {
+      setError(result.error);
     } else {
       setMessage('Password reset email sent! Please check your inbox.');
     }

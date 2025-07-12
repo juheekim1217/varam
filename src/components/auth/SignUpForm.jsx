@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { signUp } from '~/stores/authStore';
+import { checkEmailExists, checkBlockedEmail } from '~/utils/authUtils';
 
 export default function SignUpForm() {
   const [email, setEmail] = useState('');
@@ -8,40 +9,6 @@ export default function SignUpForm() {
   const [successMsg, setSuccessMsg] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const checkEmailExists = async (email) => {
-    try {
-      const res = await fetch(import.meta.env.PUBLIC_SUPABASE_URL + '/functions/v1/check-email-exists', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email }),
-      });
-
-      if (!res.ok) throw new Error('Failed to check email');
-
-      const result = await res.json();
-      return result.exists === true;
-    } catch (err) {
-      console.error('Error checking email:', err);
-      return false; // or return null to distinguish errors
-    }
-  };
-
-  const checkBlockedEmail = async (email) => {
-    try {
-      const res = await fetch(import.meta.env.PUBLIC_SUPABASE_URL + '/functions/v1/check-email-blocked', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email }),
-      });
-
-      const result = await res.json();
-      return result.allowed == true;
-    } catch (err) {
-      console.error('Failed to check blocked email:', err);
-      return true; // Default to allow if function fails
-    }
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -49,17 +16,15 @@ export default function SignUpForm() {
     setSuccessMsg('');
 
     try {
-      // Validate email from abuse and spam
-      const allowed = await checkBlockedEmail(email);
-      if (!allowed) {
-        setErrorMsg('Sign-up denied. This email address is permanently blocked.');
+      const [exists, allowed] = await Promise.all([checkEmailExists(email), checkBlockedEmail(email)]);
+
+      if (exists) {
+        setErrorMsg('This email is already registered. Please sign in instead.');
         return;
       }
 
-      // Check if email is already registered
-      const exists = await checkEmailExists(email);
-      if (exists) {
-        setErrorMsg('This email is already registered. Please sign in instead.');
+      if (!allowed) {
+        setErrorMsg('Sign-up denied. This email address is permanently blocked.');
         return;
       }
 
