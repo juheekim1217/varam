@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { signUp } from '~/stores/authStore';
-import { checkEmailExists, checkBlockedEmail } from '~/utils/edgeFunctionService';
+import { checkEmailExists, checkBlockedEmail } from '~/services/edgeFunctionService';
 
 export default function SignUpForm() {
   const [email, setEmail] = useState('');
