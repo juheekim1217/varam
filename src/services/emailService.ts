@@ -1,7 +1,7 @@
 // src/utils/sendInquiryEmails.ts
 import nodemailer from 'nodemailer';
 
-interface SendInquiryEmailsArgs {
+interface SendContactEmailsArgs {
   name: string;
   email: string;
   message: string;
@@ -17,7 +17,13 @@ interface SendTrialEmailsArgs {
   adminEmail: string;
 }
 
-export async function sendContactEmails({ name, email, message, adminEmail }: SendInquiryEmailsArgs) {
+interface SendDeletionEmailArgs {
+  email: string;
+  adminEmail: string;
+}
+
+// 🔔 Send contact form emails
+export async function sendContactEmails({ name, email, message, adminEmail }: SendContactEmailsArgs) {
   const transporter = nodemailer.createTransport({
     service: 'Gmail',
     auth: {
@@ -72,6 +78,7 @@ Looking forward to connecting with you soon!
   });
 }
 
+// 🔔 Send trial request emails
 export async function sendTrialEmails({ firstName, lastName, email, phone, message, adminEmail }: SendTrialEmailsArgs) {
   const transporter = nodemailer.createTransport({
     service: 'Gmail',
@@ -123,5 +130,58 @@ ${message}
 
 Talk to you soon!
 – Varam Strength Team`,
+  });
+}
+
+// 🔔 Send account deletion confirmation email
+export async function sendAccountDeletionEmail({ email, adminEmail }: SendDeletionEmailArgs) {
+  const transporter = nodemailer.createTransport({
+    service: 'Gmail',
+    auth: {
+      user: adminEmail,
+      pass: import.meta.env.ADMIN_EMAIL_APP_PASS,
+    },
+  });
+
+  // Send notification to admin
+  await transporter.sendMail({
+    from: `"Varam Strength" <${adminEmail}>`,
+    to: adminEmail,
+    replyTo: email,
+    subject: '🗑️ Account Deletion Alert',
+    text: `An account has been deleted from Varam Strength.
+
+Account Details:
+–––––––––––––––––––––––––––––
+Email: ${email}
+Time: ${new Date().toLocaleString()}
+–––––––––––––––––––––––––––––
+
+This is an automated notification.`,
+  });
+
+  // Send confirmation to user
+  await transporter.sendMail({
+    from: `"Varam Strength" <${adminEmail}>`,
+    to: email,
+    subject: 'Account Deleted - Varam Strength',
+    text: `Hello,
+
+Your account has been successfully deleted from Varam Strength.
+
+If you didn't request this deletion, please contact us immediately at ${adminEmail}.
+
+We're sorry to see you go. You're always welcome back if you change your mind.
+
+– The Varam Strength Team`,
+    html: `
+      <p>Hello,</p>
+      <p>Your account has been successfully deleted from Varam Strength.</p>
+      <p>If you didn't request this deletion, please contact us immediately at <a href="mailto:${adminEmail}">${adminEmail}</a>.</p>
+      <br/>
+      <p>We're sorry to see you go. You're always welcome back if you change your mind.</p>
+      <br/>
+      <p>– The Varam Strength Team</p>
+    `,
   });
 }

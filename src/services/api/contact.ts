@@ -1,29 +1,31 @@
 // src/services/api/contact.ts
 import type { APIRoute } from 'astro';
-import { checkContactInquiryBlocked } from '~/services/edgeFunctionService';
 import { sendContactEmails } from '~/services/emailService';
+import { validateEmailInquiry } from '~/utils/validation';
 
 export const prerender = false;
 
 export const POST: APIRoute = async ({ request }) => {
-  const data = await request.formData();
-  const name = data.get('name')?.toString();
-  const email = data.get('email')?.toString();
-  const message = data.get('message')?.toString();
-
-  if (!name || !email || !message) {
-    return new Response('Missing fields', { status: 400 });
-  }
-
-  const result = await checkContactInquiryBlocked({ name, email, message });
-  if (!result.allowed) {
-    return new Response(null, {
-      status: 302,
-      headers: { Location: '/flagged/inquiry-blocked' },
-    });
-  }
-
   try {
+    const data = await request.formData();
+    const name = data.get('name')?.toString().trim();
+    const email = data.get('email')?.toString().trim();
+    const message = data.get('message')?.toString().trim();
+
+    if (!name || !email || !message) {
+      const url = new URL('/messages/error?reason=missing-fields', request.url);
+      return Response.redirect(url.toString(), 302);
+    }
+
+    // Client-side validation
+    const validation = validateEmailInquiry(email, message);
+    if (!validation.allowed) {
+      const url = new URL('/messages/error', request.url);
+      url.searchParams.set('reason', validation.reason || 'blocked');
+      return Response.redirect(url.toString(), 302);
+    }
+
+    // Send emails
     await sendContactEmails({
       name,
       email,
@@ -31,12 +33,13 @@ export const POST: APIRoute = async ({ request }) => {
       adminEmail: import.meta.env.ADMIN_EMAIL,
     });
 
-    return new Response(null, {
-      status: 302,
-      headers: { Location: '/messages/success-message' },
-    });
+    // Redirect to success page
+    const successUrl = new URL('/messages/success-message', request.url);
+    return Response.redirect(successUrl.toString(), 302);
   } catch (err) {
-    console.error('Email error:', err);
-    return new Response('Email failed', { status: 500 });
+    console.error('Contact form error:', err);
+    const errorUrl = new URL('/messages/error', request.url);
+    errorUrl.searchParams.set('reason', 'server-error');
+    return Response.redirect(errorUrl.toString(), 302);
   }
 };

@@ -1,6 +1,6 @@
 import type { APIRoute } from 'astro';
-import { checkTrialInquiryBlocked } from '~/services/edgeFunctionService';
 import { sendTrialEmails } from '~/services/emailService';
+import { validateEmailInquiry } from '~/utils/validation';
 
 export const prerender = false;
 
@@ -16,28 +16,12 @@ export const POST: APIRoute = async ({ request }) => {
     return new Response('Missing fields', { status: 400 });
   }
 
-  // 🔒 Edge Function to block spam
-  // const res = await fetch(`${import.meta.env.PUBLIC_SUPABASE_URL}/functions/v1/check-inquiry-blocked`, {
-  //   method: 'POST',
-  //   headers: { 'Content-Type': 'application/json' },
-  //   body: JSON.stringify({ firstName, lastName, email, phone, message }),
-  // });
-
-  // const result = await res.json();
-
-  // if (!res.ok || result.allowed === false) {
-  //   console.warn('Blocked trial request from:', email);
-  //   return new Response(null, {
-  //     status: 302,
-  //     headers: { Location: '/flagged/inquiry-blocked' },
-  //   });
-  // }
-  const result = await checkTrialInquiryBlocked({ firstName, lastName, email, phone, message });
-  if (!result.allowed) {
-    return new Response(null, {
-      status: 302,
-      headers: { Location: '/flagged/inquiry-blocked' },
-    });
+  // Client-side validation
+  const validation = validateEmailInquiry(email, message);
+  if (!validation.allowed) {
+    const url = new URL('/messages/error', request.url);
+    url.searchParams.set('reason', validation.reason || 'blocked');
+    return Response.redirect(url.toString(), 302);
   }
 
   try {

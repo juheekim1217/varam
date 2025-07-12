@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { signUp } from '~/stores/authStore';
-import { checkEmailExists, checkBlockedEmail } from '~/services/edgeFunctionService';
+import { checkEmailExists } from '~/services/edgeFunctionService';
+import { validateEmail } from '~/utils/validation';
 
 export default function SignUpForm() {
   const [email, setEmail] = useState('');
@@ -16,7 +17,7 @@ export default function SignUpForm() {
     setSuccessMsg('');
 
     try {
-      const [exists, allowed] = await Promise.all([checkEmailExists(email), checkBlockedEmail(email)]);
+      const [exists, allowed] = await Promise.all([checkEmailExists(email), validateEmail(email)]);
 
       if (exists) {
         setErrorMsg('This email is already registered. Please sign in instead.');
