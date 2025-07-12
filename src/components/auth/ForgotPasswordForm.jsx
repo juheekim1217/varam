@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { resetPasswordForEmail } from '~/stores/authStore';
-import { checkEmailExists } from '~/utils/authUtils';
+import { checkEmailExists } from '~/utils/edgeFunctionService';
 
 export default function ForgotPasswordForm() {
   const [email, setEmail] = useState('');
