@@ -9,12 +9,12 @@
     },
     "types": ["react-datepicker"],
     "jsx": "react-jsx",
-    "moduleResolution": "node"
+    "moduleResolution": "bundler",
+    "typeRoots": ["./node_modules/@types", "./src/types"]
   },
   "include": [
     ".astro/types.d.ts",
-    "**/*",
-    "node_modules/@types/react-datepicker/index.d.ts"
+    "**/*"
   ],
   "exclude": ["dist/"]
 }
