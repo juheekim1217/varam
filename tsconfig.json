@@ -6,8 +6,15 @@
     "baseUrl": ".",
     "paths": {
       "~/*": ["src/*"]
-    }
+    },
+    "types": ["react-datepicker"],
+    "jsx": "react-jsx",
+    "moduleResolution": "node"
   },
-  "include": [".astro/types.d.ts", "**/*"],
+  "include": [
+    ".astro/types.d.ts",
+    "**/*",
+    "node_modules/@types/react-datepicker/index.d.ts"
+  ],
   "exclude": ["dist/"]
 }

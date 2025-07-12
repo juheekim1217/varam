@@ -1,4 +1,4 @@
-// src/pages/api/contact.ts
+// src/services/api/contact.ts
 import type { APIRoute } from 'astro';
 import { checkContactInquiryBlocked } from '~/services/edgeFunctionService';
 import { sendContactEmails } from '~/services/emailService';

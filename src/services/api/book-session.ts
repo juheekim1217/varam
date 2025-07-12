@@ -26,7 +26,7 @@ export const POST: APIRoute = async ({ request }) => {
 
   if (!result.success) {
     const url = new URL('/messages/error-booking', request.url);
-    url.searchParams.set('reason', result.error);
+    url.searchParams.set('reason', result.error || 'unknown');
     return Response.redirect(url.toString(), 302);
   }
 
