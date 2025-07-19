@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState } from 'react'; // Add React import
 import { signUp } from '~/stores/authStore';
 import { checkEmailExists } from '~/services/edgeFunctionService';
 import { validateEmail } from '~/utils/validation';

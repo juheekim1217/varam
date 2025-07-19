@@ -1,5 +1,3 @@
-import { sendAccountDeletionEmail } from './emailService';
-
 interface DeleteUserResponse {
   success: boolean;
   error?: string;
@@ -17,9 +15,6 @@ export const deleteUser = async (userId: string, email: string): Promise<DeleteU
 
     if (!response.ok) {
       throw new Error(result.error || 'Failed to delete account');
-    } else {
-      // 🔔 Send email after deletion
-      await sendAccountDeletionEmail({ email, adminEmail: import.meta.env.ADMIN_EMAIL });
     }
 
     return { success: true };
