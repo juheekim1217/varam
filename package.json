@@ -58,7 +58,6 @@
     "@types/lodash.merge": "^4.6.9",
     "@types/mdx": "^2.0.13",
     "@types/nodemailer": "^6.4.17",
-    "@types/react-datepicker": "^7.0.0",
     "@typescript-eslint/eslint-plugin": "^8.30.1",
     "@typescript-eslint/parser": "^8.30.1",
     "astro-compress": "2.3.8",

@@ -5,7 +5,6 @@ import {
   allBookings, // Changed from futureBookings
   allBookingsLoading, // Changed from futureBookingsLoading
   fetchAllBookings, // Changed from fetchFutureBookings
-  fetchUserBookings,
 } from '~/stores/bookingStore';
 import { user } from '~/stores/authStore';
 
