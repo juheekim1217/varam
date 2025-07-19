@@ -49,7 +49,7 @@ export default function AuthToggleButton() {
       <div className="flex-container">
         <button
           onClick={() => setMenuOpen(!menuOpen)}
-          className="w-8 h-8 rounded-full bg-gradient-to-br from-green-400 via-blue-500 to-purple-500 text-white text-sm font-semibold flex items-center justify-center shadow-sm ring-1 ring-gray-300"
+          className="w-8 h-8 rounded-full bg-gradient-to-br from-green-400 via-blue-500 to-purple-500 text-white text-sm font-semibold flex items-center justify-center shadow-sm ring-1 ring-white/20"
           aria-label="Open profile menu"
         >
           {getInitials($user.email)}
