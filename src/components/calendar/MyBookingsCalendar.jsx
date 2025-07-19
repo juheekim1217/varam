@@ -139,14 +139,14 @@ export default function MyBookingsCalendar() {
             </div>
           ) : (
             <>
-              {/* User bookings with different styling for past/upcoming */}
+              {/* User bookings with blue styling for upcoming, gray for past */}
               {dayBookings.slice(0, maxDisplayItems).map((booking) => (
                 <div
                   key={`booking-${booking.time}`}
                   className={
                     booking.isPast
                       ? 'bg-gray-100 text-gray-500 rounded px-1 py-0.5 text-[10px] truncate opacity-60 line-through'
-                      : 'bg-green-100 text-green-800 rounded px-1 py-0.5 text-[10px] truncate'
+                      : 'bg-blue-300 text-blue-800 rounded px-1 py-0.5 text-[10px] truncate' // Changed from green to blue
                   }
                 >
                   {booking.time}
@@ -257,7 +257,7 @@ export default function MyBookingsCalendar() {
                       className={
                         booking.isPast
                           ? 'bg-gray-50 border border-gray-200 rounded-lg p-4 opacity-75'
-                          : 'bg-green-50 border border-green-200 rounded-lg p-4'
+                          : 'bg-blue-50 border border-blue-200 rounded-lg p-4' // Changed from green to blue
                       }
                     >
                       <div className="flex justify-between items-start mb-2">
@@ -265,7 +265,7 @@ export default function MyBookingsCalendar() {
                           className={
                             booking.isPast
                               ? 'text-lg font-semibold text-gray-500 line-through'
-                              : 'text-lg font-semibold text-green-800'
+                              : 'text-lg font-semibold text-blue-800' // Changed from green to blue
                           }
                         >
                           {booking.time}
@@ -340,7 +340,7 @@ export default function MyBookingsCalendar() {
   const renderLegend = () => (
     <div className="flex items-center justify-end gap-4 text-xs text-gray-500 mb-4">
       <div className="flex items-center gap-1">
-        <span className="w-3 h-3 rounded bg-green-100 border border-green-600"></span>
+        <span className="w-3 h-3 rounded bg-blue-300 border border-blue-600"></span> {/* Changed from green to blue */}
         Upcoming Sessions
       </div>
       <div className="flex items-center gap-1">
