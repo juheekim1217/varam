@@ -63,15 +63,13 @@ export default function DashboardWrapper() {
           <CoachInfo client:only="react" />
         </div>
       </div>
-
-      <div className="mb-8 bg-slate-100 dark:bg-gray-900 dark:border-gray-700 rounded-2xl p-6 shadow-sm">
-        <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">👥 All Coaches</h2>
-        <CoachesInfo client:only="react" />
-      </div>
-
       <div className="mb-8 bg-slate-100 dark:bg-gray-900 dark:border-gray-700 rounded-2xl p-6 shadow-sm">
         <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">📅 Upcoming Bookings</h2>
         <BookingCalendar client:only="react" />
+      </div>
+      <div className="mb-8 bg-slate-100 dark:bg-gray-900 dark:border-gray-700 rounded-2xl p-6 shadow-sm">
+        <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">👥 All Coaches</h2>
+        <CoachesInfo client:only="react" />
       </div>
     </>
   );
