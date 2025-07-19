@@ -1,31 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useStore } from '@nanostores/react';
 import { futureBookings, futureBookingsLoading } from '~/stores/bookingStore';
+import { coaches, coachesLoading, fetchCoaches } from '~/stores/coachStore';
+import { user } from '~/stores/authStore';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import { user } from '~/stores/authStore';
-import { coaches, coachesLoading, fetchCoaches } from '~/stores/coachStore';
-
-const timeSlots = [
-  '6:00 AM',
-  '7:30 AM',
-  '9:00 AM',
-  '10:30 AM',
-  '12:00 PM',
-  '1:30 PM',
-  '3:00 PM',
-  '4:30 PM',
-  '6:00 PM',
-  '7:30 PM',
-];
-
-const unavailableHours = {
-  2: ['6:00 AM', '7:30 AM', '9:00 AM'],
-  3: ['6:00 AM', '7:30 AM', '9:00 AM'],
-  4: ['9:00 AM', '10:30 AM', '12:00 PM'],
-  5: ['4:30 PM', '6:00 PM', '7:30 PM'],
-  6: ['9:00 AM', '10:30 AM', '12:00 PM'],
-};
+import { minDateToBook, maxDateToBook, getAvailableSlotsForDate } from '~/constants/bookingTimes';
 
 export default function BookingSession() {
   const $user = useStore(user);
@@ -34,11 +14,10 @@ export default function BookingSession() {
   const $coaches = useStore(coaches);
   const $coachesLoading = useStore(coachesLoading);
 
-  const [selectedCoach, setSelectedCoach] = useState('');
-
-  const [selectedTrainingType, setSelectedTrainingType] = useState('');
   const [date, setDate] = useState(null);
   const [time, setTime] = useState('');
+  const [selectedCoach, setSelectedCoach] = useState('');
+  const [selectedTrainingType, setSelectedTrainingType] = useState('');
   const [bookedTimes, setBookedTimes] = useState([]);
   const [submitting, setSubmitting] = useState(false);
 
@@ -63,14 +42,20 @@ export default function BookingSession() {
     };
   }, []); // Empty deps array because fetchCoaches is stable
 
-  const getBookedDates = () => {
-    const grouped = $futureBookings.reduce((acc, { date, time }) => {
-      acc[date] = acc[date] ? [...acc[date], time] : [time];
-      return acc;
-    }, {});
-    return Object.entries(grouped)
-      .filter(([, times]) => times.length >= timeSlots.length)
-      .map(([date]) => date);
+  // Helper functions
+  const getAvailableTimesForDate = (selectedDate) => {
+    if (!selectedDate) return [];
+
+    const formattedDate = selectedDate.toISOString().split('T')[0];
+
+    // Get booked times for this date
+    const dayBookings = $futureBookings.filter((b) => b.date === formattedDate).map((b) => b.time);
+
+    // Get available times for this day of week
+    const availableForDay = getAvailableSlotsForDate(selectedDate);
+
+    // Return available times that aren't booked
+    return availableForDay.filter((slot) => !dayBookings.includes(slot));
   };
 
   const handleDateChange = (selectedDate) => {
@@ -78,15 +63,18 @@ export default function BookingSession() {
     const dayBookings = $futureBookings.filter((b) => b.date === formatted).map((b) => b.time);
     setBookedTimes(dayBookings);
     setDate(selectedDate);
-    setTime('');
+    setTime(''); // Reset time when date changes
   };
 
   const isAvailableDate = (d) => {
     const today = new Date();
     const isFuture = d >= today.setHours(0, 0, 0, 0);
-    const notMonday = d.getDay() !== 1;
-    const notFullyBooked = !getBookedDates().includes(d.toISOString().split('T')[0]);
-    return isFuture && notMonday && notFullyBooked;
+
+    // Check if date has any available slots
+    const availableSlots = getAvailableSlotsForDate(d);
+    const hasAvailableSlots = availableSlots.length > 0;
+
+    return isFuture && hasAvailableSlots;
   };
 
   if ($loading) return <p className="text-center mt-10 text-gray-600">Loading Booking...</p>;
@@ -142,7 +130,7 @@ export default function BookingSession() {
         <input type="hidden" name="email" value={$user.email} />
         <input type="hidden" name="name" value={$user.fullName} />
 
-        {/* Coach Dropdown */}
+        {/* Coach Selection */}
         <div className="flex flex-col sm:flex-row sm:items-center gap-3">
           <label htmlFor="coach" className="text-sm font-medium text-gray-700 w-32 shrink-0 dark:text-gray-300">
             Select Coach
@@ -166,6 +154,7 @@ export default function BookingSession() {
           </select>
         </div>
 
+        {/* Date Selection */}
         <div className="flex flex-col sm:flex-row sm:items-center gap-3 z-1000">
           <label htmlFor="date" className="text-sm font-medium text-gray-700 w-32 shrink-0 dark:text-gray-300">
             Select Date
@@ -174,8 +163,8 @@ export default function BookingSession() {
             selected={date}
             onChange={handleDateChange}
             filterDate={isAvailableDate}
-            minDate={new Date(Date.now() + 2 * 24 * 60 * 60 * 1000)}
-            maxDate={new Date(Date.now() + 120 * 24 * 60 * 60 * 1000)}
+            minDate={minDateToBook}
+            maxDate={maxDateToBook}
             placeholderText="Select a date"
             name="date"
             required
@@ -183,6 +172,7 @@ export default function BookingSession() {
           />
         </div>
 
+        {/* Time Selection */}
         <div className="flex flex-col sm:flex-row sm:items-center gap-3">
           <label htmlFor="time" className="text-sm font-medium text-gray-700 w-32 shrink-0 dark:text-gray-300">
             Select Time
@@ -197,22 +187,23 @@ export default function BookingSession() {
             <option value="" disabled hidden>
               Select a time
             </option>
-            {timeSlots.map((slot) => {
-              const day = date?.getDay();
-              const isUnavailable = unavailableHours[day]?.includes(slot);
-              const isReserved = bookedTimes.includes(slot);
-              return (
-                <option key={slot} value={slot} disabled={isUnavailable || isReserved}>
-                  {slot} {isUnavailable || isReserved ? '(Reserved)' : ''}
-                </option>
-              );
-            })}
+            {date &&
+              getAvailableSlotsForDate(date).map((slot) => {
+                const isReserved = bookedTimes.includes(slot);
+
+                return (
+                  <option key={slot} value={slot} disabled={isReserved}>
+                    {slot} {isReserved ? '(Unavailable)' : ''}
+                  </option>
+                );
+              })}
+            {!date && <option disabled>Please select a date first</option>}
           </select>
         </div>
 
-        {/* Training Type Dropdown */}
+        {/* Training Type Selection */}
         <div className="flex flex-col sm:flex-row sm:items-center gap-3">
-          <label htmlFor="coach" className="text-sm font-medium text-gray-700 w-32 shrink-0 dark:text-gray-300">
+          <label htmlFor="training_type" className="text-sm font-medium text-gray-700 w-32 shrink-0 dark:text-gray-300">
             Select Training Type
           </label>
           <select
@@ -235,25 +226,33 @@ export default function BookingSession() {
           </select>
         </div>
 
-        <label htmlFor="concern" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-          Health or Physical Concerns
-        </label>
-        <textarea
-          id="concern"
-          name="concern"
-          placeholder="E.g. knee pain, limited mobility, or chronic conditions"
-          className="mt-1 p-2 border rounded w-full dark:bg-gray-700"
-        />
+        {/* Health Concerns */}
+        <div>
+          <label htmlFor="concern" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+            Health or Physical Concerns
+          </label>
+          <textarea
+            id="concern"
+            name="concern"
+            placeholder="E.g. knee pain, limited mobility, or chronic conditions"
+            className="mt-1 p-2 border rounded w-full dark:bg-gray-700"
+          />
+        </div>
 
-        <label htmlFor="note" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mt-4">
-          Notes for Your Coach
-        </label>
-        <textarea
-          id="note"
-          name="note"
-          placeholder="Anything else you'd like your coach to know (optional)"
-          className="p-2 border rounded w-full dark:bg-gray-700"
-        />
+        {/* Notes */}
+        <div>
+          <label htmlFor="note" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+            Notes for Your Coach
+          </label>
+          <textarea
+            id="note"
+            name="note"
+            placeholder="Anything else you'd like your coach to know (optional)"
+            className="p-2 border rounded w-full dark:bg-gray-700"
+          />
+        </div>
+
+        {/* Submit Button */}
         <button
           type="submit"
           disabled={submitting}
@@ -262,6 +261,14 @@ export default function BookingSession() {
           {submitting ? 'Booking...' : 'Book Now'}
         </button>
       </form>
+
+      {/* Available Slots Info */}
+      {date && (
+        <div className="text-sm text-gray-600 dark:text-gray-400">
+          Available slots for {date.toLocaleDateString()}: {getAvailableTimesForDate(date).length} of{' '}
+          {getAvailableSlotsForDate(date).length}
+        </div>
+      )}
     </section>
   );
 }

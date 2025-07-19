@@ -116,7 +116,7 @@ export default function BookingCalendar() {
                   {userBookings.slice(0, 2).map((time) => (
                     <div
                       key={'user-' + time}
-                      className=" bg-teal-300 text-teal-800 rounded px-1 leading-none py-0.5 font-semibold"
+                      className=" bg-blue-300 text-blue-800 rounded px-1 leading-none py-0.5 font-semibold"
                     >
                       {time}
                     </div>
@@ -162,7 +162,7 @@ export default function BookingCalendar() {
       </div>
       <div className="flex items-center justify-end gap-4 text-xs text-gray-500 mb-2">
         <div className="flex items-center gap-1">
-          <span className="w-3 h-3 rounded bg-teal-300 border border-teal-800"></span>
+          <span className="w-3 h-3 rounded bg-blue-300 border border-blue-800"></span>
           Your Booking
         </div>
         <div className="flex items-center gap-1">

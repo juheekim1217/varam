@@ -1,4 +1,5 @@
 // components/BookingSessionCalendar.jsx
+
 import { useState } from 'react';
 import { useStore } from '@nanostores/react';
 import { futureBookings, futureBookingsLoading } from '~/stores/bookingStore';
@@ -14,21 +15,28 @@ import {
   subMonths,
   isSameMonth,
   isSameDay,
+  isBefore,
+  isToday,
 } from 'date-fns';
+import {
+  minDateToBook,
+  maxDateToBook,
+  maxMonthToBook,
+  minMonthToBook,
+  getAvailableSlotsForDate,
+} from '~/constants/bookingTimes';
 
 export default function BookingSessionCalendar() {
   const $user = useStore(user);
   const $futureBookings = useStore(futureBookings);
   const $loading = useStore(futureBookingsLoading);
+
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState(null);
+  const [showModal, setShowModal] = useState(false);
 
-  //   const getBookingsForDate = (date) => {
-  //     const formatted = format(date, 'yyyy-MM-dd');
-  //     return $futureBookings.filter((b) => b.date === formatted).map((b) => b.time);
-  //   };
-
-  const getFutureBookingsForDate = (date) => {
+  // Helper functions
+  const getBookingsForDate = (date) => {
     const formatted = format(date, 'yyyy-MM-dd');
     const bookings = $futureBookings.filter((b) => b.date === formatted);
     const userBookings = bookings.filter((b) => b.email === $user?.email).map((b) => b.time);
@@ -36,27 +44,70 @@ export default function BookingSessionCalendar() {
     return { userBookings, otherBookings };
   };
 
+  const getAvailableSlots = (date) => {
+    const { userBookings, otherBookings } = getBookingsForDate(date);
+    const availableForDay = getAvailableSlotsForDate(date);
+    const allBookings = [...userBookings, ...otherBookings];
+    return availableForDay.filter((slot) => !allBookings.includes(slot));
+  };
+
+  const isDayDisabled = (date) => {
+    const isOutOfRange = isBefore(date, minDateToBook) || !isSameMonth(date, currentMonth);
+    const isAfterMaxDate = date > maxDateToBook; // Add this check
+    const hasNoAvailableSlots = getAvailableSlotsForDate(date).length === 0;
+    return isOutOfRange || isAfterMaxDate || hasNoAvailableSlots;
+  };
+
+  const handleDayClick = (clickedDate) => {
+    if (!isDayDisabled(clickedDate)) {
+      setSelectedDate(clickedDate);
+      setShowModal(true);
+    }
+  };
+
+  const closeModal = () => {
+    setShowModal(false);
+    setSelectedDate(null);
+  };
+
+  const navigateMonth = (direction) => {
+    if (direction === 'prev') {
+      setCurrentMonth(subMonths(currentMonth, 1));
+    } else {
+      setCurrentMonth(addMonths(currentMonth, 1));
+    }
+  };
+
+  const canNavigatePrev = () => {
+    return !isBefore(currentMonth, addMonths(minMonthToBook, 1)) && !$loading;
+  };
+
+  const canNavigateNext = () => {
+    return !isBefore(maxMonthToBook, addMonths(currentMonth, 1)) && !$loading;
+  };
+
+  // Render functions
   const renderHeader = () => (
     <div className="flex justify-between items-center mb-4">
       <button
-        onClick={() => setCurrentMonth(subMonths(currentMonth, 1))}
-        className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded transition-colors"
-        disabled={$loading}
+        onClick={() => navigateMonth('prev')}
+        className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+        disabled={!canNavigatePrev()}
       >
-        &lt;
+        &#8249;
       </button>
       <h2 className="text-lg font-semibold">{format(currentMonth, 'MMMM yyyy')}</h2>
       <button
-        onClick={() => setCurrentMonth(addMonths(currentMonth, 1))}
-        className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded transition-colors"
-        disabled={$loading}
+        onClick={() => navigateMonth('next')}
+        className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+        disabled={!canNavigateNext()}
       >
-        &gt;
+        &#8250;
       </button>
     </div>
   );
 
-  const renderDays = () => {
+  const renderDaysHeader = () => {
     const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
     return (
       <div className="grid grid-cols-7 text-center text-sm font-medium border-b">
@@ -69,109 +120,217 @@ export default function BookingSessionCalendar() {
     );
   };
 
-  const renderCells = () => {
+  const renderDayCell = (date) => {
+    const dayNumber = format(date, 'd');
+    const isDisabled = isDayDisabled(date);
+    const isSelected = selectedDate && isSameDay(date, selectedDate);
+    const isCurrentDay = isToday(date);
+
+    const { userBookings, otherBookings } = getBookingsForDate(date);
+    const availableSlots = !isDisabled ? getAvailableSlots(date) : [];
+
+    const cellClasses = [
+      'p-2 text-sm border h-24 relative transition-colors',
+      isDisabled
+        ? 'text-gray-400 bg-gray-50 dark:bg-gray-700 cursor-not-allowed'
+        : 'hover:bg-gray-50 dark:hover:bg-gray-700 cursor-pointer',
+      isSelected && 'bg-blue-500 text-white',
+      isCurrentDay && !isSelected && 'bg-blue-50 border-blue-300',
+    ]
+      .filter(Boolean)
+      .join(' ');
+
+    const totalDisplayedItems = userBookings.length + otherBookings.length;
+    const maxDisplayItems = 2;
+    const moreIndicatorCount = totalDisplayedItems + (availableSlots.length > 0 ? 1 : 0) - maxDisplayItems;
+    return (
+      <div key={date.toISOString()} className={cellClasses} onClick={() => handleDayClick(date)}>
+        <div className="absolute top-1 left-1 font-medium">{dayNumber}</div>
+
+        <div className="text-[11px] mt-4 space-y-0.5 overflow-hidden">
+          {$loading ? (
+            <div className="flex items-center justify-center h-8">
+              <div className="w-3 h-3 border border-gray-300 border-t-transparent rounded-full animate-spin"></div>
+            </div>
+          ) : (
+            <>
+              {/* User bookings */}
+              {!isDisabled &&
+                userBookings.slice(0, maxDisplayItems).map((time) => (
+                  <div
+                    key={`user-${time}`}
+                    className="bg-blue-300 text-blue-800 rounded px-1 py-0.5 text-[10px] truncate"
+                  >
+                    {time}
+                  </div>
+                ))}
+
+              {/* Unavailable */}
+              {!isDisabled &&
+                otherBookings.slice(0, Math.max(0, maxDisplayItems - userBookings.length)).map((time) => (
+                  <div
+                    key={`other-${time}`}
+                    className="bg-gray-100 text-gray-700 rounded px-1 py-0.5 text-[10px] truncate"
+                  >
+                    {time}
+                  </div>
+                ))}
+
+              {/* Available slots indicator */}
+              {!isDisabled && availableSlots.length > 0 && totalDisplayedItems < maxDisplayItems && (
+                <div className="bg-green-100 text-green-800 rounded px-1 py-0.5 text-[10px]">
+                  {availableSlots.length} available
+                </div>
+              )}
+
+              {/* More indicator */}
+              {!isDisabled && moreIndicatorCount > 0 && (
+                <div className="text-gray-600 text-[9px]">+{moreIndicatorCount} more</div>
+              )}
+            </>
+          )}
+        </div>
+      </div>
+    );
+  };
+
+  const renderCalendarGrid = () => {
     const monthStart = startOfMonth(currentMonth);
     const monthEnd = endOfMonth(monthStart);
     const startDate = startOfWeek(monthStart);
     const endDate = endOfWeek(monthEnd);
 
     const rows = [];
-    let days = [];
-    let day = startDate;
+    let currentDate = startDate;
 
-    while (day <= endDate) {
+    while (currentDate <= endDate) {
+      const week = [];
+
       for (let i = 0; i < 7; i++) {
-        const formatted = format(day, 'd');
-        const isDisabled = !isSameMonth(day, monthStart);
-        const isSelected = selectedDate && isSameDay(day, selectedDate);
-        //const dayBookings = getBookingsForDate(day);
-        const { userBookings, otherBookings } = getFutureBookingsForDate(day);
-
-        days.push(
-          <div
-            key={day.toString()}
-            className={`p-2 text-sm border h-24 relative cursor-pointer transition-colors ${
-              isDisabled ? 'text-gray-400 bg-gray-50 dark:bg-gray-700' : 'hover:bg-gray-50 dark:hover:bg-gray-700'
-            } ${isSelected ? 'bg-blue-500 text-white' : ''}`}
-            onClick={() => !isDisabled && setSelectedDate(day)}
-          >
-            <div className="absolute top-1 left-1 font-medium">{formatted}</div>
-            <div className="text-[12px] mt-4 space-y-0.5">
-              {$loading ? (
-                <div className="flex items-center justify-center h-8">
-                  <div className="w-3 h-3 border border-gray-300 border-t-transparent rounded-full animate-spin"></div>
-                </div>
-              ) : (
-                <>
-                  {/* {dayBookings.slice(0, 3).map((time) => (
-                    <div key={time} className="bg-green-100 text-green-800 rounded px-1 leading-none py-0.5">
-                      {time}
-                    </div>
-                  ))}
-                  {dayBookings.length > 3 && (
-                    <div className="text-gray-600 text-[10px]">+{dayBookings.length - 3} more</div>
-                  )} */}
-
-                  {userBookings.slice(0, 2).map((time) => (
-                    <div
-                      key={'user-' + time}
-                      className="bg-teal-300 text-teal-800 rounded px-1 leading-none py-0.5 font-semibold"
-                    >
-                      {time}
-                    </div>
-                  ))}
-                  {otherBookings.slice(0, 2 - userBookings.length).map((time) => (
-                    <div key={time} className="bg-indigo-50 text-gray-600 rounded px-1 leading-none py-0.5">
-                      {time}
-                    </div>
-                  ))}
-                  {userBookings.length + otherBookings.length > 3 && (
-                    <div className="text-gray-600 text-[10px]">
-                      +{userBookings.length + otherBookings.length - 3} more
-                    </div>
-                  )}
-                </>
-              )}
-            </div>
-          </div>
-        );
-        day = addDays(day, 1);
+        week.push(renderDayCell(currentDate));
+        currentDate = addDays(currentDate, 1);
       }
+
       rows.push(
-        <div className="grid grid-cols-7" key={day.toString()}>
-          {days}
+        <div key={currentDate.toISOString()} className="grid grid-cols-7">
+          {week}
         </div>
       );
-      days = [];
     }
 
     return <div>{rows}</div>;
   };
 
-  return (
-    <section className="max-w-3xl mx-auto p-6 border rounded-xl bg-white shadow dark:bg-gray-800">
-      <div className="flex items-center justify-between mb-4">
-        {/* <h2 className="text-l font-semibold text-gray-600 dark:text-gray-300">My Training Schedule</h2> */}
-        {$loading && (
-          <div className="flex items-center space-x-2 text-sm text-gray-500">
-            <div className="w-4 h-4 border border-gray-300 border-t-transparent rounded-full animate-spin"></div>
-            <span>Loading...</span>
+  const renderModal = () => {
+    if (!selectedDate) return null;
+
+    const { userBookings, otherBookings } = getBookingsForDate(selectedDate);
+    const availableSlots = getAvailableSlots(selectedDate);
+
+    return (
+      <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+        <div className="bg-white rounded-lg p-6 max-w-md w-full mx-4 shadow-2xl">
+          <div className="flex justify-between items-center mb-4">
+            <h3 className="text-lg font-semibold">{format(selectedDate, 'EEEE, MMMM dd, yyyy')}</h3>
+            <button onClick={closeModal} className="text-gray-500 hover:text-gray-700 text-xl">
+              ×
+            </button>
           </div>
-        )}
-      </div>
-      <div className="flex items-center justify-end gap-4 text-xs text-gray-500 mb-2">
-        <div className="flex items-center gap-1">
-          <span className="w-3 h-3 rounded bg-teal-300 border border-teal-800"></span>
-          Your Booking
+
+          {/* Your Bookings */}
+          <div className="mb-4">
+            <h4 className="font-medium text-gray-700 mb-2">Your Bookings</h4>
+            {userBookings.length > 0 ? (
+              <div className="grid grid-cols-2 gap-2">
+                {userBookings.map((time) => (
+                  <div key={`modal-user-${time}`} className="bg-blue-100 text-blue-800 rounded px-3 py-2 text-sm">
+                    {time}
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <p className="text-gray-500 text-sm">No bookings for this date</p>
+            )}
+          </div>
+
+          {/* Unavailable */}
+          <div className="mb-4">
+            <h4 className="font-medium text-gray-700 mb-2">Unavailable</h4>
+            {otherBookings.length > 0 ? (
+              <div className="grid grid-cols-2 gap-2">
+                {otherBookings.map((time) => (
+                  <div key={`modal-other-${time}`} className="bg-gray-100 text-gray-700 rounded px-3 py-2 text-sm">
+                    {time}
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <p className="text-gray-500 text-sm">No Unavailable</p>
+            )}
+          </div>
+
+          {/* Available Slots */}
+          <div className="mb-6">
+            <h4 className="font-medium text-gray-700 mb-2">Available Slots</h4>
+            {availableSlots.length > 0 ? (
+              <div className="grid grid-cols-2 gap-2">
+                {availableSlots.map((slot) => (
+                  <div
+                    key={`modal-available-${slot}`}
+                    className="bg-green-100 text-green-800 rounded px-3 py-2 text-sm text-center hover:bg-green-200 cursor-pointer transition-colors"
+                  >
+                    {slot}
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <p className="text-gray-500 text-sm">No available slots</p>
+            )}
+          </div>
+
+          <button
+            onClick={closeModal}
+            className="w-full bg-gray-600 text-white rounded px-4 py-2 hover:bg-gray-700 transition-colors"
+          >
+            Close
+          </button>
         </div>
-        <div className="flex items-center gap-1">
-          <span className="w-3 h-3 rounded bg-indigo-50 border border-gray-600 "></span>
-          Other Booking
-        </div>
       </div>
+    );
+  };
+
+  const renderLegend = () => (
+    <div className="flex items-center justify-end gap-4 text-xs text-gray-500 mb-4">
+      <div className="flex items-center gap-1">
+        <span className="w-3 h-3 rounded bg-green-100 border border-green-600"></span>
+        Available
+      </div>
+      <div className="flex items-center gap-1">
+        <span className="w-3 h-3 rounded bg-blue-300 border border-blue-600"></span>
+        Your Booking
+      </div>
+      <div className="flex items-center gap-1">
+        <span className="w-3 h-3 rounded bg-gray-100 border border-gray-600"></span>
+        Unavailable
+      </div>
+    </div>
+  );
+
+  return (
+    <section className="max-w-4xl mx-auto p-6 border rounded-xl bg-white shadow dark:bg-gray-800">
+      {renderLegend()}
+
+      {$loading && (
+        <div className="flex items-center justify-center space-x-2 text-sm text-gray-500 mb-4">
+          <div className="w-4 h-4 border border-gray-300 border-t-transparent rounded-full animate-spin"></div>
+          <span>Loading bookings...</span>
+        </div>
+      )}
+
       {renderHeader()}
-      {renderDays()}
-      {renderCells()}
+      {renderDaysHeader()}
+      {renderCalendarGrid()}
+      {showModal && renderModal()}
     </section>
   );
 }
