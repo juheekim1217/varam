@@ -13,7 +13,7 @@ export default function MyBookings() {
   const $userBookings = useStore(userBookings);
   const $loading = useStore(loading);
   const $error = useStore(error);
-  const [cancelingId, setCancelingId] = useState(null);
+  const [cancellingBookingId, setCancellingBookingId] = useState(null);
 
   // 2. useMemo hooks
   const sortedBookings = useMemo(() => {
@@ -61,7 +61,7 @@ export default function MyBookings() {
       const confirmed = window.confirm('Are you sure you want to cancel this session?');
       if (!confirmed) return;
 
-      setCancelingId(booking.id);
+      setCancellingBookingId(booking.id);
       // const result = await deleteBooking(booking.id);
 
       // Create FormData instead of JSON
@@ -87,7 +87,7 @@ export default function MyBookings() {
       console.error('Failed to cancel booking:', err);
       alert(`Failed to cancel: ${err.message}`);
     } finally {
-      setCancelingId(null);
+      setCancellingBookingId(null);
     }
   }
 
@@ -163,10 +163,10 @@ export default function MyBookings() {
             <div className="mt-4">
               <button
                 onClick={() => handleCancel(booking)}
-                disabled={cancelingId === booking.id}
+                disabled={cancellingBookingId === booking.id}
                 className="px-4 py-1.5 text-sm font-medium bg-red-600 text-white rounded-md hover:bg-red-700 disabled:opacity-50 transition-colors"
               >
-                {cancelingId === booking.id ? (
+                {cancellingBookingId === booking.id ? (
                   <span className="flex items-center justify-center">
                     <LoadingSpinner />
                     Cancelling...

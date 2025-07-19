@@ -5,6 +5,7 @@ import {
   allBookings, // Changed from futureBookings
   allBookingsLoading, // Changed from futureBookingsLoading
   fetchAllBookings, // Changed from fetchFutureBookings
+  fetchUserBookings,
 } from '~/stores/bookingStore';
 import { user } from '~/stores/authStore';
 
@@ -238,46 +239,33 @@ export default function BookingCalendar() {
     const yourCoachingSessions = dayBookings.filter((b) => b.coach_id === $user?.id);
     const otherCoachingSessions = dayBookings.filter((b) => b.coach_id !== $user?.id);
 
-    async function handleCancelBooking(booking) {
-      // Don't allow cancelling past bookings
-      if (booking.isPast) {
-        alert('Cannot cancel past sessions.');
-        return;
-      }
-
+    async function handleCancel(booking) {
       try {
         const confirmed = window.confirm('Are you sure you want to cancel this session?');
         if (!confirmed) return;
 
         setCancellingBookingId(booking.id);
+        // const result = await deleteBooking(booking.id);
 
-        // Call the API endpoint with JSON
-        const response = await fetch('/api/cancel-booking', {
+        // Create FormData instead of JSON
+        const formData = new FormData();
+        formData.append('bookingId', booking.id);
+        formData.append('name', booking.name || '');
+        formData.append('email', booking.email || '');
+        formData.append('date', booking.date || '');
+        formData.append('time', booking.time || '');
+        formData.append('coach_name', booking.coach?.full_name || '');
+        formData.append('training_type', booking.training_type || '');
+        console.log(booking);
+        console.log(booking.coach?.full_name, booking.training_type);
+        // Call the API endpoint with FormData
+        await fetch('/api/cancel-booking', {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            bookingId: booking.id,
-          }),
+          body: formData, // No headers needed for FormData
         });
-
-        // Check if response is OK
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
+        if ($user?.email) {
+          await fetchAllBookings($user.email);
         }
-
-        const result = await response.json();
-
-        if (!result.success) {
-          throw new Error(result.error || 'Unknown error occurred');
-        }
-
-        console.log('Booking cancelled successfully');
-
-        // Refresh bookings and close modal
-        await fetchAllBookings();
-        closeModal();
       } catch (err) {
         console.error('Failed to cancel booking:', err);
         alert(`Failed to cancel: ${err.message}`);
@@ -387,7 +375,7 @@ export default function BookingCalendar() {
                           <span className="text-sm text-gray-400 px-3 py-1 bg-gray-100 rounded">✓ Completed</span>
                         ) : (
                           <button
-                            onClick={() => handleCancelBooking(booking)}
+                            onClick={() => handleCancel(booking)}
                             disabled={cancellingBookingId === booking.id}
                             className="text-sm bg-red-100 text-red-800 hover:bg-red-200 disabled:opacity-50 disabled:cursor-not-allowed px-3 py-1 rounded transition-colors"
                           >
@@ -492,7 +480,7 @@ export default function BookingCalendar() {
                           <span className="text-sm text-gray-400 px-3 py-1 bg-gray-100 rounded">✓ Completed</span>
                         ) : (
                           <button
-                            onClick={() => handleCancelBooking(booking)}
+                            onClick={() => handleCancel(booking)}
                             disabled={cancellingBookingId === booking.id}
                             className="text-sm bg-red-100 text-red-800 hover:bg-red-200 disabled:opacity-50 disabled:cursor-not-allowed px-3 py-1 rounded transition-colors"
                           >
