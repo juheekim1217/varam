@@ -1,6 +1,6 @@
 import { useState, useMemo, useEffect } from 'react';
 import { useStore } from '@nanostores/react';
-import { userBookings, loading, error, deleteBooking, fetchUserBookings } from '~/stores/bookingStore';
+import { userBookings, loading, error, fetchUserBookings } from '~/stores/bookingStore';
 import { user } from '~/stores/authStore';
 
 const LoadingSpinner = () => (
@@ -17,10 +17,22 @@ export default function MyBookings() {
 
   // 2. useMemo hooks
   const sortedBookings = useMemo(() => {
-    return [...($userBookings || [])].sort((a, b) => {
-      const dateCompare = a.date.localeCompare(b.date);
-      return dateCompare !== 0 ? dateCompare : a.time.localeCompare(b.time);
-    });
+    const today = new Date();
+    today.setHours(0, 0, 0, 0); // Set to start of today
+
+    return [...($userBookings || [])]
+      .filter((booking) => {
+        // Parse the booking date and compare with today
+        const bookingDate = new Date(booking.date);
+        bookingDate.setHours(0, 0, 0, 0); // Set to start of booking date
+
+        // Only show bookings that are today or in the future
+        return bookingDate >= today;
+      })
+      .sort((a, b) => {
+        const dateCompare = a.date.localeCompare(b.date);
+        return dateCompare !== 0 ? dateCompare : a.time.localeCompare(b.time);
+      });
   }, [$userBookings]);
 
   const formattedBookings = useMemo(
@@ -64,15 +76,10 @@ export default function MyBookings() {
       console.log(booking);
       console.log(booking.coach?.full_name, booking.training_type);
       // Call the API endpoint with FormData
-      const response = await fetch('/api/cancel-booking', {
+      await fetch('/api/cancel-booking', {
         method: 'POST',
         body: formData, // No headers needed for FormData
       });
-
-      // if (!response.success) {
-      //   throw new Error(response.error);
-      // }
-
       if ($user?.email) {
         await fetchUserBookings($user.email);
       }
