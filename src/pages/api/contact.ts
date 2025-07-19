@@ -1,4 +1,4 @@
-// src/services/api/contact.ts
+// src/pages/api/contact.ts
 import type { APIRoute } from 'astro';
 import { sendContactEmails } from '~/services/emailService';
 import { validateEmailInquiry } from '~/utils/validation';

@@ -122,7 +122,7 @@ export default function BookingSession() {
 
       <form
         method="POST"
-        action="/services/api/book-session"
+        action="/api/book-session"
         className="space-y-6"
         onSubmit={(e) => {
           e.preventDefault();
