@@ -1,4 +1,4 @@
-// components/BookingCalendar.jsx
+// components/MyBookingsCalendar.jsx
 import { useState } from 'react';
 import { useStore } from '@nanostores/react';
 import { userBookings, loading } from '~/stores/bookingStore';
@@ -15,7 +15,7 @@ import {
   isSameDay,
 } from 'date-fns';
 
-export default function BookingCalendar() {
+export default function MyBookingsCalendar() {
   const $userBookings = useStore(userBookings);
   const $loading = useStore(loading);
   const [currentMonth, setCurrentMonth] = useState(new Date());
