@@ -7,7 +7,6 @@ import Announcement from '~/components/widgets/Announcement.astro';
 import { headerData, footerData } from '~/navigation';
 
 import type { MetaData } from '~/types';
-import DisableInspect from '~/components/DisableInspect';
 
 export interface Props {
   metadata?: MetaData;
@@ -30,5 +29,5 @@ const { metadata } = Astro.props;
     <Footer {...footerData} />
   </slot>
 
-  <DisableInspect client:only="react" />
+  <!-- <DisableInspect client:only="react" /> -->
 </Layout>
