@@ -17,20 +17,20 @@ export default function PageProtection({ children }) {
     const timer = setTimeout(() => {
       setAuthReady(true);
     }, 100); // Small delay to let AuthInitializer run first
-    
+
     return () => clearTimeout(timer);
   }, []);
 
   // Debug logging
   useEffect(() => {
     if (authReady) {
-      console.log('PageProtection ready:', { 
-        pathname, 
-        isAccountPage, 
-        user: $user, 
+      console.log('PageProtection ready:', {
+        pathname,
+        isAccountPage,
+        user: $user,
         loading: $loading,
         userStoreValue: user.get(),
-        localStorage: localStorage.getItem('user')
+        localStorage: localStorage.getItem('user'),
       });
     }
   }, [authReady, $user]);
@@ -53,7 +53,7 @@ export default function PageProtection({ children }) {
         window.location.href = '/unauthorized?reason=auth_required';
       }
 
-      return null;
+      return <></>; // to avoid React Invalid hook call warning
     }
 
     // Check if user has required role for this page
@@ -62,7 +62,7 @@ export default function PageProtection({ children }) {
       if (typeof window !== 'undefined') {
         window.location.href = `/unauthorized?reason=insufficient_role&required=${canAccess.requiredRoles || 'unknown'}`;
       }
-      return null;
+      return <></>; // to avoid React Invalid hook call warning
     }
   }
 

@@ -4,7 +4,7 @@ import { user as userStore } from '~/stores/authStore';
 export default function UserLinks() {
   const user = useStore(userStore);
 
-  if (!user) return null;
+  if (!user) return <></>; // to avoid React Invalid hook call warning
 
   const role = user.role;
 

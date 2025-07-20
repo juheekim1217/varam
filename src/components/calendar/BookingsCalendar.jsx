@@ -232,7 +232,7 @@ export default function BookingCalendar() {
 
   // Modal for bookings detail and cancel
   const renderModal = () => {
-    if (!selectedDate || !showModal) return null;
+    if (!selectedDate || !showModal) return <></>; // to avoid React Invalid hook call warning
 
     const dayBookings = getBookingsForDate(selectedDate);
     const yourCoachingSessions = dayBookings.filter((b) => b.coach_id === $user?.id);

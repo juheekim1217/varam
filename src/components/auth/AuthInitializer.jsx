@@ -12,5 +12,5 @@ export default function AuthInitializer() {
 
     initialize();
   }, []);
-  return null; // This component does not render anything
+  return <div></div>; // This component does not render anything
 }

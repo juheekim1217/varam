@@ -195,7 +195,7 @@ export default function MyBookingsCalendar() {
   };
 
   const renderModal = () => {
-    if (!selectedDate) return null;
+    if (!selectedDate) return <></>; // to avoid React Invalid hook call warning
 
     const dayBookings = getBookingsForDate(selectedDate);
 

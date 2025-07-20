@@ -7,7 +7,7 @@ import { user } from '~/stores/authStore';
 export default function ShowIfGuest({ children }) {
   const $user = useStore(user);
 
-  if ($user) return null; // Hide children if logged in
+  if ($user) return <></>; // to avoid React Invalid hook call warning
 
   return children;
 }
