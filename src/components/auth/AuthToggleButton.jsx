@@ -13,9 +13,7 @@ export default function AuthToggleButton() {
   };
 
   const handleLogout = async () => {
-    console.log('Logging out...');
     await signOut();
-    console.log('Logged out successfully');
     window.location.href = '/';
   };
 

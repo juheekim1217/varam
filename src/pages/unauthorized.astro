@@ -1,9 +1,16 @@
 ---
 import Layout from '~/layouts/PageLayout.astro';
 
+// Get URL parameters
+const url = new URL(Astro.request.url);
+const reason = url.searchParams.get('reason') || '';
+
+// Customize message based on reason
+let showSignIn = reason == 'auth_required';
+
 const metadata = {
   title: 'Unauthorized Access',
-  description: 'You need to sign in to access this page.',
+  description: reason,
 };
 ---
 
@@ -25,17 +32,21 @@ const metadata = {
 
       <!-- Message -->
       <div class="mb-8">
-        <p class="text-gray-600 dark:text-gray-400 mb-4">Please sign in to access this page.</p>
+        <p class="text-gray-600 dark:text-gray-400 mb-4">{reason}</p>
       </div>
 
       <!-- Action Buttons -->
       <div class="space-y-3">
-        <a
-          href="/auth/signin"
-          class="block w-full bg-blue-600 hover:bg-blue-700 text-white py-3 px-6 rounded-lg font-medium transition-colors"
-        >
-          🔑 Sign In
-        </a>
+        {
+          showSignIn && (
+            <a
+              href="/auth/signin"
+              class="block w-full bg-blue-600 hover:bg-blue-700 text-white py-3 px-6 rounded-lg font-medium transition-colors"
+            >
+              🔑 Sign In
+            </a>
+          )
+        }
 
         <a
           href="/"
@@ -44,14 +55,14 @@ const metadata = {
           ← Back to Home
         </a>
       </div>
-
-      <!-- Help -->
-      <div class="pt-6">
-        <p class="text-sm text-gray-500 dark:text-gray-500">
-          Need an account?
-          <a href="/auth/signup" class="text-blue-600 hover:underline font-medium"> Sign up </a>
-        </p>
-      </div>
     </div>
+
+    <!-- Help -->
+    <!-- <div class="pt-6">
+      <p class="text-sm text-gray-500 dark:text-gray-500">
+        Need an account?
+        <a href="/auth/signup" class="text-blue-600 hover:underline font-medium"> Sign up </a>
+      </p>
+    </div> -->
   </section>
 </Layout>

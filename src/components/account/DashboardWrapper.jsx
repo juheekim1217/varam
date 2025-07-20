@@ -48,7 +48,7 @@ export default function DashboardWrapper() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
         <div className="bg-slate-100 dark:bg-gray-900  dark:border-gray-700 rounded-2xl p-6 shadow-sm">
           <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">🧑 Account</h2>
-          <UserInfo client:only="react" />
+          <UserInfo client:load />
           <div className="mt-6">
             <h3 className="text-lg font-semibold text-gray-800 dark:text-white mb-2">📌 Tips</h3>
             <ul className="list-disc list-inside text-sm text-gray-600 dark:text-gray-300 space-y-1">

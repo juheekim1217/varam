@@ -73,8 +73,7 @@ export default function MyBookings() {
       formData.append('time', booking.time || '');
       formData.append('coach_name', booking.coach?.full_name || '');
       formData.append('training_type', booking.training_type || '');
-      console.log(booking);
-      console.log(booking.coach?.full_name, booking.training_type);
+
       // Call the API endpoint with FormData
       await fetch('/api/cancel-booking', {
         method: 'POST',
