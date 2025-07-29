@@ -163,6 +163,7 @@ export const signUp = async (email: string, password: string): Promise<SignUpRes
       email: authData.user.email,
       fullName: authData.user.email?.split('@')[0] ?? '',
       role: 'guest',
+      phone: undefined,
     };
 
     // Don't set user here since they need to verify email
