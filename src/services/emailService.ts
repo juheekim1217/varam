@@ -28,6 +28,18 @@ interface SendDeleteBookingEmailsArgs {
   adminEmail: string;
 }
 
+interface SendBookingReminderArgs {
+  bookingId: string;
+  name: string;
+  email: string;
+  phone?: string;
+  date: string;
+  time: string;
+  coach_name?: string;
+  training_type?: string;
+  adminEmail: string;
+}
+
 // 🔔 Send contact form emails
 export async function sendContactEmails({ name, email, message, adminEmail }: SendContactEmailsArgs) {
   const transporter = nodemailer.createTransport({
@@ -229,6 +241,99 @@ If you'd like to reschedule or book a new session, you can do so through your ac
 If you have any questions or need assistance, feel free to reply to this email.
 
 Thank you for choosing Varam Strength!
+
+– The Varam Strength Team`,
+  });
+}
+
+// 🔔 Send booking reminder email
+export async function sendBookingReminder({
+  bookingId,
+  name,
+  email,
+  phone,
+  date,
+  time,
+  coach_name,
+  training_type,
+  adminEmail,
+}: SendBookingReminderArgs) {
+  const transporter = nodemailer.createTransport({
+    service: 'Gmail',
+    auth: {
+      user: adminEmail,
+      pass: import.meta.env.ADMIN_EMAIL_APP_PASS,
+    },
+  });
+
+  // Format the date nicely
+  const formattedDate = new Date(date).toLocaleDateString('en-US', {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  });
+
+  await transporter.sendMail({
+    from: `"Varam Strength" <${adminEmail}>`,
+    to: email,
+    subject: '⏰ Reminder: Your Training Session is Today!',
+    html: `
+      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+        <h2 style="color: #059669;">Training Session Reminder</h2>
+        
+        <p>Hi ${name},</p>
+        
+        <p>This is a friendly reminder that you have a training session scheduled for <strong>today</strong>!</p>
+        
+        <div style="background-color: #ecfdf5; padding: 20px; border-radius: 8px; border-left: 4px solid #059669; margin: 20px 0;">
+          <h3 style="margin: 0 0 10px 0; color: #059669;">Session Details</h3>
+          <ul style="margin: 0; padding-left: 20px;">
+            <li><strong>Date:</strong> ${formattedDate}</li>
+            <li><strong>Time:</strong> ${time}</li>
+            ${phone ? `<li><strong>Phone:</strong> ${phone}</li>` : ''}
+            ${coach_name ? `<li><strong>Coach:</strong> ${coach_name}</li>` : ''}
+            ${training_type ? `<li><strong>Training Type:</strong> ${training_type}</li>` : ''}
+          </ul>
+        </div>
+        
+        <div style="background-color: #fef3c7; padding: 15px; border-radius: 8px; margin: 20px 0;">
+          <p style="margin: 0;"><strong>💡 Tips for your session:</strong></p>
+          <ul style="margin: 10px 0 0 0; padding-left: 20px;">
+            <li>Arrive 5-10 minutes early</li>
+            <li>Bring water and a towel</li>
+            <li>Wear comfortable workout clothes</li>
+          </ul>
+        </div>
+        
+        <p>If you need to cancel or reschedule, please do so as soon as possible through your account dashboard or by replying to this email.</p>
+        
+        <p>Looking forward to seeing you today!</p>
+        
+        <p>– The Varam Strength Team</p>
+      </div>
+    `,
+    text: `Hi ${name},
+
+This is a friendly reminder that you have a training session scheduled for today!
+
+Session Details:
+–––––––––––––––––––––––––––
+Date: ${formattedDate}
+Time: ${time}
+${phone ? `Phone: ${phone}` : ''}
+${coach_name ? `Coach: ${coach_name}` : ''}
+${training_type ? `Training Type: ${training_type}` : ''}
+–––––––––––––––––––––––––––
+
+Tips for your session:
+• Arrive 5-10 minutes early
+• Bring water and a towel
+• Wear comfortable workout clothes
+
+If you need to cancel or reschedule, please do so as soon as possible through your account dashboard or by replying to this email.
+
+Looking forward to seeing you today!
 
 – The Varam Strength Team`,
   });
