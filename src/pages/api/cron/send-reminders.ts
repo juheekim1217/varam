@@ -4,10 +4,10 @@ import { sendBookingReminder } from '~/services/emailService';
 
 export const GET: APIRoute = async ({ request }) => {
   // Verify the request is from Vercel Cron (optional security)
-  // const authHeader = request.headers.get('authorization');
-  // if (authHeader !== `Bearer ${import.meta.env.CRON_SECRET}`) {
-  //   return new Response('Unauthorized', { status: 401 });
-  // }
+  const authHeader = request.headers.get('authorization');
+  if (authHeader !== `Bearer ${import.meta.env.CRON_SECRET}`) {
+    return new Response('Unauthorized', { status: 401 });
+  }
 
   try {
     // Get today's date
