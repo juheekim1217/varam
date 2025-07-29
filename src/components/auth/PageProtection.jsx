@@ -22,12 +22,18 @@ export default function PageProtection({ children }) {
   useEffect(() => {
     if (!isClient) return;
 
-    const timer = setTimeout(() => {
-      setAuthReady(true);
-    }, 100); // Small delay to let AuthInitializer run first
+    // Wait for loading to finish (AuthInitializer sets loading to false when done)
+    const checkAuthReady = () => {
+      if (!$loading) {
+        setAuthReady(true);
+      } else {
+        setTimeout(checkAuthReady, 50);
+      }
+    };
 
-    return () => clearTimeout(timer);
-  }, [isClient]);
+    // Start checking after a small initial delay
+    setTimeout(checkAuthReady, 100);
+  }, [isClient, $loading]);
 
   // Debug logging
   useEffect(() => {
