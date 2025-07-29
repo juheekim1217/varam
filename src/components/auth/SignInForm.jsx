@@ -29,7 +29,7 @@ export default function SignInForm() {
 
       // Add timeout to ensure state updates before redirect
       setTimeout(() => {
-        window.location.href = '/account/my-bookings';
+        window.location.href = '/';
       }, 100);
     } catch (err) {
       setErrorMsg(err.message);
