@@ -7,33 +7,51 @@ export default function PageProtection({ children }) {
   const $user = useStore(user);
   const $loading = useStore(loading);
   const [authReady, setAuthReady] = useState(false);
+  const [isClient, setIsClient] = useState(false);
+
+  // Only run client-side logic after hydration
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   // Get current pathname (only in browser)
-  const pathname = typeof window !== 'undefined' ? window.location.pathname : '';
+  const pathname = isClient && typeof window !== 'undefined' ? window.location.pathname : '';
   const isAccountPage = pathname.startsWith('/account');
 
   // Wait for AuthInitializer to complete
   useEffect(() => {
+    if (!isClient) return;
+
     const timer = setTimeout(() => {
       setAuthReady(true);
     }, 100); // Small delay to let AuthInitializer run first
 
     return () => clearTimeout(timer);
-  }, []);
+  }, [isClient]);
 
   // Debug logging
   useEffect(() => {
-    if (authReady) {
+    if (authReady && isClient) {
       console.log('PageProtection ready:', {
         pathname,
         isAccountPage,
         user: $user,
         loading: $loading,
         userStoreValue: user.get(),
-        localStorage: localStorage.getItem('user'),
+        localStorage: typeof window !== 'undefined' ? localStorage.getItem('user') : null,
       });
     }
-  }, [authReady, $user]);
+  }, [authReady, $user, isClient]);
+
+  // Show loading during SSR and initial hydration
+  if (!isClient) {
+    return (
+      <div className="flex items-center justify-center min-h-[50vh]">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+        <span className="ml-3 text-gray-600 dark:text-gray-300">Loading...</span>
+      </div>
+    );
+  }
 
   // Wait for auth to be ready before checking
   if (isAccountPage && !authReady) {

@@ -33,7 +33,7 @@ const protectedMetadata = {
     <Header {...headerData} isSticky showToggleTheme />
   </slot>
   <main>
-    <PageProtection client:load>
+    <PageProtection client:only="react">
       <slot />
     </PageProtection>
   </main>
