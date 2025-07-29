@@ -48,6 +48,12 @@ Comprehensive Static Application Security Testing implemented with:
 - **Semgrep**: Advanced pattern-based security scanning
 - **Dependency Auditing**: Regular vulnerability checks for npm packages
 
+**Automated Security Scanning:**
+- **Weekly scans**: Every Monday at 2 AM UTC
+- **On every push** to main/develop branches
+- **On every pull request** to main
+- Results available in GitHub Security tab
+
 Run security scans with: `npm run security`
 
 ### 📊 Technical Architecture
