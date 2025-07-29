@@ -39,6 +39,17 @@ We maintain comprehensive automated tests covering:
 
 Run tests with: `npm test`
 
+### 🔒 Security Testing (SAST)
+
+Comprehensive Static Application Security Testing implemented with:
+
+- **ESLint Security Plugin**: Detects common JavaScript/TypeScript vulnerabilities
+- **GitHub CodeQL**: Automated code analysis for security issues  
+- **Semgrep**: Advanced pattern-based security scanning
+- **Dependency Auditing**: Regular vulnerability checks for npm packages
+
+Run security scans with: `npm run security`
+
 ### 📊 Technical Architecture
 
 - **Frontend**: AstroWind (React + Tailwind CSS)
@@ -183,6 +194,19 @@ npm run test:watch
 
 # Generate coverage report
 npm run test:coverage
+```
+
+### 🔒 Security Scanning
+
+```bash
+# Run all security checks
+npm run security
+
+# ESLint security scan only
+npm run check:security
+
+# Dependency vulnerability audit
+npm run audit:security
 ```
 
 > Join us in building the future of personalized fitness training.

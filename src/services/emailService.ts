@@ -248,7 +248,6 @@ Thank you for choosing Varam Strength!
 
 // 🔔 Send booking reminder email
 export async function sendBookingReminder({
-  bookingId,
   name,
   email,
   phone,

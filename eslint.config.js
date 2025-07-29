@@ -1,5 +1,6 @@
 import astroEslintParser from 'astro-eslint-parser';
 import eslintPluginAstro from 'eslint-plugin-astro';
+import eslintPluginSecurity from 'eslint-plugin-security';
 import globals from 'globals';
 import js from '@eslint/js';
 import tseslint from 'typescript-eslint';
@@ -9,6 +10,7 @@ export default [
   js.configs.recommended,
   ...eslintPluginAstro.configs['flat/recommended'],
   ...tseslint.configs.recommended,
+  eslintPluginSecurity.configs.recommended,
   {
     languageOptions: {
       globals: {
@@ -54,6 +56,6 @@ export default [
     },
   },
   {
-    ignores: ['dist', 'node_modules', '.github', 'types.generated.d.ts', '.astro'],
+    ignores: ['dist', 'node_modules', '.github', 'types.generated.d.ts', '.astro', '.vercel'],
   },
 ];
