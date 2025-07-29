@@ -4,7 +4,7 @@ import { supabase } from '~/lib/supabaseClient';
 // Types for type safety
 interface Booking {
   id: string;
-  name: string;
+  name?: string;
   date: string;
   time: string;
   training_type?: string;

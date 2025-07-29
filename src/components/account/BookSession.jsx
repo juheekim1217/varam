@@ -17,6 +17,7 @@ export default function BookingSession() {
   const [date, setDate] = useState(null);
   const [time, setTime] = useState('');
   const [selectedCoach, setSelectedCoach] = useState('');
+  const [selectedCoachName, setSelectedCoachName] = useState('');
   const [selectedTrainingType, setSelectedTrainingType] = useState('');
   const [bookedTimes, setBookedTimes] = useState([]);
   const [submitting, setSubmitting] = useState(false);
@@ -129,8 +130,9 @@ export default function BookingSession() {
       >
         <input type="hidden" name="email" value={$user.email} />
         <input type="hidden" name="name" value={$user.fullName} />
+        <input type="hidden" name="phone" value={$user.phone} />
 
-        {/* Coach Selection */}
+        {/* Coach Selection with data attribute approach */}
         <div className="flex flex-col sm:flex-row sm:items-center gap-3">
           <label htmlFor="coach" className="text-sm font-medium text-gray-700 w-32 shrink-0 dark:text-gray-300">
             Select Coach
@@ -139,7 +141,13 @@ export default function BookingSession() {
             name="coach_id"
             required
             value={selectedCoach}
-            onChange={(e) => setSelectedCoach(e.target.value)}
+            onChange={(e) => {
+              setSelectedCoach(e.target.value);
+              // Get the coach name from the selected option
+              const selectedOption = e.target.options[e.target.selectedIndex];
+              const coachName = selectedOption.text;
+              setSelectedCoachName(coachName);
+            }}
             className="input w-full border rounded px-3 py-2 bg-white dark:bg-gray-700 dark:text-gray-300 dark:border-gray-600"
           >
             <option value="" disabled hidden>
@@ -153,6 +161,9 @@ export default function BookingSession() {
             {!$coaches.length && !$coachesLoading && <option disabled>No coaches available</option>}
           </select>
         </div>
+
+        {/* Hidden input for coach name */}
+        <input type="hidden" name="coach_name" value={selectedCoachName} />
 
         {/* Date Selection */}
         <div className="flex flex-col sm:flex-row sm:items-center gap-3 z-1000">

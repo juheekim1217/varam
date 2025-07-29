@@ -8,10 +8,15 @@ export interface UserData {
   email: string | undefined;
   fullName: string;
   role: string | null;
+  phone: string | undefined;
 }
 
 interface UserRow {
+  id: string;
+  email: string | undefined;
   role: string | null;
+  phone: string | undefined;
+  full_name: string | undefined;
 }
 
 interface SignInResponse {
@@ -53,7 +58,7 @@ export const fetchUser = async (): Promise<UserData | null> => {
 
     const { data: userRow, error: userFetchError } = await supabase
       .from('users')
-      .select('role')
+      .select('*')
       .eq('id', currentUser.id)
       .maybeSingle<UserRow>();
 
@@ -64,8 +69,9 @@ export const fetchUser = async (): Promise<UserData | null> => {
     const userData: UserData = {
       id: currentUser.id,
       email: currentUser.email,
-      fullName: currentUser.user_metadata?.full_name || currentUser.email?.split('@')[0] || '',
       role: userRow?.role || null,
+      phone: userRow?.phone || undefined,
+      fullName: userRow?.full_name || currentUser.email?.split('@')[0] || '',
     };
 
     user.set(userData);
@@ -104,7 +110,7 @@ export const signIn = async (email: string, password: string): Promise<SignInRes
 
     const { data: userRow, error: userFetchError } = await supabase
       .from('users')
-      .select('role')
+      .select('*')
       .eq('id', userObj.id)
       .maybeSingle<UserRow>();
 
@@ -115,8 +121,9 @@ export const signIn = async (email: string, password: string): Promise<SignInRes
     const userData: UserData = {
       id: userObj.id,
       email: userObj.email,
-      fullName: userObj.user_metadata?.full_name || userObj.email?.split('@')[0] || '',
       role: userRow?.role || null,
+      phone: userRow?.phone || undefined,
+      fullName: userRow?.full_name || userObj.email?.split('@')[0] || '',
     };
 
     user.set(userData);
@@ -188,7 +195,7 @@ export const initAuthListener = () => {
         const currentUser = session.user;
         const { data: userRow, error: userFetchError } = await supabase
           .from('users')
-          .select('role')
+          .select('*')
           .eq('id', currentUser.id)
           .maybeSingle<UserRow>();
 
@@ -199,8 +206,9 @@ export const initAuthListener = () => {
         const userData: UserData = {
           id: currentUser.id,
           email: currentUser.email,
-          fullName: currentUser.user_metadata?.full_name ?? currentUser.email?.split('@')[0] ?? '',
           role: userRow?.role ?? null,
+          phone: userRow?.phone ?? '',
+          fullName: userRow?.full_name ?? currentUser.email?.split('@')[0] ?? '',
         };
 
         user.set(userData);
