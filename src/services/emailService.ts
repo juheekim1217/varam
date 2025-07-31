@@ -337,3 +337,94 @@ Looking forward to seeing you today!
 – The Varam Strength Team`,
   });
 }
+
+// Early morning reminder email
+export async function sendEarlyBookingReminder({
+  bookingId,
+  name,
+  email,
+  date,
+  time,
+  coach_name,
+  training_type,
+  adminEmail,
+}: SendBookingReminderArgs) {
+  const transporter = nodemailer.createTransport({
+    service: 'Gmail',
+    auth: {
+      user: adminEmail,
+      pass: import.meta.env.ADMIN_EMAIL_APP_PASS,
+    },
+  });
+
+  const formattedDate = new Date(date).toLocaleDateString('en-US', {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  });
+
+  await transporter.sendMail({
+    from: `"Varam Strength" <${adminEmail}>`,
+    to: email,
+    subject: '🌅 Early Morning Session Reminder - Today!',
+    html: `
+      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+        <h2 style="color: #059669;">Good Morning! Your Early Session is Today</h2>
+        
+        <p>Hi ${name},</p>
+        
+        <p>This is your <strong>early morning reminder</strong> for your training session today!</p>
+        
+        <div style="background-color: #fef3c7; padding: 20px; border-radius: 8px; border-left: 4px solid #f59e0b; margin: 20px 0;">
+          <h3 style="margin: 0 0 10px 0; color: #f59e0b;">⏰ Early Session Details</h3>
+          <ul style="margin: 0; padding-left: 20px;">
+            <li><strong>Date:</strong> ${formattedDate}</li>
+            <li><strong>Time:</strong> ${time}</li>
+            ${coach_name ? `<li><strong>Coach:</strong> ${coach_name}</li>` : ''}
+            ${training_type ? `<li><strong>Training Type:</strong> ${training_type}</li>` : ''}
+          </ul>
+        </div>
+        
+        <div style="background-color: #ecfdf5; padding: 15px; border-radius: 8px; margin: 20px 0;">
+          <p style="margin: 0;"><strong>🌅 Early Morning Tips:</strong></p>
+          <ul style="margin: 10px 0 0 0; padding-left: 20px;">
+            <li>Set multiple alarms to ensure you wake up</li>
+            <li>Prepare your workout clothes the night before</li>
+            <li>Have a light snack or coffee if needed</li>
+            <li>Arrive 10 minutes early for your early session</li>
+          </ul>
+        </div>
+        
+        <p>We appreciate you choosing our early morning slot! Your coach will be ready and energized to help you start your day strong.</p>
+        
+        <p>See you bright and early!</p>
+        
+        <p>– The Varam Strength Team</p>
+      </div>
+    `,
+    text: `Good morning ${name}!
+
+This is your early morning reminder for your training session today!
+
+Early Session Details:
+–––––––––––––––––––––––––––
+Date: ${formattedDate}
+Time: ${time}
+${coach_name ? `Coach: ${coach_name}` : ''}
+${training_type ? `Training Type: ${training_type}` : ''}
+–––––––––––––––––––––––––––
+
+Early Morning Tips:
+• Set multiple alarms to ensure you wake up
+• Prepare your workout clothes the night before
+• Have a light snack or coffee if needed
+• Arrive 10 minutes early for your early session
+
+We appreciate you choosing our early morning slot! Your coach will be ready and energized to help you start your day strong.
+
+See you bright and early!
+
+– The Varam Strength Team`,
+  });
+}
