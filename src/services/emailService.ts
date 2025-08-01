@@ -379,6 +379,7 @@ export async function sendEarlyBookingReminder({
         <div style="background-color: #fef3c7; padding: 20px; border-radius: 8px; border-left: 4px solid #f59e0b; margin: 20px 0;">
           <h3 style="margin: 0 0 10px 0; color: #f59e0b;">⏰ Early Session Details</h3>
           <ul style="margin: 0; padding-left: 20px;">
+            <li><strong>Booking ID:</strong> ${bookingId}</li>
             <li><strong>Date:</strong> ${formattedDate}</li>
             <li><strong>Time:</strong> ${time}</li>
             ${coach_name ? `<li><strong>Coach:</strong> ${coach_name}</li>` : ''}
