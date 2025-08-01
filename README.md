@@ -44,17 +44,35 @@ Run tests with: `npm test`
 Comprehensive Static Application Security Testing implemented with:
 
 - **ESLint Security Plugin**: Detects common JavaScript/TypeScript vulnerabilities
-- **GitHub CodeQL**: Automated code analysis for security issues  
+- **GitHub CodeQL**: Automated code analysis for security issues
 - **Semgrep**: Advanced pattern-based security scanning
 - **Dependency Auditing**: Regular vulnerability checks for npm packages
 
 **Automated Security Scanning:**
+
 - **Weekly scans**: Every Monday at 2 AM UTC
 - **On every push** to main/develop branches
 - **On every pull request** to main
 - Results available in GitHub Security tab
 
 Run security scans with: `npm run security`
+
+## Security Scanning
+
+This project uses Semgrep for static application security testing (SAST).
+
+### Run Security Scan Locally
+
+```bash
+# Run Semgrep with Docker (verbose output)
+docker run --rm -v .:/src semgrep/semgrep semgrep --config=auto --verbose
+
+# Run basic security scan
+docker run --rm -v .:/src semgrep/semgrep semgrep --config=auto
+
+# Run specific security rules
+docker run --rm -v .:/src semgrep/semgrep semgrep --config=p/security-audit --config=p/xss --config=p/secrets
+```
 
 ### 📊 Technical Architecture
 
