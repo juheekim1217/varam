@@ -52,13 +52,17 @@ export const GET: APIRoute = async ({ request }) => {
         await supabase.from('bookings').update({ reminder_sent: true }).eq('id', booking.id);
 
         results.push({ bookingId: booking.id, status: 'sent' });
-      } catch (error: unknown) {
-        console.error(`Error sending reminder for booking ${booking.id}:`, error);
-        let errorMessage = 'Unknown error';
-        if (error instanceof Error) {
-          errorMessage = error.message;
-        }
-        results.push({ bookingId: booking.id, status: 'failed', error: errorMessage });
+      } catch (error) {
+        // Fixed: Use structured logging instead of string interpolation
+        console.error('Error sending reminder for booking:', {
+          bookingId: booking.id,
+          error: error instanceof Error ? error.message : 'Unknown error',
+        });
+        results.push({
+          bookingId: booking.id,
+          status: 'failed',
+          error: error instanceof Error ? error.message : 'Unknown error',
+        });
       }
     }
 

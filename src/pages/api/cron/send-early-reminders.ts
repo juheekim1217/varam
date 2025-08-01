@@ -50,8 +50,16 @@ export const GET: APIRoute = async ({ request }) => {
 
         results.push({ bookingId: booking.id, status: 'sent' });
       } catch (error) {
-        console.error(`Error sending early reminder for booking ${booking.id}:`, error);
-        results.push({ bookingId: booking.id, status: 'failed' });
+        // Fixed: Use structured logging instead of string interpolation
+        console.error('Error sending early reminder for booking:', {
+          bookingId: booking.id,
+          error: error instanceof Error ? error.message : 'Unknown error',
+        });
+        results.push({
+          bookingId: booking.id,
+          status: 'failed',
+          error: error instanceof Error ? error.message : 'Unknown error',
+        });
       }
     }
 

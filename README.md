@@ -63,6 +63,8 @@ This project uses Semgrep for static application security testing (SAST).
 
 ### Run Security Scan Locally
 
+**For Windows Users**
+
 ```bash
 # Run Semgrep with Docker (verbose output)
 docker run --rm -v .:/src semgrep/semgrep semgrep --config=auto --verbose
@@ -72,6 +74,22 @@ docker run --rm -v .:/src semgrep/semgrep semgrep --config=auto
 
 # Run specific security rules
 docker run --rm -v .:/src semgrep/semgrep semgrep --config=p/security-audit --config=p/xss --config=p/secrets
+```
+
+**Using npm scripts**
+
+```bash
+# Run local security checks (ESLint + npm audit)
+npm run security
+
+# Run full security scan (includes Semgrep via Docker)
+npm run security:full
+
+# Run Semgrep with verbose output
+npm run semgrep:verbose
+
+# Run basic Semgrep scan
+npm run semgrep
 ```
 
 ### 📊 Technical Architecture
