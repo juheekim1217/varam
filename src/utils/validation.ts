@@ -16,6 +16,11 @@ const BLOCKED_MESSAGE_KEYWORDS = [
   'searchindex.site',
   'searchregister.info',
   'submissions@searchindex.site',
+  'promotional offer',
+  'for your website varam',
+  'please click here',
+  'AI App',
+  'https://',
 ];
 
 interface ValidationResult {
